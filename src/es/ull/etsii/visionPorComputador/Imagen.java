@@ -1,5 +1,6 @@
 package es.ull.etsii.visionPorComputador;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ public class Imagen {
   
   public Imagen(String linkImagen) {
     try {
+      // TODO Falta pasar la imagen a escala de grises
       setImagen(ImageIO.read(new File(linkImagen)));
     } catch (IOException e) {
       System.err.println("Error al abrir " + linkImagen);
@@ -19,7 +21,14 @@ public class Imagen {
     }
   }
 
+  public int getPixel(int i, int j) {
+    Color color = new Color(getImagen().getRGB(i, j));
+    return color.getRed();
+  }
   
+  public void setPixel(int i, int j, int valPixel) {
+    
+  }
 
   private BufferedImage getImagen() {
     return imagen;
