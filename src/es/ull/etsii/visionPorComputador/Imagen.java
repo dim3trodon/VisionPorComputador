@@ -30,7 +30,7 @@ public class Imagen {
     
   }
 
-  private BufferedImage getImagen() {
+  public BufferedImage getImagen() {
     return imagen;
   }
 
