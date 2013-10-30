@@ -1,7 +1,10 @@
 package es.ull.etsii.visionPorComputador;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -13,9 +16,14 @@ public class Interfaz extends JFrame {
   public static int ALTO_VENTANA = 400;
   
   public Interfaz() {
-    Imagen imagen = new Imagen("C:/Users/Rodrigo/Pictures/[animepaper.net]picture-standard-anime-kino-no-tabi-kinos-journey-67796-wingss-preview-76657b84.jpg");
+	Imagen imagen = new Imagen("/home/dani/Imágenes/index.jpeg");
+    
     PanelImagen panelImagen = new PanelImagen(imagen);
+    
     add(panelImagen);
+    imagen.setImagen(imagen.set_gris(imagen.getImagen()));
+    
+    
   }
   
   public class PanelImagen extends JPanel {
