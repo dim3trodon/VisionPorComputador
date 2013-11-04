@@ -1,12 +1,14 @@
+/** @author Daniel Afonso González
+ *  @author Rodrigo Valladares Santana
+ *  @version 1.0, 30/10/13
+ *  
+ *  Proyecto de Visión Por Computador 2013/14
+ *  
+ *  Interfaz del programa
+ */
 package es.ull.etsii.visionPorComputador;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Interfaz extends JFrame {
   
@@ -15,46 +17,23 @@ public class Interfaz extends JFrame {
   public static int ANCHO_VENTANA = 400;
   public static int ALTO_VENTANA = 400;
   
+  /**
+   * Constructor
+   */
   public Interfaz() {
-	Imagen imagen = new Imagen("/home/dani/Imágenes/index.jpeg");
-    
-    PanelImagen panelImagen = new PanelImagen(imagen);
-    
-    add(panelImagen);
-    imagen.setImagen(imagen.set_gris(imagen.getImagen()));
-    
-    
-  }
-  
-  public class PanelImagen extends JPanel {
-    Imagen imagen;
-
-    private Imagen getImagen() {
-      return imagen;
-    }
-
-    private void setImagen(Imagen imagen) {
-      this.imagen = imagen;
-    }
-    
-    public PanelImagen(Imagen imagen) {
-      setImagen(imagen);
-    }
-    
-    @Override
-    public void paintComponent(Graphics g) {
-      super.paintComponent(g);
-      g.drawImage(getImagen().getImagen(), 0, 0, this);
-    }
-    
+    // TODO
+    Imagen imagen = new Imagen("C:/Users/Rodrigo/Pictures/[animepaper.net]picture-standard-anime-kino-no-tabi-kinos-journey-67796-wingss-preview-76657b84.jpg");
+    setTitle(TITULO_VENTANA);
+    setSize(ANCHO_VENTANA, ALTO_VENTANA);
+    setExtendedState(JFrame.MAXIMIZED_BOTH);
+    setDefaultCloseOperation(EXIT_ON_CLOSE);
+    setVisible(true);
+    VentanaImagen ventanaImagen = new VentanaImagen(imagen, "asd");
+    //add(ventanaImagen);
   }
 
   public static void main(String [] args) {
     JFrame frame = new Interfaz();
-    frame.setTitle(TITULO_VENTANA);
-    frame.setSize(ANCHO_VENTANA, ALTO_VENTANA);
-    frame.setVisible(true);
-    
   }
 
 }
