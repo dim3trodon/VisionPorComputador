@@ -16,16 +16,12 @@
 package es.ull.etsii.visionPorComputador;
 
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
-public class VentanaImagen extends JInternalFrame implements ActionListener {
-  
-  public static final int INDENTACION = 50;
-  
+public class VentanaImagen extends JInternalFrame {
+
   public static final boolean RESIZABLE = true;
   public static final boolean CLOSABLE = true;
   public static final boolean MAXIMIZABLE = true;
@@ -42,6 +38,8 @@ public class VentanaImagen extends JInternalFrame implements ActionListener {
    */
   public VentanaImagen(Imagen imagen, String titulo) {
     // TODO cambiar la interfaz del frame interno para que esté acorde al resto
+    // TODO hacer que cuando se cierre una ventana se elimine de ListaVentana
+    // de Interfaz
     super(titulo, RESIZABLE, CLOSABLE, MAXIMIZABLE, ICONIFIABLE);
     setImagen(imagen);
     setPanelImagen(new PanelImagen());
@@ -65,14 +63,6 @@ public class VentanaImagen extends JInternalFrame implements ActionListener {
       super.paintComponent(g);
       g.drawImage(getImagen().getImagen(), 0, 0, this);
     }
-  }
-  /**
-   * 
-   */
-  @Override
-  public void actionPerformed(ActionEvent arg0) {
-    // TODO Auto-generated method stub
-    
   }
 
   /**

@@ -27,7 +27,10 @@ import javax.imageio.ImageIO;
 
 public class Imagen {
   
+  // En imagen se guarda la información de la imagen. Se puede acceder a los 
+  // datos de los píxeles en un BufferedImage y ser modificados
   BufferedImage imagen;
+  // Histograma de la imagen. Se crea automáticamente al crear una imagen.
   Histograma histograma;
   
   /**
@@ -38,6 +41,7 @@ public class Imagen {
     try {
       // TODO Falta pasar la imagen a escala de grises
       setImagen(ImageIO.read(new File(linkImagen)));
+      // Se crea el histograma pasando como parámetro la imagen actual
       setHistograma(new Histograma(this));
     } catch (IOException e) {
       System.err.println("Error al abrir " + linkImagen);
