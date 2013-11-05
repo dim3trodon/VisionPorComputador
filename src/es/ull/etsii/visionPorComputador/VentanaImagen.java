@@ -1,6 +1,6 @@
 /** @author Daniel Afonso González
  *  @author Rodrigo Valladares Santana
- *  @version 1.0, 04/11/13
+ *  @version 1.1, 05/11/13
  *  
  *  Proyecto de Visión Por Computador 2013/14
  *  
@@ -9,15 +9,27 @@
  *  
  *  Tiene una clase interna llamada PanelImagen que es donde se muestra la 
  *  imagen gracias a Graphics2D.
+ *  
+ *  Versión 1.1: La ventana muestra los botones de minimizar, maximizar y 
+ *  cerra. Se puede cambiar su tamaño.
  */
 package es.ull.etsii.visionPorComputador;
 
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
-public class VentanaImagen extends JFrame {
+public class VentanaImagen extends JInternalFrame implements ActionListener {
+  
+  public static final int INDENTACION = 50;
+  
+  public static final boolean RESIZABLE = true;
+  public static final boolean CLOSABLE = true;
+  public static final boolean MAXIMIZABLE = true;
+  public static final boolean ICONIFIABLE = true;
 
   private static final long serialVersionUID = 8689935453546765653L;
   Imagen imagen;
@@ -29,19 +41,21 @@ public class VentanaImagen extends JFrame {
    * @param nombre
    */
   public VentanaImagen(Imagen imagen, String titulo) {
+    // TODO cambiar la interfaz del frame interno para que esté acorde al resto
+    super(titulo, RESIZABLE, CLOSABLE, MAXIMIZABLE, ICONIFIABLE);
     setImagen(imagen);
-    setTitle(titulo);
     setPanelImagen(new PanelImagen());
     setSize(getImagen().getAncho(), getImagen().getAlto());
-    //setDefaultCloseOperation(EXIT_ON_CLOSE);
     add(getPanelImagen());
     setVisible(true);
   }
   
   public class PanelImagen extends JPanel {
     private static final long serialVersionUID = 8039435365744075304L;
-    // TODO
+    
     public PanelImagen() {}
+    
+    // TODO hacer scroll de la imagen
     
     /**
      * Muestra la imagen en el panel
@@ -51,6 +65,14 @@ public class VentanaImagen extends JFrame {
       super.paintComponent(g);
       g.drawImage(getImagen().getImagen(), 0, 0, this);
     }
+  }
+  /**
+   * 
+   */
+  @Override
+  public void actionPerformed(ActionEvent arg0) {
+    // TODO Auto-generated method stub
+    
   }
 
   /**
@@ -78,7 +100,7 @@ public class VentanaImagen extends JFrame {
   }
 
   /**
-   * 
+   * Devuelve el JPanel donde se muestra la imagen
    * @return
    */
   private PanelImagen getPanelImagen() {
@@ -93,6 +115,4 @@ public class VentanaImagen extends JFrame {
     this.panelImagen = panelImagen;
   }
 
-  
-  
 }
