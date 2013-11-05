@@ -10,7 +10,7 @@
  *  Tiene una clase interna llamada PanelImagen que es donde se muestra la 
  *  imagen gracias a Graphics2D.
  *  
- *  Versión 1.1: La ventana muestra los botones de minimizar, maximizar y 
+ *  Versión 1.1 La ventana muestra los botones de minimizar, maximizar y 
  *  cerra. Se puede cambiar su tamaño.
  */
 package es.ull.etsii.visionPorComputador;

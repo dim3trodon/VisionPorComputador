@@ -1,10 +1,14 @@
 /** @author Daniel Afonso González
  *  @author Rodrigo Valladares Santana
- *  @version 1.0, 30/10/13
+ *  @version 1.1, 05/11/13
  *  
  *  Proyecto de Visión Por Computador 2013/14
  *  
  *  Interfaz del programa
+ *  
+ *  Versión 1.1 Añadidos métodos para poder trabajar con varias VentanaImagen
+ *  Creado ListaVentana, Vector donde se almacenan las VentanaImagen que se
+ *  vayan abriendo
  */
 package es.ull.etsii.visionPorComputador;
 
