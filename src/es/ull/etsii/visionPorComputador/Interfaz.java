@@ -1,11 +1,14 @@
 /** 
  * @author Daniel Afonso González
  * @author Rodrigo Valladares Santana
- * @version 1.1, 05/11/13
+ * @version 1.1b, 05/11/13
  *
  * Proyecto de Visión Por Computador 2013/14
  *
  * Interfaz del programa
+ * 
+ * Versión 1.1b Añadido método getImagenActiva() para devolver la imagen de la
+ * ventana que está activa actualmente (no implementado)
  *
  * Versión 1.1 Añadidos métodos para poder trabajar con varias VentanaImagen
  * Creado ListaVentana, Vector donde se almacenan las VentanaImagen que se
@@ -16,13 +19,10 @@ package es.ull.etsii.visionPorComputador;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 import java.util.Vector;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 
 public class Interfaz extends JFrame {
 
@@ -37,6 +37,7 @@ public class Interfaz extends JFrame {
   public static String imagenMuestra = "/home/dani/Imágenes/index.jpeg";
   public static String imagenMuestra2 = "C:/Users/Rodrigo/Pictures/6TeaeZilZiHT"
       + "E595ZgFi38.jpg";
+  public static String imagenMuestra3 = "C:/Users/Rodrigo/Pictures/1323_tc.jpg";
 
   // En listaVentanas se encuentran todas las ventanas que se abren
   private Vector<VentanaImagen> listaVentanas;
@@ -53,101 +54,17 @@ public class Interfaz extends JFrame {
     // TODO Botones de la interfaz
     setTitle(TITULO_VENTANA);
     setSize(ANCHO_VENTANA, ALTO_VENTANA);
-    // setExtendedState(JFrame.MAXIMIZED_BOTH);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setLayout(new BorderLayout());
     // Creación del menú
-    setMenu(new MenuVision());
+    setMenu(new MenuVision(this));
     add(getMenu(), BorderLayout.NORTH);
     // Creación del escritorio
     setEscritorio(new JDesktopPane());
     add(getEscritorio(), BorderLayout.CENTER);
     setVisible(true);
 
-    crearNuevaVentana(imagenMuestra2, "asd"); // Ejemplo
-  }
-
-  /**
-   * @author Daniel Afonso González
-   * @author Rodrigo Valladares Santana
-   * 
-   * Menú de la aplicación
-   * 
-   */
-  public class MenuVision extends JMenuBar {
-
-    private static final long serialVersionUID = 6669480296209581882L;
-
-    public static final String ST_ARCHIVO = "Archivo";
-    public static final String ST_EDICION = "Edición";
-    public static final String ST_VER = "Ver";
-    public static final String ST_HERRAMIENTAS = "Herramientas";
-    public static final String ST_IMAGEN = "Imagen";
-    
-    private JMenu menuArchivo;
-    private JMenu menuEdicion;
-    private JMenu menuVer;
-    private JMenu menuHerramientas;
-    private JMenu menuImagen;
-
-    public MenuVision() {
-      super();
-      // Se añaden los menús al MenuBar
-      setMenuArchivo(new JMenu(ST_ARCHIVO));
-      add(getMenuArchivo());
-      setMenuEdicion(new JMenu(ST_EDICION));
-      add(getMenuEdicion());
-      setMenuVer(new JMenu(ST_VER));
-      add(getMenuVer());
-      setMenuHerramientas(new JMenu(ST_HERRAMIENTAS));
-      add(getMenuHerramientas());
-      setMenuImagen(new JMenu(ST_IMAGEN));
-      add(getMenuImagen());
-    }
-    
-    private void construirMenuArchivo() {
-      
-    }
-
-    private JMenu getMenuArchivo() {
-      return menuArchivo;
-    }
-
-    private void setMenuArchivo(JMenu menuArchivo) {
-      this.menuArchivo = menuArchivo;
-    }
-
-    private JMenu getMenuEdicion() {
-      return menuEdicion;
-    }
-
-    private void setMenuEdicion(JMenu menuEdicion) {
-      this.menuEdicion = menuEdicion;
-    }
-
-    private JMenu getMenuVer() {
-      return menuVer;
-    }
-
-    private void setMenuVer(JMenu menuVer) {
-      this.menuVer = menuVer;
-    }
-
-    private JMenu getMenuHerramientas() {
-      return menuHerramientas;
-    }
-
-    private void setMenuHerramientas(JMenu menuHerramientas) {
-      this.menuHerramientas = menuHerramientas;
-    }
-
-    private JMenu getMenuImagen() {
-      return menuImagen;
-    }
-
-    private void setMenuImagen(JMenu menuImagen) {
-      this.menuImagen = menuImagen;
-    }
+    crearNuevaVentana(imagenMuestra3, "asd"); // Ejemplo
   }
 
   /**
@@ -158,6 +75,16 @@ public class Interfaz extends JFrame {
    */
   public void crearNuevaVentana(String linkImagen, String titulo) {
     addVentanaImagen(new VentanaImagen(new Imagen(linkImagen), titulo));
+  }
+  
+  /**
+   * Crea una ventana donde se muestran los datos de la imagen
+   * 
+   * @param imagen
+   */
+  public void crearVentanaDatosImagen(Imagen imagen) {
+    @SuppressWarnings("unused")
+    VentanaDatosImagen ventanaDatosImagen = new VentanaDatosImagen(imagen);
   }
 
   /**
@@ -198,6 +125,26 @@ public class Interfaz extends JFrame {
    */
   public int getNumeroVentanas() {
     return getListaVentanas().size();
+  }
+  
+  /**
+   * Devuelve la imagen en la VentanaImagen i
+   * 
+   * @param i
+   * @return
+   */
+  public Imagen getImagen(int i) {
+    return getVentanaImagen(i).getImagen();
+  }
+  
+  /**
+   * Devuelve la imagen de la VentanaImagen en primer plano actualmente
+   * TODO
+   * @return
+   */
+  public Imagen getImagenActiva() {
+    // TODO Devolver la imagen de la VentanaImagen en primer plano actualmente
+    return getImagen(getNumeroVentanas() - 1);
   }
 
   /**

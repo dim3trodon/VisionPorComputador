@@ -1,6 +1,6 @@
 /** @author Daniel Afonso González
  *  @author Rodrigo Valladares Santana
- *  @version 1.0, 04/11/13
+ *  @version 1.2, 11/11/13
  *  
  *  Proyecto de Visión Por Computador 2013/14
  *  
@@ -8,6 +8,8 @@
  *  cena como un BufferedImage y en escala de grises. A pesar de ello, se man-
  *  tienen los tres arrays para los colores rojo, verde y azul, aunque en este
  *  caso contienen la misma información. 
+ *  
+ *  Versión 1.2 Añadido brillo, contraste, entropía y ruta de la imagen.
  *  
  *  Versión 1.1 04/11/2013
  *  Se crea el Histograma de la Imagen nada más ser inicializada esta
@@ -24,6 +26,7 @@ import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 
 public class Imagen {
@@ -36,6 +39,8 @@ public class Imagen {
   double brillo;
   double contraste;
   double entropia;
+  private String ruta;
+  private String nombre;
 
   /**
    * Constructor al que se le pasa la ruta de la imagen
@@ -44,12 +49,16 @@ public class Imagen {
    */
   public Imagen(String linkImagen) {
     try {
-      // TODO Falta pasar la imagen a escala de grises
+      String[] partesRutaImagen = linkImagen.split("/");
+      // Nombre de la imagen
+      String titulo = partesRutaImagen[partesRutaImagen.length - 1];
       setImagen(ImageIO.read(new File(linkImagen)));
       // Se crea el histograma pasando como parámetro la imagen actual
       this.imagen = this.set_gris(this.getImagen());
       setHistograma(new Histograma(this.getImagen()));
       this.setBrillo();
+      setRuta(linkImagen);
+      setNombre(titulo);
     } catch (IOException e) {
       System.err.println("Error al abrir " + linkImagen);
       e.printStackTrace();
@@ -209,6 +218,22 @@ public class Imagen {
 
     return bi;
 
+  }
+
+  public String getRuta() {
+    return ruta;
+  }
+
+  private void setRuta(String ruta) {
+    this.ruta = ruta;
+  }
+
+  public String getNombre() {
+    return nombre;
+  }
+
+  private void setNombre(String nombre) {
+    this.nombre = nombre;
   }
 
   public static void main(String[] args) {
