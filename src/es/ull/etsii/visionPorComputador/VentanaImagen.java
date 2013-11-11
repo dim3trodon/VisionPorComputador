@@ -36,7 +36,7 @@ public class VentanaImagen extends JInternalFrame {
    * @param imagen
    * @param nombre
    */
-  public VentanaImagen(Imagen imagen, String titulo) {
+  public  VentanaImagen(Imagen imagen, String titulo) {
     // TODO cambiar la interfaz del frame interno para que esté acorde al resto
     // TODO hacer que cuando se cierre una ventana se elimine de ListaVentana
     // de Interfaz

@@ -1,15 +1,15 @@
 /** @author Daniel Afonso González
- *  @author Rodrigo Valladares Santana
- *  @version 1.1, 05/11/13
- *  
- *  Proyecto de Visión Por Computador 2013/14
- *  
- *  Interfaz del programa
- *  
- *  Versión 1.1 Añadidos métodos para poder trabajar con varias VentanaImagen
- *  Creado ListaVentana, Vector donde se almacenan las VentanaImagen que se
- *  vayan abriendo
- */
+* @author Rodrigo Valladares Santana
+* @version 1.1, 05/11/13
+*
+* Proyecto de Visión Por Computador 2013/14
+*
+* Interfaz del programa
+*
+* Versión 1.1 Añadidos métodos para poder trabajar con varias VentanaImagen
+* Creado ListaVentana, Vector donde se almacenan las VentanaImagen que se
+* vayan abriendo
+*/
 package es.ull.etsii.visionPorComputador;
 
 import java.awt.Dimension;
@@ -29,9 +29,7 @@ public class Interfaz extends JFrame {
   public static int ANCHO_VENTANA = 2 * tamPantalla.width / 3;
   public static int ALTO_VENTANA = 2 * tamPantalla.height / 3;
 
-  public static String imagenMuestra = "C:/Users/Rodrigo/Pictures/[animepaper."
-      + "net]picture-standard-anime-kino-no-tabi-kinos-journey-67796-wingss-pre"
-      + "view-76657b84.jpg";
+  public static String imagenMuestra = "/home/dani/Imágenes/index.jpeg";
   
   // En listaVentanas se encuentran todas las ventanas que se abren
   private Vector<VentanaImagen> listaVentanas;
@@ -39,8 +37,8 @@ public class Interfaz extends JFrame {
   private JDesktopPane escritorio;
   
   /**
-   * Constructor
-   */
+* Constructor
+*/
   public Interfaz() {
     setListaVentanas(new Vector<VentanaImagen>());
     // TODO Botones de la interfaz
@@ -56,36 +54,36 @@ public class Interfaz extends JFrame {
   }
   
   /**
-   * Crea una nueva VentaImagen en ListaVentanas
-   * @param nombreVentana
-   * @param imagen
-   */
+* Crea una nueva VentaImagen en ListaVentanas
+* @param nombreVentana
+* @param imagen
+*/
   public void crearNuevaVentana(String linkImagen, String titulo) {
     addVentanaImagen(new VentanaImagen(new Imagen(linkImagen), titulo));
   }
   
   /**
-   * Devuelve la VentanaImagen en la posición i de ListaVentanas
-   * @param i
-   * @return
-   */
+* Devuelve la VentanaImagen en la posición i de ListaVentanas
+* @param i
+* @return
+*/
   public VentanaImagen getVentanaImagen(int i) {
     return getListaVentanas().get(i);
   }
   
   /**
-   * Añade una nueva VentanaImagen a ListaVentanas
-   * @param ventanaImagen
-   */
+* Añade una nueva VentanaImagen a ListaVentanas
+* @param ventanaImagen
+*/
   private void addVentanaImagen(VentanaImagen ventanaImagen) {
     getListaVentanas().add(ventanaImagen);
     getEscritorio().add(ventanaImagen);
   }
   
   /**
-   * Elimina la VentanaImagen en la posición i de ListaVentanas
-   * @param i
-   */
+* Elimina la VentanaImagen en la posición i de ListaVentanas
+* @param i
+*/
   public void eliminarVentanaImagen(int i) {
     // TODO
     getListaVentanas().remove(i);
@@ -93,41 +91,41 @@ public class Interfaz extends JFrame {
   }
   
   /**
-   * Devuelve el número de ventanas que hay actualmente abiertas
-   * @return
-   */
+* Devuelve el número de ventanas que hay actualmente abiertas
+* @return
+*/
   public int getNumeroVentanas() {
     return getListaVentanas().size();
   }
 
   /**
-   * Devuelve el vector en el que están almacenadas las ventanas de la interfaz
-   * @return
-   */
+* Devuelve el vector en el que están almacenadas las ventanas de la interfaz
+* @return
+*/
   private Vector<VentanaImagen> getListaVentanas() {
     return listaVentanas;
   }
 
   /**
-   * 
-   * @param listaVentanas
-   */
+*
+* @param listaVentanas
+*/
   private void setListaVentanas(Vector<VentanaImagen> listaVentanas) {
     this.listaVentanas = listaVentanas;
   }
 
   /**
-   * 
-   * @return
-   */
+*
+* @return
+*/
   private JDesktopPane getEscritorio() {
     return escritorio;
   }
 
   /**
-   * 
-   * @param escritorio
-   */
+*
+* @param escritorio
+*/
   private void setEscritorio(JDesktopPane escritorio) {
     this.escritorio = escritorio;
   }
@@ -135,6 +133,7 @@ public class Interfaz extends JFrame {
   public static void main(String [] args) {
     @SuppressWarnings("unused")
     JFrame frame = new Interfaz();
+    
   }
 
 }

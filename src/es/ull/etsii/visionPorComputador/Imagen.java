@@ -19,10 +19,11 @@
 package es.ull.etsii.visionPorComputador;
 
 import java.awt.Color;
+import java.awt.GraphicsEnvironment;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 public class Imagen {
@@ -32,6 +33,9 @@ public class Imagen {
   BufferedImage imagen;
   // Histograma de la imagen. Se crea automáticamente al crear una imagen.
   Histograma histograma;
+  double brillo;
+  double contraste;
+  double entropia;
   
   /**
    * Constructor al que se le pasa la ruta de la imagen
@@ -42,7 +46,9 @@ public class Imagen {
       // TODO Falta pasar la imagen a escala de grises
       setImagen(ImageIO.read(new File(linkImagen)));
       // Se crea el histograma pasando como parámetro la imagen actual
-      setHistograma(new Histograma(this));
+      this.imagen=this.set_gris(this.getImagen());
+      setHistograma(new Histograma(this.getImagen()));
+      this.setBrillo();
     } catch (IOException e) {
       System.err.println("Error al abrir " + linkImagen);
       e.printStackTrace();
@@ -66,7 +72,51 @@ public class Imagen {
   public int getAlto() {
     return getImagen().getHeight();
   }
-
+/* Devuelve el brillo de la imagen */
+  public void setBrillo(){
+	  double temp = 0;
+	  int [] histo=this.histograma.getHistograma();
+	  for( int i = 0; i < 255; i++ ){
+		  temp+=histo[i]*i;
+	  }
+	  this.brillo=temp/255;
+	  
+  }
+  
+  public double getBrillo(){
+	  return this.brillo;
+  }
+  
+  public void setContraste(){
+	  double temp = 0;
+	  double u = getBrillo();
+	  int [] histo=this.histograma.getHistograma();
+	  for( int i = 0; i < 255; i++ ){
+		  temp+= Math.pow((i-u),2)*histo[i];
+	  }
+	  this.contraste=Math.sqrt(temp/255);
+	  
+  }
+  
+  public double getContraste(){
+	  return this.contraste;
+  }
+  
+  public void setEntropia(){
+	  double temp = 0;
+	  int [] histo=this.histograma.getHistograma();
+	  for( int i = 0; i < 255; i++ ){
+		  double p=histo[i]/255;
+		  temp+= p*Math.log(p);
+	  }
+	  this.contraste=-temp;
+	  
+  }
+  
+  public double getEntropia(){
+	  return this.contraste;
+  }
+  
   /**
    * Devuelve el valor numérico del píxel que se encuentra en la posición i j
    * @param i
@@ -120,7 +170,35 @@ public class Imagen {
   private void setHistograma(Histograma histograma) {
     this.histograma = histograma;
   }
+  public BufferedImage set_gris(BufferedImage imagen) {
 
+	      BufferedImage bi =  GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage(imagen.getWidth(), imagen.getHeight(), Transparency.OPAQUE);
+
+	      for( int i = 0; i < imagen.getWidth(); i++ ){
+
+	            for( int j = 0; j < imagen.getHeight(); j++ ){
+
+	            //Obtiene el color
+
+	        Color c1=new Color(imagen.getRGB(i, j));
+
+	        //Calcula la media de tonalidades
+
+	        int med=(c1.getRed()+c1.getGreen()+c1.getBlue())/3;
+
+	        //Almacena el color en la imagen destino
+
+	        bi.setRGB(i, j, new Color(med,med,med).getRGB());  
+
+	            }
+
+	    
+
+	      }
+
+	      return bi;
+
+	   }
   public static void main(String[] args) {
     // TODO Auto-generated method stub
 
