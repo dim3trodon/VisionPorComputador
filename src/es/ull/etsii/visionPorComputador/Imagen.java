@@ -27,8 +27,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Imagen {
-  
-  // En imagen se guarda la información de la imagen. Se puede acceder a los 
+
+  // En imagen se guarda la información de la imagen. Se puede acceder a los
   // datos de los píxeles en un BufferedImage y ser modificados
   BufferedImage imagen;
   // Histograma de la imagen. Se crea automáticamente al crear una imagen.
@@ -36,9 +36,10 @@ public class Imagen {
   double brillo;
   double contraste;
   double entropia;
-  
+
   /**
    * Constructor al que se le pasa la ruta de la imagen
+   * 
    * @param linkImagen
    */
   public Imagen(String linkImagen) {
@@ -46,7 +47,7 @@ public class Imagen {
       // TODO Falta pasar la imagen a escala de grises
       setImagen(ImageIO.read(new File(linkImagen)));
       // Se crea el histograma pasando como parámetro la imagen actual
-      this.imagen=this.set_gris(this.getImagen());
+      this.imagen = this.set_gris(this.getImagen());
       setHistograma(new Histograma(this.getImagen()));
       this.setBrillo();
     } catch (IOException e) {
@@ -56,69 +57,73 @@ public class Imagen {
       setHistograma(null);
     }
   }
-  
+
   /**
    * Devuelve el ancho de la imagen en píxeles
+   * 
    * @return
    */
   public int getAncho() {
     return getImagen().getWidth();
   }
-  
+
   /**
    * Devuelve el alto de la imagen en píxeles
+   * 
    * @return
    */
   public int getAlto() {
     return getImagen().getHeight();
   }
-/* Devuelve el brillo de la imagen */
-  public void setBrillo(){
-	  double temp = 0;
-	  int [] histo=this.histograma.getHistograma();
-	  for( int i = 0; i < 255; i++ ){
-		  temp+=histo[i]*i;
-	  }
-	  this.brillo=temp/255;
-	  
+
+  /* Devuelve el brillo de la imagen */
+  public void setBrillo() {
+    double temp = 0;
+    int[] histo = this.histograma.getHistograma();
+    for (int i = 0; i < 255; i++) {
+      temp += histo[i] * i;
+    }
+    this.brillo = temp / 255;
+
   }
-  
-  public double getBrillo(){
-	  return this.brillo;
+
+  public double getBrillo() {
+    return this.brillo;
   }
-  
-  public void setContraste(){
-	  double temp = 0;
-	  double u = getBrillo();
-	  int [] histo=this.histograma.getHistograma();
-	  for( int i = 0; i < 255; i++ ){
-		  temp+= Math.pow((i-u),2)*histo[i];
-	  }
-	  this.contraste=Math.sqrt(temp/255);
-	  
+
+  public void setContraste() {
+    double temp = 0;
+    double u = getBrillo();
+    int[] histo = this.histograma.getHistograma();
+    for (int i = 0; i < 255; i++) {
+      temp += Math.pow((i - u), 2) * histo[i];
+    }
+    this.contraste = Math.sqrt(temp / 255);
+
   }
-  
-  public double getContraste(){
-	  return this.contraste;
+
+  public double getContraste() {
+    return this.contraste;
   }
-  
-  public void setEntropia(){
-	  double temp = 0;
-	  int [] histo=this.histograma.getHistograma();
-	  for( int i = 0; i < 255; i++ ){
-		  double p=histo[i]/255;
-		  temp+= p*Math.log(p);
-	  }
-	  this.contraste=-temp;
-	  
+
+  public void setEntropia() {
+    double temp = 0;
+    int[] histo = this.histograma.getHistograma();
+    for (int i = 0; i < 255; i++) {
+      double p = histo[i] / 255;
+      temp += p * Math.log(p);
+    }
+    this.contraste = -temp;
+
   }
-  
-  public double getEntropia(){
-	  return this.contraste;
+
+  public double getEntropia() {
+    return this.contraste;
   }
-  
+
   /**
    * Devuelve el valor numérico del píxel que se encuentra en la posición i j
+   * 
    * @param i
    * @param j
    * @return
@@ -128,9 +133,10 @@ public class Imagen {
     Color color = new Color(getImagen().getRGB(i, j));
     return color.getRed();
   }
-  
+
   /**
    * Modifica el píxel en i j para que tenga el valor valPixel
+   * 
    * @param i
    * @param j
    * @param valPixel
@@ -138,9 +144,10 @@ public class Imagen {
   public void setPixel(int i, int j, int valPixel) {
     // TODO Modificar el píxel en los tres arrays de colores RGB
   }
-  
+
   /**
    * Devuelve el BufferedImage de Imagen
+   * 
    * @return
    */
   public BufferedImage getImagen() {
@@ -154,7 +161,7 @@ public class Imagen {
   private void setImagen(BufferedImage imagen) {
     this.imagen = imagen;
   }
-  
+
   /**
    * 
    * @return
@@ -170,39 +177,43 @@ public class Imagen {
   private void setHistograma(Histograma histograma) {
     this.histograma = histograma;
   }
+
   public BufferedImage set_gris(BufferedImage imagen) {
 
-	      BufferedImage bi =  GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage(imagen.getWidth(), imagen.getHeight(), Transparency.OPAQUE);
+    BufferedImage bi = GraphicsEnvironment
+        .getLocalGraphicsEnvironment()
+        .getDefaultScreenDevice()
+        .getDefaultConfiguration()
+        .createCompatibleImage(imagen.getWidth(), imagen.getHeight(),
+            Transparency.OPAQUE);
 
-	      for( int i = 0; i < imagen.getWidth(); i++ ){
+    for (int i = 0; i < imagen.getWidth(); i++) {
 
-	            for( int j = 0; j < imagen.getHeight(); j++ ){
+      for (int j = 0; j < imagen.getHeight(); j++) {
 
-	            //Obtiene el color
+        // Obtiene el color
 
-	        Color c1=new Color(imagen.getRGB(i, j));
+        Color c1 = new Color(imagen.getRGB(i, j));
 
-	        //Calcula la media de tonalidades
+        // Calcula la media de tonalidades
 
-	        int med=(c1.getRed()+c1.getGreen()+c1.getBlue())/3;
+        int med = (c1.getRed() + c1.getGreen() + c1.getBlue()) / 3;
 
-	        //Almacena el color en la imagen destino
+        // Almacena el color en la imagen destino
 
-	        bi.setRGB(i, j, new Color(med,med,med).getRGB());  
+        bi.setRGB(i, j, new Color(med, med, med).getRGB());
 
-	            }
+      }
 
-	    
+    }
 
-	      }
+    return bi;
 
-	      return bi;
+  }
 
-	   }
   public static void main(String[] args) {
     // TODO Auto-generated method stub
 
   }
-
 
 }
