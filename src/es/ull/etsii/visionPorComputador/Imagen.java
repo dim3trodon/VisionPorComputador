@@ -1,6 +1,6 @@
 /** @author Daniel Afonso González
  *  @author Rodrigo Valladares Santana
- *  @version 1.0, 04/11/13
+ *  @version 1.2, 11/11/13
  *  
  *  Proyecto de Visión Por Computador 2013/14
  *  
@@ -8,6 +8,8 @@
  *  cena como un BufferedImage y en escala de grises. A pesar de ello, se man-
  *  tienen los tres arrays para los colores rojo, verde y azul, aunque en este
  *  caso contienen la misma información. 
+ *  
+ *  Versión 1.2 Añadido brillo, contraste, entropía y ruta de la imagen.
  *  
  *  Versión 1.1 04/11/2013
  *  Se crea el Histograma de la Imagen nada más ser inicializada esta
@@ -25,31 +27,37 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 
 public class Imagen {
-  
-  // En imagen se guarda la información de la imagen. Se puede acceder a los 
+
+  // En imagen se guarda la información de la imagen. Se puede acceder a los
   // datos de los píxeles en un BufferedImage y ser modificados
   BufferedImage imagen;
   // Histograma de la imagen. Se crea automáticamente al crear una imagen.
   Histograma histograma;
+
   float brillo;
   float contraste;
   float entropia;
   ArrayList<Integer> Histograma_acu;
-  
-  /**
+  private String ruta;
+  private String nombre;
+
+/**
    * Constructor al que se le pasa la ruta de la imagen
+   * 
    * @param linkImagen
    */
   public Imagen(String linkImagen) {
     try {
       // TODO Falta pasar Especifiacion de histograma y correccion Gamma
+    String[] partesRutaImagen = linkImagen.split("/");
+      // Nombre de la imagen
+      String titulo = partesRutaImagen[partesRutaImagen.length - 1];
       setImagen(ImageIO.read(new File(linkImagen)));
       // Se crea el histograma pasando como parámetro la imagen actual
-      this.imagen=this.set_gris(this.getImagen());
+      this.imagen = this.set_gris(this.getImagen());
       setHistograma(new Histograma(this.getImagen()));
       this.setBrillo();
       this.setContraste();
@@ -65,6 +73,8 @@ public class Imagen {
       */
      //this.imagen= this.BrilloYContraste(82, 10);
       this.imagen = this.Equalize();
+      setRuta(linkImagen);
+      setNombre(titulo);
     } catch (IOException e) {
       System.err.println("Error al abrir " + linkImagen);
       e.printStackTrace();
@@ -72,14 +82,16 @@ public class Imagen {
       setHistograma(null);
     }
   }
-  
+
   /**
    * Devuelve el ancho de la imagen en píxeles
+   * 
    * @return
    */
   public int getAncho() {
     return getImagen().getWidth();
   }
+
   
   /*
    * Devuelve el máximo entre dos números
@@ -104,11 +116,13 @@ public class Imagen {
   }
   /**
    * Devuelve el alto de la imagen en píxeles
+   * 
    * @return
    */
   public int getAlto() {
     return getImagen().getHeight();
   }
+
   
   
 /* Devuelve el brillo de la imagen */
@@ -155,12 +169,18 @@ public class Imagen {
 	  
   }
   
-  public double getEntropia(){
+  public float getEntropia(){
 	  return this.contraste;
   }
   
-  /**
+
+
+
+
+
+ /**
    * Devuelve el valor numérico del píxel que se encuentra en la posición i j
+   * 
    * @param i
    * @param j
    * @return
@@ -170,9 +190,10 @@ public class Imagen {
     Color color = new Color(getImagen().getRGB(i, j));
     return color.getRed();
   }
-  
+
   /**
    * Modifica el píxel en i j para que tenga el valor valPixel
+   * 
    * @param i
    * @param j
    * @param valPixel
@@ -180,9 +201,10 @@ public class Imagen {
   public void setPixel(int i, int j, int valPixel) {
     // TODO Modificar el píxel en los tres arrays de colores RGB
   }
-  
+
   /**
    * Devuelve el BufferedImage de Imagen
+   * 
    * @return
    */
   public BufferedImage getImagen() {
@@ -196,7 +218,7 @@ public class Imagen {
   private void setImagen(BufferedImage imagen) {
     this.imagen = imagen;
   }
-  
+
   /**
    * 
    * @return
@@ -321,39 +343,59 @@ public class Imagen {
       return value_check;
 }
 
-public BufferedImage set_gris(BufferedImage imagen) {
+  public BufferedImage set_gris(BufferedImage imagen) {
 
-	      BufferedImage bi =  GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage(imagen.getWidth(), imagen.getHeight(), Transparency.OPAQUE);
 
-	      for( int i = 0; i < imagen.getWidth(); i++ ){
+    BufferedImage bi = GraphicsEnvironment
+        .getLocalGraphicsEnvironment()
+        .getDefaultScreenDevice()
+        .getDefaultConfiguration()
+        .createCompatibleImage(imagen.getWidth(), imagen.getHeight(),
+            Transparency.OPAQUE);
 
-	            for( int j = 0; j < imagen.getHeight(); j++ ){
+    for (int i = 0; i < imagen.getWidth(); i++) {
 
-	            //Obtiene el color
+      for (int j = 0; j < imagen.getHeight(); j++) {
 
-	        Color c1=new Color(imagen.getRGB(i, j));
+        // Obtiene el color
 
-	        //Calcula la media de tonalidades
+        Color c1 = new Color(imagen.getRGB(i, j));
 
-	        int med=(c1.getRed()+c1.getGreen()+c1.getBlue())/3;
+        // Calcula la media de tonalidades
 
-	        //Almacena el color en la imagen destino
+        int med = (c1.getRed() + c1.getGreen() + c1.getBlue()) / 3;
 
-	        bi.setRGB(i, j, new Color(med,med,med).getRGB());  
+        // Almacena el color en la imagen destino
 
-	            }
+        bi.setRGB(i, j, new Color(med, med, med).getRGB());
 
-	    
+      }
 
-	      }
+    }
 
-	      return bi;
+    return bi;
 
-	   }
+  }
+
+  public String getRuta() {
+    return ruta;
+  }
+
+  private void setRuta(String ruta) {
+    this.ruta = ruta;
+  }
+
+  public String getNombre() {
+    return nombre;
+  }
+
+  private void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
+
   public static void main(String[] args) {
     // TODO Auto-generated method stub
 
   }
-
 
 }

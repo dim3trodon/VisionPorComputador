@@ -69,7 +69,7 @@ public class VentanaImagen extends JInternalFrame {
    * Devuelve la Imagen
    * @return
    */
-  private Imagen getImagen() {
+  public Imagen getImagen() {
     return imagen;
   }
 
