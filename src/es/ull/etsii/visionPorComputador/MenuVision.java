@@ -2,11 +2,13 @@
  * @author Daniel Afonso González
  * @author Rodrigo Valladares Santana
  * 
- * @version 1.0, 11/11/13
+ * @version 1.1, 13/11/13
  *
  * Proyecto de Visión Por Computador 2013/14
  * 
  * Menú de la aplicación
+ * 
+ * Versión 1.1 Submenú de Ver/Histograma
  * 
  * Versión 1.0 Archivo, Edición, Ver, Herramientas e Imagen
  * Submenú de Archivo/Abrir
@@ -57,6 +59,7 @@ public class MenuVision extends JMenuBar {
     add(getMenuImagen());
     // Construir ítems de cada menú
     construirMenuArchivo();
+    construirMenuVer();
     construirMenuImagen();
   }
   
@@ -78,6 +81,20 @@ public class MenuVision extends JMenuBar {
     });
     // Añadir ítems al menú
     getMenuArchivo().add(itemAbrir);
+  }
+  
+  private void construirMenuVer() {
+    JMenuItem itemHistograma = new JMenuItem("Histograma");
+    itemHistograma.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        getAccionesMenu().VerHistograma(
+            getInterfazRef().getImagenActiva().getHistograma(),
+            getInterfazRef().getImagenActiva().getNombre());
+      }
+    });
+    getMenuVer().add(itemHistograma);
   }
   
   private void construirMenuImagen() {

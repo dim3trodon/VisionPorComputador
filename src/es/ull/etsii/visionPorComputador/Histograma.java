@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Histograma {
+  
+  public static final int NUMERO_PIXELES = 256;
 
   private int[] histograma;
 
@@ -23,7 +25,7 @@ public class Histograma {
   public Histograma(BufferedImage imagen) {
 
     Color color;
-    int[] histogra = new int[256];
+    int[] histogra = new int[NUMERO_PIXELES];
 
     for (int i = 0; i < imagen.getWidth(); i++) {
       for (int j = 0; j < imagen.getHeight(); j++) {
@@ -38,6 +40,10 @@ public class Histograma {
 
     setHistograma(histogra);
 
+  }
+  
+  public int getValor(int i) {
+    return getHistograma()[i];
   }
 
   /**

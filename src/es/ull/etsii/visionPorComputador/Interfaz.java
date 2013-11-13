@@ -70,6 +70,8 @@ public class Interfaz extends JFrame {
     add(getDatosPixelActivo(), BorderLayout.SOUTH);
     setVisible(true);
     crearNuevaVentana(imagenMuestra3, "asd"); // Ejemplo
+    
+    crearVentanaHistograma(getImagenActiva().getHistograma(), "pirirpio");
   }
   
   /**
@@ -78,6 +80,13 @@ public class Interfaz extends JFrame {
    */
   public void actualizarDatosPixelActivo(int x, int y, int valorPixel) {
     setValorDatosPixelActivo(x, y, valorPixel);
+  }
+  
+  public void crearVentanaHistograma(Histograma histograma, String nombreImagen) 
+  {
+    @SuppressWarnings("unused")
+    VentanaHistograma ventanaHistograma = new VentanaHistograma(histograma, 
+        nombreImagen);
   }
 
   /**
