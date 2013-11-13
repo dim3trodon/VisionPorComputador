@@ -318,7 +318,10 @@ public class Imagen {
              
              initial = points.get(i);
      }
-     BufferedImage newImg =  GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage(imagen.getWidth(), imagen.getHeight(), Transparency.OPAQUE);
+     BufferedImage newImg =  GraphicsEnvironment.getLocalGraphicsEnvironment().
+         getDefaultScreenDevice().getDefaultConfiguration().
+         createCompatibleImage(imagen.getWidth(), imagen.getHeight(), 
+             Transparency.OPAQUE);
 
      for( int i = 0; i < imagen.getWidth(); i++ ){
 
@@ -391,11 +394,6 @@ public class Imagen {
 
   private void setNombre(String nombre) {
     this.nombre = nombre;
-  }
-
-  public static void main(String[] args) {
-    // TODO Auto-generated method stub
-
   }
 
 }

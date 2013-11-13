@@ -23,6 +23,7 @@ import java.util.Vector;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class Interfaz extends JFrame {
 
@@ -45,6 +46,8 @@ public class Interfaz extends JFrame {
   private JDesktopPane escritorio;
   // Menú de la aplicación
   private MenuVision menu;
+  // Posición del ratón en la imagen y valor del pixel activo
+  private JLabel datosPixelActivo;
 
   /**
    * Constructor
@@ -62,9 +65,19 @@ public class Interfaz extends JFrame {
     // Creación del escritorio
     setEscritorio(new JDesktopPane());
     add(getEscritorio(), BorderLayout.CENTER);
+    // Creación del JLabel para mostrar datos de la posición del ratón
+    setDatosPixelActivo(new JLabel("(,) "));
+    add(getDatosPixelActivo(), BorderLayout.SOUTH);
     setVisible(true);
-
     crearNuevaVentana(imagenMuestra3, "asd"); // Ejemplo
+  }
+  
+  /**
+   * Método llamado desde VentanaImagen para actualizar los datos del píxel
+   * activo
+   */
+  public void actualizarDatosPixelActivo(int x, int y, int valorPixel) {
+    setValorDatosPixelActivo(x, y, valorPixel);
   }
 
   /**
@@ -74,7 +87,7 @@ public class Interfaz extends JFrame {
    * @param imagen
    */
   public void crearNuevaVentana(String linkImagen, String titulo) {
-    addVentanaImagen(new VentanaImagen(new Imagen(linkImagen), titulo));
+    addVentanaImagen(new VentanaImagen(new Imagen(linkImagen), titulo, this));
   }
   
   /**
@@ -187,11 +200,24 @@ public class Interfaz extends JFrame {
   private void setMenu(MenuVision menu) {
     this.menu = menu;
   }
+  
+  private void setValorDatosPixelActivo(int x, int y, int valorPixel) {
+    getDatosPixelActivo().setText("(" + x + ", " + y + ") " + valorPixel);
+  }
+
+  private JLabel getDatosPixelActivo() {
+    return datosPixelActivo;
+  }
+
+  private void setDatosPixelActivo(JLabel datosPixelActivo) {
+    this.datosPixelActivo = datosPixelActivo;
+  }
 
   public static void main(String[] args) {
     @SuppressWarnings("unused")
     JFrame frame = new Interfaz();
 
   }
+
 
 }
