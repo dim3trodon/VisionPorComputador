@@ -2,11 +2,13 @@
  * @author Daniel Afonso González
  * @author Rodrigo Valladares Santana
  * 
- * @version 1.0, 11/11/13
+ * @version 1.1, 13/11/13
  *
  * Proyecto de Visión Por Computador 2013/14
  * 
  * Acciones del menú de aplicaciones
+ * 
+ * Versión 1.1: Añadido Ver/Histograma
  * 
  * Versión 1.0: Archivo/Abrir e Imagen/Propiedades
  * 
@@ -29,6 +31,15 @@ public class AccionesMenu {
     String[] partesRutaImagen = linkImagen.split("/");
     String titulo = partesRutaImagen[partesRutaImagen.length - 1];
     getInterfazRef().crearNuevaVentana(linkImagen, titulo);
+  }
+  
+  /**
+   * Acción de Ver/Histograma 
+   * @param histograma
+   * @param nombreImagen
+   */
+  public void VerHistograma(Histograma histograma, String nombreImagen) {
+    getInterfazRef().crearVentanaHistograma(histograma, nombreImagen);
   }
   
   /**
