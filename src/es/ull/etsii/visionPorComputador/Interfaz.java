@@ -39,6 +39,7 @@ public class Interfaz extends JFrame {
   public static String imagenMuestra2 = "C:/Users/Rodrigo/Pictures/6TeaeZilZiHT"
       + "E595ZgFi38.jpg";
   public static String imagenMuestra3 = "C:/Users/Rodrigo/Pictures/1323_tc.jpg";
+  public static String imagenMuestra4 = "C:/Users/Rodrigo/Pictures/1323_tc - copia.jpg";
 
   // En listaVentanas se encuentran todas las ventanas que se abren
   private Vector<VentanaImagen> listaVentanas;
@@ -71,8 +72,14 @@ public class Interfaz extends JFrame {
     setVisible(true);
 
     crearNuevaVentana(imagenMuestra3, "asd"); // Ejemplo
+    crearNuevaVentana(imagenMuestra2, "aa");
+    
     
     crearVentanaHistograma(getImagenActiva().getHistograma(), "pirirpio");
+    //crearNuevaVentana(new Imagen(getImagenActiva().Diferencia(getImagen(0)), "aaaaa"), "afasf");
+    
+    crearNuevaVentana(new Imagen(getImagenActiva().Histo_especify(getImagen(0)), "afasdf"), "aasfs");
+    
   }
   
   /**
@@ -99,6 +106,10 @@ public class Interfaz extends JFrame {
    */
   public void crearNuevaVentana(String linkImagen, String titulo) {
     addVentanaImagen(new VentanaImagen(new Imagen(linkImagen), titulo, this));
+  }
+  
+  public void crearNuevaVentana(Imagen imagen, String titulo) {
+    addVentanaImagen(new VentanaImagen(imagen, titulo, this));
   }
   
   /**
