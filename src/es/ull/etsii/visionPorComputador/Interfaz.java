@@ -34,7 +34,7 @@ public class Interfaz extends JFrame {
   public static int ANCHO_VENTANA = 2 * tamPantalla.width / 3;
   public static int ALTO_VENTANA = 2 * tamPantalla.height / 3;
 
-  public static String imagenMuestra = "/home/dani/Imágenes/index.jpeg";
+  public static String imagenMuestra = "/home/dani/Imágenes/index.jpg";
   public static String imagenMuestra2 = "C:/Users/Rodrigo/Pictures/6TeaeZilZiHT"
       + "E595ZgFi38.jpg";
   public static String imagenMuestra3 = "C:/Users/Rodrigo/Pictures/1323_tc.jpg";
@@ -64,7 +64,7 @@ public class Interfaz extends JFrame {
     add(getEscritorio(), BorderLayout.CENTER);
     setVisible(true);
 
-    crearNuevaVentana(imagenMuestra3, "asd"); // Ejemplo
+    crearNuevaVentana(imagenMuestra, "asd"); // Ejemplo
   }
 
   /**

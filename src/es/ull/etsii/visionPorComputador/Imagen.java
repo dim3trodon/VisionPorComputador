@@ -27,6 +27,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 
 public class Imagen {
@@ -56,12 +57,15 @@ public class Imagen {
       // Nombre de la imagen
       String titulo = partesRutaImagen[partesRutaImagen.length - 1];
       setImagen(ImageIO.read(new File(linkImagen)));
+      setRuta(linkImagen);
+      setNombre(titulo);
       // Se crea el histograma pasando como parámetro la imagen actual
       this.imagen = this.set_gris(this.getImagen());
       setHistograma(new Histograma(this.getImagen()));
       this.setBrillo();
       this.setContraste();
       this.Histograma_acu=this.histograma_acu();
+      this.setEntropia();
       /* codigo para llamar a linear trans
       ArrayList<Coordenadas> points = new ArrayList<Coordenadas>();
       Coordenadas p1 = new Coordenadas(0,0); 
@@ -72,9 +76,9 @@ public class Imagen {
       
       */
      //this.imagen= this.BrilloYContraste(82, 10);
-      this.imagen = this.Equalize();
-      setRuta(linkImagen);
-      setNombre(titulo);
+      //this.imagen = this.Equalize();
+     // this.imagen=this.Gammacorrection(12);
+      this.imagen=this.Diferencia(this);
     } catch (IOException e) {
       System.err.println("Error al abrir " + linkImagen);
       e.printStackTrace();
@@ -101,8 +105,84 @@ public class Imagen {
 	  return (a>b) ? a : b;
   }
   
-  
+public BufferedImage Histo_especify(Imagen imag){
+	int vout =0;
+	ArrayList<Long> accHistogramRef = this.histograma_acu_norm();
+    ArrayList<Long> accHistogramImg = imag.histograma_acu_norm();
+    ArrayList<Integer> lut = new ArrayList<Integer>();
+    for (int i=0; i<accHistogramImg.size(); i++) {
+        vout = BuscaValornormalizado(accHistogramImg.get(i), accHistogramRef);
+        lut.set(i, vout);
+    }
+    
+    BufferedImage newImg =  GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage(imagen.getWidth(), imagen.getHeight(), Transparency.OPAQUE);
 
+    for( int i = 0; i < imagen.getWidth(); i++ ){
+
+        for( int j = 0; j < imagen.getHeight(); j++ ){
+       	 Color c1=new Color(imagen.getRGB(i, j));
+       	 int c_value= c1.getBlue();
+       	 int ncol=lut.get(c_value);
+       	 newImg.setRGB(i, j, new Color(ncol,ncol,ncol).getRGB());
+       	 
+        }        	 
+    }
+    
+    return newImg;
+}
+  
+ private ArrayList<Long> histograma_acu_norm(){
+	 long acc = 0;	 
+	 ArrayList<Long> accHistogram = new ArrayList<Long>();
+	 int [] histo = this.histograma.getHistograma();
+	 double size = imagen.getWidth() * imagen.getHeight();
+	 for (int i=0; i<256; i++) {
+         accHistogram.add(Math.round((double)(histo[i] + acc) * 100 / size));
+         acc = histo[i] + acc;
+ }
+ 
+ return accHistogram;
+ }
+ 
+ //Calcula la diferencia entre dos imágenes
+ public BufferedImage Diferencia(Imagen image){
+	 Color c1, c2 = new Color(0,0,0);
+	 int i1, i2, i3 = 0;
+	 BufferedImage newImg =  GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage(imagen.getWidth(), imagen.getHeight(), Transparency.OPAQUE);
+	//Comprobamos que las imagenes tienen las mismas dimensiones 
+	if (image.imagen.getWidth()==imagen.getWidth() && image.imagen.getHeight()==imagen.getHeight())  
+	 for (int i=0; i<imagen.getWidth(); i++) {
+		 for (int j=0; j<imagen.getHeight(); j++) {
+			  c1=new Color(imagen.getRGB(i, j));
+	       	  c2 = new Color(image.imagen.getRGB(i, j));      	  
+			  i1= c1.getBlue();
+			  i2= c2.getBlue();
+			  i3 = Math.abs(i1-i2);
+			  i3= compruebarango(0,255,i3);
+		      newImg.setRGB(i, j, new Color(i3, i3, i3).getRGB());
+		 }
+	 }
+	 
+	 return newImg;
+ }
+ 
+ //metodo para la busca del valor normalizado
+ private Integer BuscaValornormalizado(long nivel, ArrayList<Long> histo_acc_nor) {
+     int index = 0;
+     int selectedIndex = 0;
+     boolean cont = true;
+     while((index < histo_acc_nor.size()) && cont) {
+             if (histo_acc_nor.get(index).equals(nivel)) {
+                     selectedIndex = index;
+                     cont = false;
+             } else if (histo_acc_nor.get(index) > nivel) {
+                     selectedIndex = index -1;
+                     cont = false;
+             }
+             index++;
+     }
+     return selectedIndex;
+}
   
   public ArrayList<Integer> histograma_acu(){
 	  ArrayList<Integer> hist = new ArrayList<Integer>();
@@ -162,15 +242,15 @@ public class Imagen {
 	  float temp = 0;
 	  int [] histo=this.histograma.getHistograma();
 	  for( int i = 0; i < 255; i++ ){
-		  float p=(float)(histo[i]/255);
+		  float p=(float)(histo[i])/(float)(255);
 		  temp+= p*Math.log(p);
 	  }
-	  this.contraste=-temp;
+	  this.entropia=-temp;
 	  
   }
   
   public float getEntropia(){
-	  return this.contraste;
+	  return this.entropia;
   }
   
 
@@ -352,7 +432,7 @@ public class Imagen {
         .getDefaultConfiguration()
         .createCompatibleImage(imagen.getWidth(), imagen.getHeight(),
             Transparency.OPAQUE);
-
+    double newR, newG, newB; 
     for (int i = 0; i < imagen.getWidth(); i++) {
 
       for (int j = 0; j < imagen.getHeight(); j++) {
@@ -360,13 +440,15 @@ public class Imagen {
         // Obtiene el color
 
         Color c1 = new Color(imagen.getRGB(i, j));
-
+        newR = 0.222 * (float)(c1.getRed());
+        newG = 0.707 * (float)(c1.getGreen());
+        newB = 0.071 * (float)(c1.getBlue());
         // Calcula la media de tonalidades
-
-        int med = (c1.getRed() + c1.getGreen() + c1.getBlue()) / 3;
+        int med=(int)Math.round(newR+newG+newB);
+        //int med = (c1.getRed() + c1.getGreen() + c1.getBlue()) / 3;
 
         // Almacena el color en la imagen destino
-
+        med= compruebarango(0,255,med);
         bi.setRGB(i, j, new Color(med, med, med).getRGB());
 
       }
@@ -375,6 +457,33 @@ public class Imagen {
 
     return bi;
 
+  }
+  
+  
+  public BufferedImage Gammacorrection(float gamma){
+	  double a,b;
+      ArrayList<Integer> lut = new ArrayList<Integer>();
+      for (int i=0; i<256; i++) {
+              // b = a^gamma, a and b normalized
+              a = (double) i / (double) 255; // In interval [0,1]
+              b = Math.pow(a, gamma);
+              lut.add(compruebarango(0, 255, Long.valueOf(Math.round(b * 255)).intValue()));
+      }
+	  
+      BufferedImage newImg =  GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage(imagen.getWidth(), imagen.getHeight(), Transparency.OPAQUE);
+
+      for( int i = 0; i < imagen.getWidth(); i++ ){
+
+          for( int j = 0; j < imagen.getHeight(); j++ ){
+         	 Color c1=new Color(imagen.getRGB(i, j));
+         	 int c_value= c1.getBlue();
+         	 int ncol=lut.get(c_value);
+         	 newImg.setRGB(i, j, new Color(ncol,ncol,ncol).getRGB());
+         	 
+          }        	 
+      }
+      
+      return newImg;
   }
 
   public String getRuta() {
