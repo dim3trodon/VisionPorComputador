@@ -43,11 +43,25 @@ public class AccionesMenu {
   }
   
   /**
+   * Acción de Ver/Histograma acumulativo
+   * @param histograma
+   * @param nombreImagen
+   */
+  public void VerHistogramaAcc(Histograma histograma, String nombreImagen) {
+    getInterfazRef().crearVentanaHistograma(histograma, nombreImagen);
+  }
+  
+  /**
    * Acción del menú Imagen/Propiedades
    * @param imagen
    */
   public void ImagenPropiedades(Imagen imagen) {
     getInterfazRef().crearVentanaDatosImagen(imagen);
+  }
+  
+  public void ImagenCorrecionGamma(Imagen imagen) {
+    // TODO
+    //getInterfazRef().crearNuevaVentana(new Imagen(imagen.Gammacorrection(gamma)), titulo)
   }
 
   private Interfaz getInterfazRef() {

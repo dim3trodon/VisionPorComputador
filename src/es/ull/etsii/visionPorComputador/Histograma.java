@@ -10,6 +10,7 @@ package es.ull.etsii.visionPorComputador;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Histograma {
   
@@ -40,6 +41,13 @@ public class Histograma {
 
     setHistograma(histogra);
 
+  }
+  
+  public Histograma(ArrayList<Integer> arrayHisto) {
+    int[] histogra = new int[NUMERO_PIXELES];
+    for(int i = 0; i < NUMERO_PIXELES; i++)
+      histogra[i] = (int) arrayHisto.get(i).intValue();
+    setHistograma(histogra);
   }
   
   public int getValor(int i) {

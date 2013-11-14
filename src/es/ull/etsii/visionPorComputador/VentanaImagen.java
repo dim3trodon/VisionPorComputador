@@ -26,6 +26,8 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 
 public class VentanaImagen extends JInternalFrame {
 
@@ -35,20 +37,22 @@ public class VentanaImagen extends JInternalFrame {
   public static final boolean ICONIFIABLE = true;
   
   // Tamaño de la barra de título de la ventana. Necesario para mostrar la tota-
-  // lidad de la imagen dentro de la ventana.
+  // lidad de la imagen dentro de la ventana.O
   public static final int TAM_BARRA_TITULO = 33;
 
   private static final long serialVersionUID = 8689935453546765653L;
   private Imagen imagen;
   private PanelImagen panelImagen;
   private Interfaz interfazRef;
+  private int numVentana;
 
   /**
    * Constructor que recibe la Imagen que va a mostrar y el titulo de la ventana
    * @param imagen
    * @param nombre
    */
-  public  VentanaImagen(Imagen imagen, String titulo, Interfaz interfazRef) {
+  public  VentanaImagen(Imagen imagen, String titulo, Interfaz interfazRef,
+      int numVentana) {
     // TODO cambiar la interfaz del frame interno para que esté acorde al resto
     // TODO hacer que cuando se cierre una ventana se elimine de ListaVentana
     // de Interfaz
@@ -59,7 +63,18 @@ public class VentanaImagen extends JInternalFrame {
     add(getPanelImagen());
     setVisible(true);
     setInterfazRef(interfazRef);
+    setNumVentana(numVentana);
+    // Evento al cerrar ventana
+    //setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+    addInternalFrameListener(new InternalFrameAdapter() {
+      @Override
+      public void internalFrameClosing(InternalFrameEvent arg0) {
+        getInterfazRef().eliminarVentanaImagen(getNumVentana());
+      }
+    });
   }
+  
+  
 
   public class PanelImagen extends JPanel {
     private static final long serialVersionUID = 8039435365744075304L;
@@ -172,6 +187,14 @@ public class VentanaImagen extends JInternalFrame {
 
   private void setInterfazRef(Interfaz interfazRef) {
     this.interfazRef = interfazRef;
+  }
+
+  public int getNumVentana() {
+    return numVentana;
+  }
+
+  private void setNumVentana(int numVentana) {
+    this.numVentana = numVentana;
   }
 
 }

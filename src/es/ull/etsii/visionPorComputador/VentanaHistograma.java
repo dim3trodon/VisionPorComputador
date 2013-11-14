@@ -45,7 +45,6 @@ public class VentanaHistograma extends JFrame {
   
   private Histograma histograma;
   private String nombreImagen;
-  private int numeroVentana;
   
   public VentanaHistograma(Histograma histograma, String nombreImagen) {
     setHistograma(histograma);
@@ -132,14 +131,6 @@ public class VentanaHistograma extends JFrame {
 
   private void setNombreImagen(String nombreImagen) {
     this.nombreImagen = nombreImagen;
-  }
-
-  private int getNumeroVentana() {
-    return numeroVentana;
-  }
-
-  private void setNumeroVentana(int numeroVentana) {
-    this.numeroVentana = numeroVentana;
   }
 
 }

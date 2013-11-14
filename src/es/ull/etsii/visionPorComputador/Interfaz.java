@@ -71,17 +71,18 @@ public class Interfaz extends JFrame {
     add(getDatosPixelActivo(), BorderLayout.SOUTH);
     setVisible(true);
 
-    crearNuevaVentana(imagenMuestra3, "asd"); // Ejemplo
-    crearNuevaVentana(imagenMuestra2, "aa");
-    
-    
-    crearVentanaHistograma(getImagenActiva().getHistograma(), "pirirpio");
-    //crearNuevaVentana(new Imagen(getImagenActiva().Diferencia(getImagen(0)), "aaaaa"), "afasf");
-    
-    crearNuevaVentana(new Imagen(getImagenActiva().Histo_especify(getImagen(0)), "afasdf"), "aasfs");
-    
+    //crearNuevaVentana(imagenMuestra3, "asd"); // Ejemplo
+    //crearNuevaVentana(imagenMuestra2, "aa");
+
+    //crearVentanaHistograma(getImagenActiva().getHistograma(), "pirirpio");
+    // crearNuevaVentana(new Imagen(getImagenActiva().Diferencia(getImagen(0)),
+    // "aaaaa"), "afasf");
+
+    //crearNuevaVentana(new Imagen(
+       // getImagenActiva().Histo_especify(getImagen(0)), "afasdf"), "aasfs");
+
   }
-  
+
   /**
    * Método llamado desde VentanaImagen para actualizar los datos del píxel
    * activo
@@ -90,10 +91,14 @@ public class Interfaz extends JFrame {
     setValorDatosPixelActivo(x, y, valorPixel);
   }
   
-  public void crearVentanaHistograma(Histograma histograma, String nombreImagen) 
-  {
+  public void crearVentanaHistogramaAcc(Histograma histograma, 
+      String nombreImagen) {
+    
+  }
+
+  public void crearVentanaHistograma(Histograma histograma, String nombreImagen) {
     @SuppressWarnings("unused")
-    VentanaHistograma ventanaHistograma = new VentanaHistograma(histograma, 
+    VentanaHistograma ventanaHistograma = new VentanaHistograma(histograma,
         nombreImagen);
 
   }
@@ -105,13 +110,15 @@ public class Interfaz extends JFrame {
    * @param imagen
    */
   public void crearNuevaVentana(String linkImagen, String titulo) {
-    addVentanaImagen(new VentanaImagen(new Imagen(linkImagen), titulo, this));
+    addVentanaImagen(new VentanaImagen(new Imagen(linkImagen), titulo, this, 
+        getNumeroVentanas()));
   }
-  
+
   public void crearNuevaVentana(Imagen imagen, String titulo) {
-    addVentanaImagen(new VentanaImagen(imagen, titulo, this));
+    addVentanaImagen(new VentanaImagen(imagen, titulo, this, 
+        getNumeroVentanas()));
   }
-  
+
   /**
    * Crea una ventana donde se muestran los datos de la imagen
    * 
@@ -161,7 +168,7 @@ public class Interfaz extends JFrame {
   public int getNumeroVentanas() {
     return getListaVentanas().size();
   }
-  
+
   /**
    * Devuelve la imagen en la VentanaImagen i
    * 
@@ -171,10 +178,10 @@ public class Interfaz extends JFrame {
   public Imagen getImagen(int i) {
     return getVentanaImagen(i).getImagen();
   }
-  
+
   /**
-   * Devuelve la imagen de la VentanaImagen en primer plano actualmente
-   * TODO
+   * Devuelve la imagen de la VentanaImagen en primer plano actualmente TODO
+   * 
    * @return
    */
   public Imagen getImagenActiva() {
@@ -222,9 +229,10 @@ public class Interfaz extends JFrame {
   private void setMenu(MenuVision menu) {
     this.menu = menu;
   }
-  
+
   private void setValorDatosPixelActivo(int x, int y, int valorPixel) {
-    getDatosPixelActivo().setText("(" + x + ", " + y + ") " + valorPixel);
+    getDatosPixelActivo().setText("(" + x + ", " + y + ") " + valorPixel +
+        "   Nº ventanas: " + getNumeroVentanas());
   }
 
   private JLabel getDatosPixelActivo() {
@@ -240,6 +248,5 @@ public class Interfaz extends JFrame {
     JFrame frame = new Interfaz();
 
   }
-
 
 }

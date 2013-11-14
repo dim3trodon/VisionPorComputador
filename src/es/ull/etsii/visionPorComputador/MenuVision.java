@@ -95,6 +95,19 @@ public class MenuVision extends JMenuBar {
       }
     });
     getMenuVer().add(itemHistograma);
+    
+    JMenuItem itemHistogramaAcc = new JMenuItem("Histograma acumulativo");
+    itemHistogramaAcc.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        // TODO Auto-generated method stub
+        getAccionesMenu().VerHistogramaAcc(
+            new Histograma(getInterfazRef().getImagenActiva().histograma_acu()),
+            getInterfazRef().getImagenActiva().getNombre());
+      }
+    });
+    getMenuVer().add(itemHistogramaAcc);
   }
   
   private void construirMenuImagen() {
