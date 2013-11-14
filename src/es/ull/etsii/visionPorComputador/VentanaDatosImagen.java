@@ -22,6 +22,7 @@ public class VentanaDatosImagen extends JFrame {
   public static final int FILAS = 5;
   public static final int COLUMNAS = 1;
   public static final boolean VISIBLE = true;
+  public static final boolean RESIZABLE = false;
   
   public static final int ANCHO = 200;
   public static final int ALTO = 120;
@@ -47,6 +48,7 @@ public class VentanaDatosImagen extends JFrame {
     add(entropia);
     add(ruta);
     setTitle("Propiedades de " + imagen.getNombre());
+    setResizable(RESIZABLE);
     setVisible(VISIBLE);
     setSize(ANCHO, ALTO);
   }
