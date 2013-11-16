@@ -61,6 +61,7 @@ public class AccionesMenu {
   
   public void ImagenCorrecionGamma(Imagen imagen) {
     // TODO
+    getInterfazRef().crearVentanaCorreccionGAmma(imagen);
     //getInterfazRef().crearNuevaVentana(new Imagen(imagen.Gammacorrection(gamma)), titulo)
   }
 

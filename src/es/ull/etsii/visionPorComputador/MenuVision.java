@@ -24,6 +24,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class MenuVision extends JMenuBar {
+  
+  // TODO Desactivar submenús hasta que no haya ninguna imagen cargada
 
   private static final long serialVersionUID = 6669480296209581882L;
 
@@ -120,6 +122,17 @@ public class MenuVision extends JMenuBar {
       }
     });
     getMenuImagen().add(itemPropiedades);
+    
+    JMenuItem itemCorreccionGamma = new JMenuItem("Corrección gamma");
+    itemCorreccionGamma.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        getAccionesMenu().ImagenCorrecionGamma(
+            getInterfazRef().getImagenActiva());
+      }
+    });
+    getMenuImagen().add(itemCorreccionGamma);
   }
   
   private Interfaz getInterfazRef() {

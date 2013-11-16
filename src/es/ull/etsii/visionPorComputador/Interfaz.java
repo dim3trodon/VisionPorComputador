@@ -1,11 +1,13 @@
 /** 
  * @author Daniel Afonso González
  * @author Rodrigo Valladares Santana
- * @version 1.1b, 05/11/13
+ * @version 1.2, 05/11/13
  *
  * Proyecto de Visión Por Computador 2013/14
  *
  * Interfaz del programa
+ * 
+ * Versión 1.2 getImagenActiva() devuelve la imagen del frame activo
  * 
  * Versión 1.1b Añadido método getImagenActiva() para devolver la imagen de la
  * ventana que está activa actualmente (no implementado)
@@ -89,6 +91,12 @@ public class Interfaz extends JFrame {
    */
   public void actualizarDatosPixelActivo(int x, int y, int valorPixel) {
     setValorDatosPixelActivo(x, y, valorPixel);
+  }
+  
+  public void crearVentanaCorreccionGAmma(Imagen imagen) {
+    @SuppressWarnings("unused")
+    VentanaCorrecionGamma ventanaGamma = new VentanaCorrecionGamma(
+        imagen, this);
   }
   
   public void crearVentanaHistogramaAcc(Histograma histograma, 
@@ -185,8 +193,15 @@ public class Interfaz extends JFrame {
    * @return
    */
   public Imagen getImagenActiva() {
-    // TODO Devolver la imagen de la VentanaImagen en primer plano actualmente
-    return getImagen(getNumeroVentanas() - 1);
+    if(getNumeroVentanas() > 0) {
+      VentanaImagen auxImagen = getVentanaImagen(0);
+      int i = 1;
+      while((i < getNumeroVentanas()) && (!auxImagen.isSelected()))
+        auxImagen = getVentanaImagen(i);
+      return auxImagen.getImagen();
+    }
+    else
+      return null;
   }
 
   /**

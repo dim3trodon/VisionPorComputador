@@ -1,5 +1,16 @@
+/**
+ * @author Daniel Afonso González
+ * @author Rodrigo Valladares Santana
+ * 
+ * @version 1.0, 13/11/13
+ *
+ * Proyecto de Visión Por Computador 2013/14
+ * 
+ * Ventana donde se elige el valor de la corrección gamma
+ */
 package es.ull.etsii.visionPorComputador;
 
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,6 +25,8 @@ public class VentanaCorrecionGamma extends JFrame {
 
   public static final int ANCHO = 200;
   public static final int ALTO = 120;
+  public static final int FILAS = 1;
+  public static final int COLUMNAS = 1;
   public static final int NUM_COLS_FIELD = 3;
   public static final boolean RESIZABLE = false;
 
@@ -24,30 +37,37 @@ public class VentanaCorrecionGamma extends JFrame {
   Imagen imagen;
 
   public VentanaCorrecionGamma(Imagen imagen, Interfaz interfazRef) {
+    setLayout(new FlowLayout());
     setLabelGamma(new JLabel("Valor de correción gamma: "));
     setFieldGamma(new JTextField(NUM_COLS_FIELD));
     setBotonOk(new JButton("Aceptar"));
     setInterfazRef(interfazRef);
     setImagen(imagen);
-    botonOk.addActionListener(new ActionListener() {
-      
+    getBotonOk().addActionListener(new ActionListener() {
+
       @Override
       public void actionPerformed(ActionEvent arg0) {
         try {
           String textoField = getFieldGamma().getText();
           getInterfazRef().crearNuevaVentana(
-              new Imagen(
-                  getImagen().Gammacorrection(Float.parseFloat(textoField)), 
-                  getImagen().getNombre()), 
-            getImagen().getNombre() + textoField + "gammaCorrec");
-        }
-        catch(NumberFormatException exception) {
-          botonOk.setText("");
+              new Imagen(getImagen().Gammacorrection(
+                  Float.parseFloat(textoField)), getImagen().getNombre()),
+              getImagen().getNombre() + textoField + "gammaCorrec");
+          dispose(); // Cerrar ventana
+        } catch (NumberFormatException exception) {
+          System.err.println(getFieldGamma().getText() + " no es un número en" +
+          		" punto flotante");
+          getFieldGamma().setText("");
+          
+        } catch (NullPointerException noHayImagen) {
+          System.err.println("No hay imágenes abiertas");
+          dispose();
         }
       }
     });
-    add(labelGamma);
-    add(fieldGamma);
+    add(getLabelGamma());
+    add(getFieldGamma());
+    add(getBotonOk());
     setResizable(RESIZABLE);
     setSize(ANCHO, ALTO);
     setVisible(true);

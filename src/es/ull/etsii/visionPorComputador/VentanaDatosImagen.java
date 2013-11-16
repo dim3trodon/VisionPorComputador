@@ -30,27 +30,32 @@ public class VentanaDatosImagen extends JFrame {
   private static final long serialVersionUID = -3505650183050371550L;
   
   public VentanaDatosImagen(Imagen imagen) {
-    JLabel dimensiones;
-    JLabel brillo;
-    JLabel contraste;
-    JLabel entropia;
-    JLabel ruta;
-    setLayout(new GridLayout(FILAS, COLUMNAS));
-    dimensiones = new JLabel("Dimensiones: " + imagen.getAncho() + "x" + 
-    imagen.getAlto() + " píxeles");
-    brillo = new JLabel("Brillo: " + imagen.getBrillo());
-    contraste = new JLabel("Contraste: " + imagen.getContraste());
-    entropia = new JLabel("Entropía: " + imagen.getEntropia());
-    ruta = new JLabel("Ruta: " + imagen.getRuta());
-    add(dimensiones);
-    add(brillo);
-    add(contraste);
-    add(entropia);
-    add(ruta);
-    setTitle("Propiedades de " + imagen.getNombre());
-    setResizable(RESIZABLE);
-    setVisible(VISIBLE);
-    setSize(ANCHO, ALTO);
+    try {
+      JLabel dimensiones;
+      JLabel brillo;
+      JLabel contraste;
+      JLabel entropia;
+      JLabel ruta;
+      setLayout(new GridLayout(FILAS, COLUMNAS));
+      dimensiones = new JLabel("Dimensiones: " + imagen.getAncho() + "x" + 
+      imagen.getAlto() + " píxeles");
+      brillo = new JLabel("Brillo: " + imagen.getBrillo());
+      contraste = new JLabel("Contraste: " + imagen.getContraste());
+      entropia = new JLabel("Entropía: " + imagen.getEntropia());
+      ruta = new JLabel("Ruta: " + imagen.getRuta());
+      add(dimensiones);
+      add(brillo);
+      add(contraste);
+      add(entropia);
+      add(ruta);
+      setTitle("Propiedades de " + imagen.getNombre());
+      setResizable(RESIZABLE);
+      setVisible(VISIBLE);
+      setSize(ANCHO, ALTO);
+    } catch (NullPointerException noHayImagen) {
+      System.err.println("No hay imágenes abiertas");
+      dispose();
+    }
   }
 
 }
