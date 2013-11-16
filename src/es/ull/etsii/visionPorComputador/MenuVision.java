@@ -61,6 +61,7 @@ public class MenuVision extends JMenuBar {
     add(getMenuImagen());
     // Construir ítems de cada menú
     construirMenuArchivo();
+    construirMenuEdicion();
     construirMenuVer();
     construirMenuImagen();
   }
@@ -83,6 +84,18 @@ public class MenuVision extends JMenuBar {
     });
     // Añadir ítems al menú
     getMenuArchivo().add(itemAbrir);
+  }
+  
+  private void construirMenuEdicion() {
+    JMenuItem itemRecortarSeleccion = new JMenuItem("Recortar selección");
+    itemRecortarSeleccion.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        getAccionesMenu().EdicionRecortarSeleccion();
+      }
+    });
+    getMenuEdicion().add(itemRecortarSeleccion);
   }
   
   private void construirMenuVer() {

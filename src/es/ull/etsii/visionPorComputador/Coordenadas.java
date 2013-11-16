@@ -2,6 +2,11 @@ package es.ull.etsii.visionPorComputador;
 
 public class Coordenadas {
 	private int x, y;
+	
+	public Coordenadas() {
+	  setX(0);
+	  setY(0);
+	}
 
 	public Coordenadas(int x, int y) {
 	        this.x = x;

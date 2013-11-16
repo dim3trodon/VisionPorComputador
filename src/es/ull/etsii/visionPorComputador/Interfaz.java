@@ -188,8 +188,7 @@ public class Interfaz extends JFrame {
   }
 
   /**
-   * Devuelve la imagen de la VentanaImagen en primer plano actualmente TODO
-   * 
+   * Devuelve la imagen de la VentanaImagen en primer plano
    * @return
    */
   public Imagen getImagenActiva() {
@@ -199,6 +198,22 @@ public class Interfaz extends JFrame {
       while((i < getNumeroVentanas()) && (!auxImagen.isSelected()))
         auxImagen = getVentanaImagen(i);
       return auxImagen.getImagen();
+    }
+    else
+      return null;
+  }
+  
+  /**
+   * Devuelve la VentanaImagen en primer plano
+   * @return
+   */
+  public VentanaImagen getVentanaImagenActiva() {
+    if(getNumeroVentanas() > 0) {
+      VentanaImagen auxImagen = getVentanaImagen(0);
+      int i = 1;
+      while((i < getNumeroVentanas()) && (!auxImagen.isSelected()))
+        auxImagen = getVentanaImagen(i);
+      return auxImagen;
     }
     else
       return null;

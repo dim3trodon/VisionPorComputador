@@ -28,13 +28,29 @@ public class AccionesMenu {
    * @param linkImagen
    */
   public void ArchivoAbrir(String linkImagen) {
+    // TODO
     String[] partesRutaImagen = linkImagen.split("/");
     String titulo = partesRutaImagen[partesRutaImagen.length - 1];
     getInterfazRef().crearNuevaVentana(linkImagen, titulo);
   }
-  
+
   /**
-   * Acción de Ver/Histograma 
+   * Acción del menú Edición/Recortar selección
+   */
+  public void EdicionRecortarSeleccion() {
+    try {
+      Imagen imagenRecortada = getInterfazRef().getVentanaImagenActiva()
+          .getRegionOfInterest().getRecorte();
+      getInterfazRef().crearNuevaVentana(imagenRecortada,
+          imagenRecortada.getNombre());
+    } catch (NullPointerException noHayImagen) {
+      System.err.println("No hay imágenes");
+    }
+  }
+
+  /**
+   * Acción de Ver/Histograma
+   * 
    * @param histograma
    * @param nombreImagen
    */
@@ -60,9 +76,7 @@ public class AccionesMenu {
   }
   
   public void ImagenCorrecionGamma(Imagen imagen) {
-    // TODO
     getInterfazRef().crearVentanaCorreccionGAmma(imagen);
-    //getInterfazRef().crearNuevaVentana(new Imagen(imagen.Gammacorrection(gamma)), titulo)
   }
 
   private Interfaz getInterfazRef() {

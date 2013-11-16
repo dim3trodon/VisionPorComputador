@@ -22,6 +22,7 @@ package es.ull.etsii.visionPorComputador;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JInternalFrame;
@@ -45,6 +46,7 @@ public class VentanaImagen extends JInternalFrame {
   private PanelImagen panelImagen;
   private Interfaz interfazRef;
   private int numVentana;
+  private RegionOfInterest regionOfInterest;
 
   /**
    * Constructor que recibe la Imagen que va a mostrar y el titulo de la ventana
@@ -54,8 +56,6 @@ public class VentanaImagen extends JInternalFrame {
   public  VentanaImagen(Imagen imagen, String titulo, Interfaz interfazRef,
       int numVentana) {
     // TODO cambiar la interfaz del frame interno para que esté acorde al resto
-    // TODO hacer que cuando se cierre una ventana se elimine de ListaVentana
-    // de Interfaz
     super(titulo, RESIZABLE, CLOSABLE, MAXIMIZABLE, ICONIFIABLE);
     setImagen(imagen);
     setPanelImagen(new PanelImagen());
@@ -64,8 +64,8 @@ public class VentanaImagen extends JInternalFrame {
     setVisible(true);
     setInterfazRef(interfazRef);
     setNumVentana(numVentana);
+    setRegionOfInterest(new RegionOfInterest(getImagen()));
     // Evento al cerrar ventana
-    //setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     addInternalFrameListener(new InternalFrameAdapter() {
       @Override
       public void internalFrameClosing(InternalFrameEvent arg0) {
@@ -80,7 +80,13 @@ public class VentanaImagen extends JInternalFrame {
     private static final long serialVersionUID = 8039435365744075304L;
 
     public PanelImagen() {
-      addMouseMotionListener(new OyenteRaton());
+      addMouseMotionListener(new OyenteMovimientoRaton());
+      addMouseListener(new OyenteBotonesRaton());
+    }
+    
+    public void rePintar() {
+      repaint();
+      getRegionOfInterest().repaint();
     }
     
     // TODO hacer scroll de la imagen
@@ -92,18 +98,60 @@ public class VentanaImagen extends JInternalFrame {
     public void paintComponent(Graphics g) {
       super.paintComponent(g);
       g.drawImage(getImagen().getImagen(), 0, 0, this);
+      getRegionOfInterest().paintComponent(g);
+      System.out.println("repintar imagen");
     }
     
-    private class OyenteRaton implements MouseMotionListener {
+    private class OyenteBotonesRaton implements MouseListener {
+
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        getRegionOfInterest().reiniciar();
+        rePintar();
+      }
+
+      @Override
+      public void mouseEntered(MouseEvent e) {
+        // No se usa
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e) {
+        // No se usa
+      }
+
+      @Override
+      public void mousePressed(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+        Coordenadas puntoInicio = new Coordenadas(x, y);
+        Coordenadas puntoFinal = new Coordenadas(x, y);
+        getRegionOfInterest().setPuntos(puntoInicio, puntoFinal);
+        rePintar();
+      }
+
+      @Override
+      public void mouseReleased(MouseEvent e) {
+        // No se usa
+      }
       
-      public OyenteRaton() {}
+    }
+    
+    private class OyenteMovimientoRaton implements MouseMotionListener {
+      
+      public OyenteMovimientoRaton() {}
       
       private int posXRaton;
       private int posYRaton;
       
       @Override
-      public void mouseDragged(MouseEvent arg0) {
-        // TODO Hacer selección de la imagen
+      public void mouseDragged(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+        Coordenadas puntoFinal = new Coordenadas(x, y);
+        getRegionOfInterest().setPuntos(getRegionOfInterest().getPuntoInicio(), 
+            puntoFinal);
+        rePintar();
       }
 
       @Override
@@ -195,6 +243,14 @@ public class VentanaImagen extends JInternalFrame {
 
   private void setNumVentana(int numVentana) {
     this.numVentana = numVentana;
+  }
+
+  public RegionOfInterest getRegionOfInterest() {
+    return regionOfInterest;
+  }
+
+  private void setRegionOfInterest(RegionOfInterest regionOfInterest) {
+    this.regionOfInterest = regionOfInterest;
   }
 
 }
