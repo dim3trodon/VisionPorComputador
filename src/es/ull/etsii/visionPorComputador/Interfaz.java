@@ -95,6 +95,12 @@ public class Interfaz extends JFrame {
     setValorDatosPixelActivo(x, y, valorPixel);
   }
 
+  public void crearVentanaEspecificarHistograma(Imagen imagen) {
+    @SuppressWarnings("unused")
+    VentanaEspecificarHistograma ventanaHistoEspec = new VentanaEspecificarHistograma(
+        imagen, this);
+  }
+
   public void crearVentanaBrilloContraste(Imagen imagen) {
     @SuppressWarnings("unused")
     VentanaBrilloContraste ventanabrillCont = new VentanaBrilloContraste(

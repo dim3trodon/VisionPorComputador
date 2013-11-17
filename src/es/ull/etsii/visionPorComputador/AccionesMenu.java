@@ -113,6 +113,10 @@ public class AccionesMenu {
     getInterfazRef().crearVentanaCorreccionGAmma(imagen);
   }
 
+  public void ImagenEspecificarHistograma(Imagen imagen) {
+    getInterfazRef().crearVentanaEspecificarHistograma(imagen);
+  }
+  
   private Interfaz getInterfazRef() {
     return interfazRef;
   }

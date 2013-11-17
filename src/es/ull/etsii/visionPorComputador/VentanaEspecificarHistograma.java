@@ -10,9 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 
-public class VentanaDiferencia extends JFrame {
-
-  private static final long serialVersionUID = 1610031678950862902L;
+public class VentanaEspecificarHistograma extends JFrame {
+  
+  private static final long serialVersionUID = 3230149476478511401L;
 
   public static final int ANCHO = 200;
   public static final int ALTO = 120;
@@ -24,8 +24,8 @@ public class VentanaDiferencia extends JFrame {
   ButtonGroup selectorImagenes;
   Imagen imagenSeleccionada;
   JButton botonOk;
-
-  public VentanaDiferencia(Imagen imagen, Interfaz interfazRef) {
+  
+  public VentanaEspecificarHistograma(Imagen imagen, Interfaz interfazRef) {
     setInterfazRef(interfazRef);
     setImagen(imagen);
     int numImagenes = getInterfazRef().getNumeroVentanas();
@@ -56,18 +56,16 @@ public class VentanaDiferencia extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        String nombre = getImagen().getNombre() + "_dif_"
+        String nombre = getImagen().getNombre() + "_histo_de_"
             + getImagenSeleccionada().getNombre();
-        Imagen imagenDif = new Imagen(getImagen().Diferencia(
+        Imagen imagenHisto = new Imagen(getImagen().Histo_especify(
             getImagenSeleccionada()), nombre);
-        getInterfazRef().crearNuevaVentana(imagenDif, nombre);
+        getInterfazRef().crearNuevaVentana(imagenHisto, nombre);
         dispose();
       }
     });
   }
-
-  // Se le pasa una imagen a la clase, que es la imagen que representa
-  // seleccionar un RadioButton en la interfaz
+  
   private class OyenteRadioBotones implements ActionListener {
 
     Imagen imagenSelec;
@@ -138,5 +136,4 @@ public class VentanaDiferencia extends JFrame {
   private void setBotonOk(JButton botonOk) {
     this.botonOk = botonOk;
   }
-
 }

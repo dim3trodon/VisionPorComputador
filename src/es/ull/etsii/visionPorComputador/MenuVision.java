@@ -190,6 +190,18 @@ public class MenuVision extends JMenuBar {
       }
     });
     getMenuImagen().add(itemBrilloContraste);
+
+    JMenuItem itemEspecificarHistograma = new JMenuItem(
+        "Especificar histograma");
+    itemEspecificarHistograma.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        getAccionesMenu().ImagenEspecificarHistograma(
+            getInterfazRef().getImagenActiva());
+      }
+    });
+    getMenuImagen().add(itemEspecificarHistograma);
   }
 
   private Interfaz getInterfazRef() {

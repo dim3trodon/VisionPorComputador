@@ -44,7 +44,7 @@ public class Imagen {
   ArrayList<Integer> Histograma_acu;
   private String ruta;
   private String nombre;
-  
+
   public Imagen(BufferedImage bufferedImagen, String nombre) {
     // Nombre de la imagen
     String titulo = nombre;
@@ -90,7 +90,7 @@ public class Imagen {
       // this.imagen= this.BrilloYContraste(82, 10);
       // this.imagen = this.Equalize();
       // this.imagen=this.Gammacorrection(12);
-      //this.imagen = this.Diferencia(this);
+      // this.imagen = this.Diferencia(this);
     } catch (IOException e) {
       System.err.println("Error al abrir " + linkImagen);
       e.printStackTrace();
@@ -120,11 +120,11 @@ public class Imagen {
     ArrayList<Long> accHistogramRef = this.histograma_acu_norm();
     ArrayList<Long> accHistogramImg = imag.histograma_acu_norm();
     ArrayList<Integer> lut = new ArrayList<Integer>();
-    
-    for(int i = 0; i < 256; i++) {
+
+    for (int i = 0; i < 256; i++) {
       lut.add(0);
     }
-    
+
     for (int i = 0; i < accHistogramImg.size(); i++) {
       vout = BuscaValornormalizado(accHistogramImg.get(i), accHistogramRef);
       lut.set(i, vout);
