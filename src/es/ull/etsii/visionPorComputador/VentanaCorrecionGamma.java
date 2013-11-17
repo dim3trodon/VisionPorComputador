@@ -25,8 +25,7 @@ public class VentanaCorrecionGamma extends JFrame {
 
   public static final int ANCHO = 200;
   public static final int ALTO = 120;
-  public static final int FILAS = 1;
-  public static final int COLUMNAS = 1;
+
   public static final int NUM_COLS_FIELD = 3;
   public static final boolean RESIZABLE = false;
 

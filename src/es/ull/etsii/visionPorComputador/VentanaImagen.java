@@ -99,7 +99,6 @@ public class VentanaImagen extends JInternalFrame {
       super.paintComponent(g);
       g.drawImage(getImagen().getImagen(), 0, 0, this);
       getRegionOfInterest().paintComponent(g);
-      System.out.println("repintar imagen");
     }
     
     private class OyenteBotonesRaton implements MouseListener {

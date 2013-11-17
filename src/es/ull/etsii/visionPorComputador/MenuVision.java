@@ -24,7 +24,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class MenuVision extends JMenuBar {
-  
+
   // TODO Desactivar submenús hasta que no haya ninguna imagen cargada
 
   private static final long serialVersionUID = 6669480296209581882L;
@@ -34,10 +34,10 @@ public class MenuVision extends JMenuBar {
   public static final String ST_VER = "Ver";
   public static final String ST_HERRAMIENTAS = "Herramientas";
   public static final String ST_IMAGEN = "Imagen";
-  
+
   private Interfaz interfazRef;
   private AccionesMenu accionesMenu;
-  
+
   private JMenu menuArchivo;
   private JMenu menuEdicion;
   private JMenu menuVer;
@@ -65,16 +65,16 @@ public class MenuVision extends JMenuBar {
     construirMenuVer();
     construirMenuImagen();
   }
-  
+
   /*
-   * En cada método de construir, se crean los items de cada menú. A cada uno
-   * se le añade un ActionListener que llama a la clase AccionesMenu, donde 
-   * se encuentran las posibles acciones a realizar (para mayor comodidad).
+   * En cada método de construir, se crean los items de cada menú. A cada uno se
+   * le añade un ActionListener que llama a la clase AccionesMenu, donde se
+   * encuentran las posibles acciones a realizar (para mayor comodidad).
    */
   private void construirMenuArchivo() {
     JMenuItem itemAbrir = new JMenuItem("Abrir");
     itemAbrir.addActionListener(new ActionListener() {
-      
+
       @Override
       public void actionPerformed(ActionEvent arg0) {
         // TODO Abre la imagen de muestra, hacer un cuadro de diálogo que
@@ -85,11 +85,11 @@ public class MenuVision extends JMenuBar {
     // Añadir ítems al menú
     getMenuArchivo().add(itemAbrir);
   }
-  
+
   private void construirMenuEdicion() {
     JMenuItem itemRecortarSeleccion = new JMenuItem("Recortar selección");
     itemRecortarSeleccion.addActionListener(new ActionListener() {
-      
+
       @Override
       public void actionPerformed(ActionEvent arg0) {
         getAccionesMenu().EdicionRecortarSeleccion();
@@ -97,11 +97,11 @@ public class MenuVision extends JMenuBar {
     });
     getMenuEdicion().add(itemRecortarSeleccion);
   }
-  
+
   private void construirMenuVer() {
     JMenuItem itemHistograma = new JMenuItem("Histograma");
     itemHistograma.addActionListener(new ActionListener() {
-      
+
       @Override
       public void actionPerformed(ActionEvent arg0) {
         getAccionesMenu().VerHistograma(
@@ -110,35 +110,37 @@ public class MenuVision extends JMenuBar {
       }
     });
     getMenuVer().add(itemHistograma);
-    
+
     JMenuItem itemHistogramaAcc = new JMenuItem("Histograma acumulativo");
     itemHistogramaAcc.addActionListener(new ActionListener() {
-      
+
       @Override
       public void actionPerformed(ActionEvent arg0) {
         // TODO Auto-generated method stub
-        getAccionesMenu().VerHistogramaAcc(
-            new Histograma(getInterfazRef().getImagenActiva().histograma_acu()),
-            getInterfazRef().getImagenActiva().getNombre());
+        getAccionesMenu()
+            .VerHistogramaAcc(
+                new Histograma(getInterfazRef().getImagenActiva()
+                    .histograma_acu()),
+                getInterfazRef().getImagenActiva().getNombre());
       }
     });
     getMenuVer().add(itemHistogramaAcc);
   }
-  
+
   private void construirMenuImagen() {
     JMenuItem itemPropiedades = new JMenuItem("Propiedades");
     itemPropiedades.addActionListener(new ActionListener() {
-      
+
       @Override
       public void actionPerformed(ActionEvent arg0) {
         getAccionesMenu().ImagenPropiedades(getInterfazRef().getImagenActiva());
       }
     });
     getMenuImagen().add(itemPropiedades);
-    
+
     JMenuItem itemCorreccionGamma = new JMenuItem("Corrección gamma");
     itemCorreccionGamma.addActionListener(new ActionListener() {
-      
+
       @Override
       public void actionPerformed(ActionEvent arg0) {
         getAccionesMenu().ImagenCorrecionGamma(
@@ -146,8 +148,20 @@ public class MenuVision extends JMenuBar {
       }
     });
     getMenuImagen().add(itemCorreccionGamma);
+
+    JMenuItem itemTransLinealPorTramos = new JMenuItem("Transformación lineal"
+        + " por tramos");
+    itemTransLinealPorTramos.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        getAccionesMenu().ImagenTransLinealPorTramos(
+            getInterfazRef().getImagenActiva());
+      }
+    });
+    getMenuImagen().add(itemTransLinealPorTramos);
   }
-  
+
   private Interfaz getInterfazRef() {
     return interfazRef;
   }

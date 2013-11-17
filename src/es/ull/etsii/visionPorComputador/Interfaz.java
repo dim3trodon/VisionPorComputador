@@ -72,16 +72,18 @@ public class Interfaz extends JFrame {
     setDatosPixelActivo(new JLabel("(,) "));
     add(getDatosPixelActivo(), BorderLayout.SOUTH);
     setVisible(true);
+    
+    //crearVentanaTransLinealTramos(null);
 
-    //crearNuevaVentana(imagenMuestra3, "asd"); // Ejemplo
-    //crearNuevaVentana(imagenMuestra2, "aa");
+    // crearNuevaVentana(imagenMuestra3, "asd"); // Ejemplo
+    // crearNuevaVentana(imagenMuestra2, "aa");
 
-    //crearVentanaHistograma(getImagenActiva().getHistograma(), "pirirpio");
+    // crearVentanaHistograma(getImagenActiva().getHistograma(), "pirirpio");
     // crearNuevaVentana(new Imagen(getImagenActiva().Diferencia(getImagen(0)),
     // "aaaaa"), "afasf");
 
-    //crearNuevaVentana(new Imagen(
-       // getImagenActiva().Histo_especify(getImagen(0)), "afasdf"), "aasfs");
+    // crearNuevaVentana(new Imagen(
+    // getImagenActiva().Histo_especify(getImagen(0)), "afasdf"), "aasfs");
 
   }
 
@@ -92,16 +94,21 @@ public class Interfaz extends JFrame {
   public void actualizarDatosPixelActivo(int x, int y, int valorPixel) {
     setValorDatosPixelActivo(x, y, valorPixel);
   }
-  
-  public void crearVentanaCorreccionGAmma(Imagen imagen) {
+
+  public void crearVentanaTransLinealTramos(Imagen imagen) {
     @SuppressWarnings("unused")
-    VentanaCorrecionGamma ventanaGamma = new VentanaCorrecionGamma(
+    VentanaTransLinealTramos ventanaTrans = new VentanaTransLinealTramos(
         imagen, this);
   }
-  
-  public void crearVentanaHistogramaAcc(Histograma histograma, 
+
+  public void crearVentanaCorreccionGAmma(Imagen imagen) {
+    @SuppressWarnings("unused")
+    VentanaCorrecionGamma ventanaGamma = new VentanaCorrecionGamma(imagen, this);
+  }
+
+  public void crearVentanaHistogramaAcc(Histograma histograma,
       String nombreImagen) {
-    
+
   }
 
   public void crearVentanaHistograma(Histograma histograma, String nombreImagen) {
@@ -118,12 +125,12 @@ public class Interfaz extends JFrame {
    * @param imagen
    */
   public void crearNuevaVentana(String linkImagen, String titulo) {
-    addVentanaImagen(new VentanaImagen(new Imagen(linkImagen), titulo, this, 
+    addVentanaImagen(new VentanaImagen(new Imagen(linkImagen), titulo, this,
         getNumeroVentanas()));
   }
 
   public void crearNuevaVentana(Imagen imagen, String titulo) {
-    addVentanaImagen(new VentanaImagen(imagen, titulo, this, 
+    addVentanaImagen(new VentanaImagen(imagen, titulo, this,
         getNumeroVentanas()));
   }
 
@@ -189,33 +196,33 @@ public class Interfaz extends JFrame {
 
   /**
    * Devuelve la imagen de la VentanaImagen en primer plano
+   * 
    * @return
    */
   public Imagen getImagenActiva() {
-    if(getNumeroVentanas() > 0) {
+    if (getNumeroVentanas() > 0) {
       VentanaImagen auxImagen = getVentanaImagen(0);
       int i = 1;
-      while((i < getNumeroVentanas()) && (!auxImagen.isSelected()))
+      while ((i < getNumeroVentanas()) && (!auxImagen.isSelected()))
         auxImagen = getVentanaImagen(i);
       return auxImagen.getImagen();
-    }
-    else
+    } else
       return null;
   }
-  
+
   /**
    * Devuelve la VentanaImagen en primer plano
+   * 
    * @return
    */
   public VentanaImagen getVentanaImagenActiva() {
-    if(getNumeroVentanas() > 0) {
+    if (getNumeroVentanas() > 0) {
       VentanaImagen auxImagen = getVentanaImagen(0);
       int i = 1;
-      while((i < getNumeroVentanas()) && (!auxImagen.isSelected()))
+      while ((i < getNumeroVentanas()) && (!auxImagen.isSelected()))
         auxImagen = getVentanaImagen(i);
       return auxImagen;
-    }
-    else
+    } else
       return null;
   }
 
@@ -261,8 +268,9 @@ public class Interfaz extends JFrame {
   }
 
   private void setValorDatosPixelActivo(int x, int y, int valorPixel) {
-    getDatosPixelActivo().setText("(" + x + ", " + y + ") " + valorPixel +
-        "   Nº ventanas: " + getNumeroVentanas());
+    getDatosPixelActivo().setText(
+        "(" + x + ", " + y + ") " + valorPixel + "   Nº ventanas: "
+            + getNumeroVentanas());
   }
 
   private JLabel getDatosPixelActivo() {

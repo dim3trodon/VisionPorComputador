@@ -75,6 +75,14 @@ public class AccionesMenu {
     getInterfazRef().crearVentanaDatosImagen(imagen);
   }
   
+  /**
+   * Acción del menú Imagen/Transformación lineal por tramos
+   * @param imagen
+   */
+  public void ImagenTransLinealPorTramos(Imagen imagen) {
+    getInterfazRef().crearVentanaTransLinealTramos(imagen);
+  }
+  
   public void ImagenCorrecionGamma(Imagen imagen) {
     getInterfazRef().crearVentanaCorreccionGAmma(imagen);
   }
