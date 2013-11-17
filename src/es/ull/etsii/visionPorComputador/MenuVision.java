@@ -116,7 +116,6 @@ public class MenuVision extends JMenuBar {
 
       @Override
       public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
         getAccionesMenu()
             .VerHistogramaAcc(
                 new Histograma(getInterfazRef().getImagenActiva()
@@ -160,6 +159,16 @@ public class MenuVision extends JMenuBar {
       }
     });
     getMenuImagen().add(itemTransLinealPorTramos);
+    
+    JMenuItem itemEcualizar = new JMenuItem("Ecualizar");
+    itemEcualizar.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        getAccionesMenu().ImagenEcualizar(getInterfazRef().getImagenActiva());
+      }
+    });
+    getMenuImagen().add(itemEcualizar);
   }
 
   private Interfaz getInterfazRef() {

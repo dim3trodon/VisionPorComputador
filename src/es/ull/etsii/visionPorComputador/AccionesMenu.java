@@ -16,15 +16,16 @@
 package es.ull.etsii.visionPorComputador;
 
 public class AccionesMenu {
-  
+
   private Interfaz interfazRef;
 
   public AccionesMenu(Interfaz interfazRef) {
     setInterfazRef(interfazRef);
   }
-  
+
   /**
    * Acción del menú Archivo/Abrir
+   * 
    * @param linkImagen
    */
   public void ArchivoAbrir(String linkImagen) {
@@ -57,32 +58,45 @@ public class AccionesMenu {
   public void VerHistograma(Histograma histograma, String nombreImagen) {
     getInterfazRef().crearVentanaHistograma(histograma, nombreImagen);
   }
-  
+
   /**
    * Acción de Ver/Histograma acumulativo
+   * 
    * @param histograma
    * @param nombreImagen
    */
   public void VerHistogramaAcc(Histograma histograma, String nombreImagen) {
     getInterfazRef().crearVentanaHistograma(histograma, nombreImagen);
   }
-  
+
   /**
    * Acción del menú Imagen/Propiedades
+   * 
    * @param imagen
    */
   public void ImagenPropiedades(Imagen imagen) {
     getInterfazRef().crearVentanaDatosImagen(imagen);
   }
-  
+
   /**
    * Acción del menú Imagen/Transformación lineal por tramos
+   * 
    * @param imagen
    */
   public void ImagenTransLinealPorTramos(Imagen imagen) {
     getInterfazRef().crearVentanaTransLinealTramos(imagen);
   }
-  
+
+  /**
+   * Acción del menú Imagen/Ecualizar
+   * @param imagen
+   */
+  public void ImagenEcualizar(Imagen imagen) {
+    Imagen imagenEq = new Imagen(imagen.Equalize(), imagen.getNombre()
+        + "equalized");
+    getInterfazRef().crearNuevaVentana(imagenEq, imagenEq.getNombre());
+  }
+
   public void ImagenCorrecionGamma(Imagen imagen) {
     getInterfazRef().crearVentanaCorreccionGAmma(imagen);
   }
@@ -94,5 +108,5 @@ public class AccionesMenu {
   private void setInterfazRef(Interfaz interfazRef) {
     this.interfazRef = interfazRef;
   }
-  
+
 }
