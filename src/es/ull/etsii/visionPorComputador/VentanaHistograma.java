@@ -71,7 +71,6 @@ public class VentanaHistograma extends JFrame {
     for(int i = 0; i < Histograma.NUMERO_PIXELES; i++) {
         categoria = String.valueOf(i);
       dataset.addValue(getHistograma().getValor(i), "Valor", categoria);
-      System.out.print(getHistograma().getValor(i) + " \t");
     }
     return dataset;
   }
