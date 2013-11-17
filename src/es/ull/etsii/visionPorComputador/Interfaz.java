@@ -72,8 +72,8 @@ public class Interfaz extends JFrame {
     setDatosPixelActivo(new JLabel("(,) "));
     add(getDatosPixelActivo(), BorderLayout.SOUTH);
     setVisible(true);
-    
-    //crearVentanaTransLinealTramos(null);
+
+    // crearVentanaTransLinealTramos(null);
 
     // crearNuevaVentana(imagenMuestra3, "asd"); // Ejemplo
     // crearNuevaVentana(imagenMuestra2, "aa");
@@ -93,6 +93,17 @@ public class Interfaz extends JFrame {
    */
   public void actualizarDatosPixelActivo(int x, int y, int valorPixel) {
     setValorDatosPixelActivo(x, y, valorPixel);
+  }
+
+  public void crearVentanaBrilloContraste(Imagen imagen) {
+    @SuppressWarnings("unused")
+    VentanaBrilloContraste ventanabrillCont = new VentanaBrilloContraste(
+        imagen, this);
+  }
+
+  public void crearVentanaDiferencia(Imagen imagen) {
+    @SuppressWarnings("unused")
+    VentanaDiferencia ventanaDif = new VentanaDiferencia(imagen, this);
   }
 
   public void crearVentanaTransLinealTramos(Imagen imagen) {

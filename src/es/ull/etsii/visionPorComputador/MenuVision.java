@@ -159,16 +159,37 @@ public class MenuVision extends JMenuBar {
       }
     });
     getMenuImagen().add(itemTransLinealPorTramos);
-    
+
     JMenuItem itemEcualizar = new JMenuItem("Ecualizar");
     itemEcualizar.addActionListener(new ActionListener() {
-      
+
       @Override
       public void actionPerformed(ActionEvent arg0) {
         getAccionesMenu().ImagenEcualizar(getInterfazRef().getImagenActiva());
       }
     });
     getMenuImagen().add(itemEcualizar);
+
+    JMenuItem itemDiferencia = new JMenuItem("Diferencia");
+    itemDiferencia.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        getAccionesMenu().ImagenDiferencia(getInterfazRef().getImagenActiva());
+      }
+    });
+    getMenuImagen().add(itemDiferencia);
+
+    JMenuItem itemBrilloContraste = new JMenuItem("Brillo y contraste");
+    itemBrilloContraste.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        getAccionesMenu().ImagenBrilloContraste(
+            getInterfazRef().getImagenActiva());
+      }
+    });
+    getMenuImagen().add(itemBrilloContraste);
   }
 
   private Interfaz getInterfazRef() {

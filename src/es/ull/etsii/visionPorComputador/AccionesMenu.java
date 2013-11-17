@@ -96,6 +96,18 @@ public class AccionesMenu {
         + "equalized");
     getInterfazRef().crearNuevaVentana(imagenEq, imagenEq.getNombre());
   }
+  
+  /**
+   * Acción del menú Imagen/Diferencia
+   * @param imagen
+   */
+  public void ImagenDiferencia(Imagen imagen) {
+    getInterfazRef().crearVentanaDiferencia(imagen);
+  }
+  
+  public void ImagenBrilloContraste(Imagen imagen) {
+    getInterfazRef().crearVentanaBrilloContraste(imagen);
+  }
 
   public void ImagenCorrecionGamma(Imagen imagen) {
     getInterfazRef().crearVentanaCorreccionGAmma(imagen);
