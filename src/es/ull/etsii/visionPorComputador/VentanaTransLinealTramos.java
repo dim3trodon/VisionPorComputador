@@ -27,7 +27,7 @@ public class VentanaTransLinealTramos extends JFrame {
 
   public static final String REGEXP_SEPARAR_PUNTOS = "\\s*,?\\s+";
 
-  public static final int PUNTOS_DEFECTO = 1;
+  public static final int PUNTOS_DEFECTO = 2;
   public static final int NUM_COLS_FIELD_ELEGIR_NUM_PUNTOS = 4;
   public static final int NUM_COLS_FIELD_PUNTOS = 5;
   public static final int NUM_COLS_PANEL_ESCRIBIR_PUNTOS = 1;

@@ -19,9 +19,11 @@ package es.ull.etsii.visionPorComputador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class MenuVision extends JMenuBar {
 
@@ -79,7 +81,14 @@ public class MenuVision extends JMenuBar {
       public void actionPerformed(ActionEvent arg0) {
         // TODO Abre la imagen de muestra, hacer un cuadro de diálogo que
         // TODO permita elegir la nueva imagen a abrir
-        getAccionesMenu().ArchivoAbrir(Interfaz.imagenMuestra3);
+    	  JFileChooser chooser = new JFileChooser();
+    	    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+    	        "PNG", "png");
+    	    chooser.setFileFilter(filter);  
+    	  int returnVal = chooser.showOpenDialog(null);
+    	  if(returnVal == JFileChooser.APPROVE_OPTION) {
+    		  getAccionesMenu().ArchivoAbrir( chooser.getSelectedFile().getPath());
+    	  }
       }
     });
     // Añadir ítems al menú

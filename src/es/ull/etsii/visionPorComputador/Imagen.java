@@ -234,11 +234,11 @@ public class Imagen {
   /* Devuelve el brillo de la imagen */
   public void setBrillo() {
     float temp = 0;
-    int size = imagen.getHeight() * imagen.getWidth();
+    float size = imagen.getHeight() * imagen.getWidth();
 
     int[] histo = this.histograma.getHistograma();
-    for (int i = 0; i < 255; i++) {
-      temp += histo[i] * i;
+    for (int i = 0; i < 256; i++) {
+      temp += (float)(histo[i] * i);
     }
     this.brillo = (float) (temp / size);
 
@@ -249,11 +249,12 @@ public class Imagen {
   }
 
   public void setContraste() {
+	 
     float temp = 0;
-    int size = imagen.getHeight() * imagen.getWidth();
+    float size = imagen.getHeight() * imagen.getWidth();
     float u = getBrillo();
     int[] histo = this.histograma.getHistograma();
-    for (int i = 0; i < 255; i++) {
+    for (int i = 0; i < 256; i++) {
       temp += Math.pow((i - u), 2) * histo[i];
     }
     this.contraste = (float) Math.sqrt(temp / size);
@@ -266,11 +267,14 @@ public class Imagen {
 
   public void setEntropia() {
     float temp = 0;
+    float size = this.imagen.getHeight()*this.imagen.getWidth();
     int[] histo = this.histograma.getHistograma();
-    for (int i = 0; i < 255; i++) {
-      float p = (float) (histo[i]) / (float) (255);
-      temp += p * Math.log(p);
-    }
+    for (int i = 0; i < 256; i++) {
+      float p = (float) (histo[i]) / (size);
+      if (p != 0) {
+      temp += p * (Math.log(p)/Math.log(2));
+      }
+      }
     this.entropia = -temp;
 
   }
@@ -474,9 +478,9 @@ public class Imagen {
         // Obtiene el color
 
         Color c1 = new Color(imagen.getRGB(i, j));
-        newR = 0.222 * (float) (c1.getRed());
-        newG = 0.707 * (float) (c1.getGreen());
-        newB = 0.071 * (float) (c1.getBlue());
+        newR = 0.299 * (float) (c1.getRed());
+        newG = 0.587 * (float) (c1.getGreen());
+        newB = 0.114 * (float) (c1.getBlue());
         // Calcula la media de tonalidades
         int med = (int) Math.round(newR + newG + newB);
         // int med = (c1.getRed() + c1.getGreen() + c1.getBlue()) / 3;
