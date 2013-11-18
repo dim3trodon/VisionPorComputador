@@ -15,6 +15,14 @@
  */
 package es.ull.etsii.visionPorComputador;
 
+import java.awt.image.ImagingOpException;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 public class AccionesMenu {
 
   private Interfaz interfazRef;
@@ -29,10 +37,25 @@ public class AccionesMenu {
    * @param linkImagen
    */
   public void ArchivoAbrir(String linkImagen) {
-    // TODO
     String[] partesRutaImagen = linkImagen.split("/");
     String titulo = partesRutaImagen[partesRutaImagen.length - 1];
     getInterfazRef().crearNuevaVentana(linkImagen, titulo);
+  }
+  
+  public void ArchivoGuardar(Imagen imagen) {
+    // new File(arg0)
+    // ;
+    JFileChooser chooser = new JFileChooser();
+    chooser.setCurrentDirectory(new File("C:/Users/Rodrigo/Pictures/"));
+    int returnVal = chooser.showSaveDialog(null);
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+      File file = new File(chooser.getSelectedFile().getPath() + ".png");
+      try {
+        ImageIO.write(imagen.getImagen(), "png", file);
+      } catch (IOException e) {
+        System.err.println("Error al guardar " + file.getPath());
+      }
+    }
   }
 
   /**

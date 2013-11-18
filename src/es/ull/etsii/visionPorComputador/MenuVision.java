@@ -81,6 +81,7 @@ public class MenuVision extends JMenuBar {
       public void actionPerformed(ActionEvent arg0) {
         // TODO Abre la imagen de muestra, hacer un cuadro de diálogo que
         // TODO permita elegir la nueva imagen a abrir
+        //getAccionesMenu().ArchivoAbrir(linkImagen);
     	  JFileChooser chooser = new JFileChooser();
     	    FileNameExtensionFilter filter = new FileNameExtensionFilter(
     	        "PNG", "png");
@@ -93,6 +94,16 @@ public class MenuVision extends JMenuBar {
     });
     // Añadir ítems al menú
     getMenuArchivo().add(itemAbrir);
+    
+    JMenuItem itemGuardar = new JMenuItem("Guardar");
+    itemGuardar.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        getAccionesMenu().ArchivoGuardar(getInterfazRef().getImagenActiva());
+      }
+    });
+    getMenuArchivo().add(itemGuardar);
   }
 
   private void construirMenuEdicion() {
