@@ -67,13 +67,10 @@ public class Imagen {
    */
   public Imagen(String linkImagen) {
     try {
-      // TODO Falta pasar Especifiacion de histograma y correccion Gamma
-      String[] partesRutaImagen = linkImagen.split("/");
       // Nombre de la imagen
-      String titulo = partesRutaImagen[partesRutaImagen.length - 1];
       setImagen(ImageIO.read(new File(linkImagen)));
       setRuta(linkImagen);
-      setNombre(titulo);
+      setNombre(TratamientoCadenas.getNombreImagen(linkImagen));
       // Se crea el histograma pasando como parámetro la imagen actual
       this.imagen = this.set_gris(this.getImagen());
       setHistograma(new Histograma(this.getImagen()));

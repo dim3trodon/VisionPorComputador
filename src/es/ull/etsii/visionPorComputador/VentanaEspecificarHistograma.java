@@ -15,7 +15,7 @@ public class VentanaEspecificarHistograma extends JFrame {
   private static final long serialVersionUID = 3230149476478511401L;
 
   public static final int ANCHO = 200;
-  public static final int ALTO = 120;
+  public static final int ALTO = 60;
   public static final boolean RESIZABLE = true;
 
   Interfaz interfazRef;
@@ -35,8 +35,9 @@ public class VentanaEspecificarHistograma extends JFrame {
     setSelectorImagenes(new ButtonGroup());
     setImagenSeleccionada(imagen); // Se pone como seleccionada la misma imagen
     for (int i = 0; i < numImagenes; i++) {
-      JRadioButton radioBoton = new JRadioButton(getInterfazRef().getImagen(i)
-          .getNombre());
+      JRadioButton radioBoton = new JRadioButton(
+          TratamientoCadenas.abreviarNombre(getInterfazRef().getImagen(i)
+              .getNombre()));
       radioBoton.addActionListener(new OyenteRadioBotones(getInterfazRef()
           .getImagen(i)));
       getVectorBotones().add(radioBoton);
@@ -46,7 +47,7 @@ public class VentanaEspecificarHistograma extends JFrame {
     for(int i = 0; i < getVectorBotones().size(); i++)
       add(getVectorBotones().get(i));
     add(botonOk);
-    setSize(ANCHO, ALTO);
+    setSize(ANCHO, ALTO * numImagenes);
     setResizable(RESIZABLE);
     setVisible(true);
   }

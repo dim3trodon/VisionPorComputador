@@ -187,9 +187,8 @@ public class Interfaz extends JFrame {
    * @param i
    */
   public void eliminarVentanaImagen(int i) {
-    // TODO
+    // TODO ¿Errores?
     getListaVentanas().remove(i);
-    // getListaVentanas().set(i, null);
   }
 
   /**
@@ -218,13 +217,16 @@ public class Interfaz extends JFrame {
    */
   public Imagen getImagenActiva() {
     if (getNumeroVentanas() > 0) {
-      VentanaImagen auxImagen = getVentanaImagen(0);
-      int i = 1;
-      while ((i <= getNumeroVentanas()) && (!auxImagen.isSelected())) {
-        auxImagen = getVentanaImagen(i);
+      int i = 0;
+      VentanaImagen auxImagen = null;// = getVentanaImagen(i);
+      while ((i < getNumeroVentanas())
+          && ((auxImagen = getVentanaImagen(i)).isSelected())) {
         i++;
       }
-      return auxImagen.getImagen();
+      if (auxImagen != null)
+        return auxImagen.getImagen();
+      else
+        return null;
     } else
       return null;
   }
@@ -236,13 +238,16 @@ public class Interfaz extends JFrame {
    */
   public VentanaImagen getVentanaImagenActiva() {
     if (getNumeroVentanas() > 0) {
-      VentanaImagen auxImagen = getVentanaImagen(0);
-      int i = 1;
-      while ((i <= getNumeroVentanas()) && (!auxImagen.isSelected())) {
-        auxImagen = getVentanaImagen(i);
+      int i = 0;
+      VentanaImagen auxImagen = null;// = getVentanaImagen(i);
+      while ((i < getNumeroVentanas())
+          && ((auxImagen = getVentanaImagen(i)).isSelected())) {
         i++;
       }
-      return auxImagen;
+      if (auxImagen != null)
+        return auxImagen;
+      else
+        return null;
     } else
       return null;
   }

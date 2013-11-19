@@ -35,9 +35,7 @@ public class AccionesMenu {
    * @param linkImagen
    */
   public void ArchivoAbrir(String linkImagen) {
-    String[] partesRutaImagen = linkImagen.split("/");
-    String titulo = partesRutaImagen[partesRutaImagen.length - 1];
-    getInterfazRef().crearNuevaVentana(linkImagen, titulo);
+    getInterfazRef().crearNuevaVentana(linkImagen, TratamientoCadenas.getNombreImagen(linkImagen));
   }
   
   public void ArchivoGuardar(Imagen imagen) {
