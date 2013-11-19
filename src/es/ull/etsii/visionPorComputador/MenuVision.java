@@ -18,12 +18,12 @@ package es.ull.etsii.visionPorComputador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class MenuVision extends JMenuBar {
 
@@ -47,6 +47,7 @@ public class MenuVision extends JMenuBar {
   private JMenu menuImagen;
 
   public MenuVision(Interfaz interfazRef) {
+    
     super();
     setInterfazRef(interfazRef);
     setAccionesMenu(new AccionesMenu(getInterfazRef()));
@@ -83,9 +84,10 @@ public class MenuVision extends JMenuBar {
         // TODO permita elegir la nueva imagen a abrir
         //getAccionesMenu().ArchivoAbrir(linkImagen);
     	  JFileChooser chooser = new JFileChooser();
-    	    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-    	        "PNG", "png");
-    	    chooser.setFileFilter(filter);  
+    	    //FileNameExtensionFilter filter = new FileNameExtensionFilter(
+    	        //"PNG", "png");
+    	    //chooser.setFileFilter(filter);  
+    	  chooser.setCurrentDirectory(new File("C:/Users/Rodrigo/Documents/TestVision"));
     	  int returnVal = chooser.showOpenDialog(null);
     	  if(returnVal == JFileChooser.APPROVE_OPTION) {
     		  getAccionesMenu().ArchivoAbrir( chooser.getSelectedFile().getPath());
@@ -121,6 +123,7 @@ public class MenuVision extends JMenuBar {
   private void construirMenuVer() {
     JMenuItem itemHistograma = new JMenuItem("Histograma");
     itemHistograma.addActionListener(new ActionListener() {
+
 
       @Override
       public void actionPerformed(ActionEvent arg0) {

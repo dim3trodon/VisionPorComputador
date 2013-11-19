@@ -7,6 +7,11 @@ public class Coordenadas {
 	  setX(0);
 	  setY(0);
 	}
+	
+	@Override
+	public String toString() {
+	  return getX() + ", " + getY();
+	}
 
 	public Coordenadas(int x, int y) {
 	        this.x = x;

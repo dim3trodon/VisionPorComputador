@@ -47,6 +47,9 @@ public class VentanaHistograma extends JFrame {
   private String nombreImagen;
   
   public VentanaHistograma(Histograma histograma, String nombreImagen) {
+    
+    System.out.println("histograma");
+    
     setHistograma(histograma);
     setNombreImagen(nombreImagen);
     JFreeChart chart = crearChart(crearDataset());
@@ -54,6 +57,9 @@ public class VentanaHistograma extends JFrame {
     pack();
     RefineryUtilities.centerFrameOnScreen(this);
     setVisible(true);
+    
+    System.out.println("Fin_histograma");
+    
   }
   
   private CategoryDataset crearDataset() {

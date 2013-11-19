@@ -17,38 +17,45 @@ import javax.swing.JComponent;
 public class RegionOfInterest extends JComponent {
 
   private static final long serialVersionUID = 7823139005866456422L;
-  
+
   private Coordenadas puntoInicio;
   private Coordenadas puntoFinal;
   private Imagen refImagen;
-  
+
   public RegionOfInterest(Imagen refImagen) {
     setRefImagen(refImagen);
     setPuntoInicio(new Coordenadas());
     setPuntoFinal(new Coordenadas());
   }
-  
-  public RegionOfInterest(Imagen refImagen, Coordenadas puntoInicio, 
+
+  public RegionOfInterest(Imagen refImagen, Coordenadas puntoInicio,
       Coordenadas puntoFinal) {
     setRefImagen(refImagen);
     setPuntoInicio(puntoInicio);
     setPuntoFinal(puntoFinal);
   }
-  
+
   public void setPuntos(Coordenadas puntoInicio, Coordenadas puntoFinal) {
     setPuntoInicio(puntoInicio);
     setPuntoFinal(puntoFinal);
   }
-  
+
   public Imagen getRecorte() {
-    return RecortarImagen.getRecorte(getRefImagen(), puntoInicio, puntoFinal);
+
+    System.out.println("getRecorte" + getPuntoInicio().toString() + getPuntoFinal().toString());
+
+    return RecortarImagen.getRecorte(getRefImagen(), getPuntoInicio(),
+        getPuntoFinal());
   }
-  
+
   @Override
   public void paintComponent(Graphics g) {
-    if(estaInicializado()) {
-      /* (x, y) es el punto en el que primero se hace clic con el ratón
-       * (x_, y_) es el punto por el que se arrastra el ratón
+    if (estaInicializado()) {
+      // TODO Bug, solo recorta bien cuando se hace la selección hacia la 
+      // izquierda y abajo
+      /*
+       * (x, y) es el punto en el que primero se hace clic con el ratón (x_, y_)
+       * es el punto por el que se arrastra el ratón
        */
       int x = getPuntoInicio().getX();
       int y = getPuntoInicio().getY();
@@ -66,17 +73,17 @@ public class RegionOfInterest extends JComponent {
         YIni = y;
         XFin = x_;
         YFin = y_;
-        
+
       }
       // El ratón se arrastra hacia la derecha y arriba
-      else if((x_ >= x) && (y_ < y)) {
+      else if ((x_ >= x) && (y_ < y)) {
         XIni = x;
         YIni = y_;
         XFin = x_;
         YFin = y;
       }
       // El ratón se arrastra hacia la izquierda y arriba
-      else if((x_ < x) && (y_ < y)) {
+      else if ((x_ < x) && (y_ < y)) {
         XIni = x_;
         YIni = y_;
         XFin = x;
@@ -94,7 +101,7 @@ public class RegionOfInterest extends JComponent {
       g.drawRect(XIni, YIni, alto, ancho);
     }
   }
-  
+
   /**
    * Pone los dos puntos a 0
    */
@@ -102,13 +109,13 @@ public class RegionOfInterest extends JComponent {
     setPuntoInicio(new Coordenadas());
     setPuntoFinal(new Coordenadas());
   }
-  
+
   public boolean estaInicializado() {
-    if((getPuntoInicio().getX() != 0) && (getPuntoInicio().getY() != 0 &&
-        (getPuntoFinal().getX() != 0) && (getPuntoFinal().getY() != 0))) {
+    if ((getPuntoInicio().getX() != 0)
+        && (getPuntoInicio().getY() != 0 && (getPuntoFinal().getX() != 0) && (getPuntoFinal()
+            .getY() != 0))) {
       return true;
-    }
-    else
+    } else
       return false;
   }
 
@@ -135,5 +142,5 @@ public class RegionOfInterest extends JComponent {
   private void setRefImagen(Imagen refImagen) {
     this.refImagen = refImagen;
   }
-  
+
 }

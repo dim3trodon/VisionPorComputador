@@ -15,13 +15,11 @@
  */
 package es.ull.etsii.visionPorComputador;
 
-import java.awt.image.ImagingOpException;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class AccionesMenu {
 

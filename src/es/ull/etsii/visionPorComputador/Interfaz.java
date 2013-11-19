@@ -220,8 +220,10 @@ public class Interfaz extends JFrame {
     if (getNumeroVentanas() > 0) {
       VentanaImagen auxImagen = getVentanaImagen(0);
       int i = 1;
-      while ((i < getNumeroVentanas()) && (!auxImagen.isSelected()))
+      while ((i <= getNumeroVentanas()) && (!auxImagen.isSelected())) {
         auxImagen = getVentanaImagen(i);
+        i++;
+      }
       return auxImagen.getImagen();
     } else
       return null;
@@ -236,8 +238,10 @@ public class Interfaz extends JFrame {
     if (getNumeroVentanas() > 0) {
       VentanaImagen auxImagen = getVentanaImagen(0);
       int i = 1;
-      while ((i < getNumeroVentanas()) && (!auxImagen.isSelected()))
+      while ((i <= getNumeroVentanas()) && (!auxImagen.isSelected())) {
         auxImagen = getVentanaImagen(i);
+        i++;
+      }
       return auxImagen;
     } else
       return null;

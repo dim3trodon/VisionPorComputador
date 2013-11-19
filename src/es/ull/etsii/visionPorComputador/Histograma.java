@@ -24,7 +24,6 @@ public class Histograma {
    * @param imagen
    */
   public Histograma(BufferedImage imagen) {
-
     Color color;
     int[] histogra = new int[NUMERO_PIXELES];
 
@@ -40,7 +39,6 @@ public class Histograma {
     }
 
     setHistograma(histogra);
-
   }
   
   public Histograma(ArrayList<Integer> arrayHisto) {
