@@ -28,8 +28,6 @@ public class TratamientoCadenas {
           - NUM_CARACTERES_ABREVIAR / 2)
           && (i > NUM_CARACTERES_ABREVIAR / 2); i--)
         segundaParteAbrev += nombre.charAt(i);
-      System.out.println(nombreAbreviado.length() + " == "
-          + segundaParteAbrev.length());
       StringBuilder builder = new StringBuilder(segundaParteAbrev);
       nombreAbreviado += builder.reverse().toString();
       // }

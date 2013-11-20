@@ -42,7 +42,8 @@ public class VentanaDiferencia extends JFrame {
       radioBoton.addActionListener(new OyenteRadioBotones(getInterfazRef()
           .getImagen(i)));
       getVectorBotones().add(radioBoton);
-      getSelectorImagenes().add(getVectorBotones().get(i));
+      //getSelectorImagenes().add(getVectorBotones().get(i));
+      getSelectorImagenes().add(radioBoton);
     }
     construirBotonOk();
     for(int i = 0; i < getVectorBotones().size(); i++)

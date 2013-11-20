@@ -216,7 +216,7 @@ public class Interfaz extends JFrame {
    * @return
    */
   public Imagen getImagenActiva() {
-    if (getNumeroVentanas() > 0) {
+    /*if (getNumeroVentanas() > 0) {
       int i = 0;
       VentanaImagen auxImagen = null;// = getVentanaImagen(i);
       while ((i < getNumeroVentanas())
@@ -228,7 +228,8 @@ public class Interfaz extends JFrame {
       else
         return null;
     } else
-      return null;
+      return null;*/
+    return getVentanaImagenActiva().getImagen();
   }
 
   /**
@@ -241,10 +242,10 @@ public class Interfaz extends JFrame {
       int i = 0;
       VentanaImagen auxImagen = null;// = getVentanaImagen(i);
       while ((i < getNumeroVentanas())
-          && ((auxImagen = getVentanaImagen(i)).isSelected())) {
+          && (!(auxImagen = getVentanaImagen(i)).isSelected())) {
         i++;
       }
-      if (auxImagen != null)
+      if (auxImagen != null) 
         return auxImagen;
       else
         return null;
