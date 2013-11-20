@@ -124,6 +124,10 @@ public class AccionesMenu {
     getInterfazRef().crearVentanaDiferencia(imagen);
   }
   
+  public void ImagenMapaCambios(Imagen imagen) {
+    getInterfazRef().crearVentanaMapaCambios(imagen);
+  }
+  
   public void ImagenBrilloContraste(Imagen imagen) {
     getInterfazRef().crearVentanaBrilloContraste(imagen);
   }

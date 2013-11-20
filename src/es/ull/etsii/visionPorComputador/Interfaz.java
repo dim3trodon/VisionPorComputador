@@ -94,6 +94,11 @@ public class Interfaz extends JFrame {
   public void actualizarDatosPixelActivo(int x, int y, int valorPixel) {
     setValorDatosPixelActivo(x, y, valorPixel);
   }
+  
+  public void crearVentanaMapaCambios(Imagen imagen) {
+    @SuppressWarnings("unused")
+    VentanaMapaCambios ventanaMapaCambios = new VentanaMapaCambios(imagen, this);
+  }
 
   public void crearVentanaEspecificarHistograma(Imagen imagen) {
     @SuppressWarnings("unused")

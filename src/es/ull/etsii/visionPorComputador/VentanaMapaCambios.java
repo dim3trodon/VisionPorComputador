@@ -9,24 +9,27 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
-public class VentanaDiferencia extends JFrame {
+public class VentanaMapaCambios extends JFrame {
 
   private static final long serialVersionUID = 1610031678950862902L;
 
   public static final int ANCHO = 300;
   public static final int ALTO = 60;
+  public static final int COLS_FIELD_UMBRAL = 3;
   
   public static final boolean RESIZABLE = true;
 
-  Interfaz interfazRef;
-  Imagen imagen;
-  Vector<JRadioButton> vectorBotones;
-  ButtonGroup selectorImagenes;
-  Imagen imagenSeleccionada;
-  JButton botonOk;
+  private Interfaz interfazRef;
+  private Imagen imagen;
+  private Vector<JRadioButton> vectorBotones;
+  private ButtonGroup selectorImagenes;
+  private Imagen imagenSeleccionada;
+  private JButton botonOk;
+  private JTextField fieldUmbral;
 
-  public VentanaDiferencia(Imagen imagen, Interfaz interfazRef) {
+  public VentanaMapaCambios(Imagen imagen, Interfaz interfazRef) {
     setInterfazRef(interfazRef);
     setImagen(imagen);
     int numImagenes = getInterfazRef().getNumeroVentanas();
@@ -35,6 +38,8 @@ public class VentanaDiferencia extends JFrame {
     setVectorBotones(new Vector<JRadioButton>());
     setSelectorImagenes(new ButtonGroup());
     setImagenSeleccionada(imagen); // Se pone como seleccionada la misma imagen
+    setFieldUmbral(new JTextField(2));
+    add(getFieldUmbral());
     for (int i = 0; i < numImagenes; i++) {
       JRadioButton radioBoton = new JRadioButton(
           TratamientoCadenas.abreviarNombre(getInterfazRef().getImagen(i)
@@ -63,8 +68,9 @@ public class VentanaDiferencia extends JFrame {
       public void actionPerformed(ActionEvent e) {
         String nombre = getImagen().getNombre() + "_dif_"
             + getImagenSeleccionada().getNombre();
-        Imagen imagenDif = new Imagen(getImagen().Diferencia(
-            getImagenSeleccionada()), nombre);
+        Imagen imagenDif = new Imagen(getImagen().Mapa_cambios(
+            getImagenSeleccionada(),
+            Integer.parseInt(getFieldUmbral().getText())), nombre);
         getInterfazRef().crearNuevaVentana(imagenDif, nombre);
         dispose();
       }
@@ -142,6 +148,18 @@ public class VentanaDiferencia extends JFrame {
 
   private void setBotonOk(JButton botonOk) {
     this.botonOk = botonOk;
+  }
+
+
+
+  private JTextField getFieldUmbral() {
+    return fieldUmbral;
+  }
+
+
+
+  private void setFieldUmbral(JTextField fieldUmbral) {
+    this.fieldUmbral = fieldUmbral;
   }
 
 }

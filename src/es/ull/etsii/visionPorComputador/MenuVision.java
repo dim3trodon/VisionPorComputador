@@ -202,6 +202,16 @@ public class MenuVision extends JMenuBar {
       }
     });
     getMenuImagen().add(itemDiferencia);
+    
+    JMenuItem itemMapaCambios = new JMenuItem("Mapa cambios");
+    itemMapaCambios.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        getAccionesMenu().ImagenMapaCambios(getInterfazRef().getImagenActiva());
+      }
+    });
+    getMenuImagen().add(itemMapaCambios);
 
     JMenuItem itemBrilloContraste = new JMenuItem("Brillo y contraste");
     itemBrilloContraste.addActionListener(new ActionListener() {
