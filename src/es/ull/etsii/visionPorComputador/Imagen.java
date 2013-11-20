@@ -41,6 +41,8 @@ public class Imagen {
   float brillo;
   float contraste;
   float entropia;
+  int max;
+  int min;
   ArrayList<Integer> Histograma_acu;
   private String ruta;
   private String nombre;
@@ -52,12 +54,13 @@ public class Imagen {
     setRuta("");
     setNombre(titulo);
     // Se crea el histograma pasando como parámetro la imagen actual
-    this.imagen = this.set_gris(this.getImagen());
+    //this.imagen = this.set_gris(this.getImagen());
     setHistograma(new Histograma(this.getImagen()));
     this.setBrillo();
     this.setContraste();
     this.Histograma_acu = this.histograma_acu();
     this.setEntropia();
+    this.set_maxmin();
   }
 
   /**
@@ -78,11 +81,13 @@ public class Imagen {
       this.setContraste();
       this.Histograma_acu = this.histograma_acu();
       this.setEntropia();
+      this.set_maxmin();
       /*
-       * codigo para llamar a linear trans ArrayList<Coordenadas> points = new
-       * ArrayList<Coordenadas>(); Coordenadas p1 = new Coordenadas(0,0);
-       * Coordenadas p2 = new Coordenadas(25,100); points.add(p1);
-       * points.add(p2); this.imagen=this.Linear_trans(points);
+       * codigo para llamar a linear trans 
+       ArrayList<Coordenadas> points = new
+       ArrayList<Coordenadas>(); Coordenadas p1 = new Coordenadas(0,255);
+       Coordenadas p2 = new Coordenadas(255,0); points.add(p1);
+       points.add(p2); this.imagen=this.Linear_trans(points);
        */
       // this.imagen= this.BrilloYContraste(82, 10);
       // this.imagen = this.Equalize();
@@ -147,7 +152,27 @@ public class Imagen {
 
     return newImg;
   }
-
+  private void set_maxmin(){
+		int i =0;
+		boolean encontrado = false;
+	  int[] histo = this.histograma.getHistograma();
+		while ((i < 256)&& encontrado==false) {
+			if (histo[i]!=0){
+				encontrado=true;
+				this.min=i;
+			}
+			i++;
+		}
+		i=255;
+		encontrado=false;
+		while ((i > 0)&& encontrado==false) {
+			if (histo[i]!=0){
+				encontrado=true;
+				this.max=i;
+			}
+			i--;
+		}
+	}
   private ArrayList<Long> histograma_acu_norm() {
     long acc = 0;
     ArrayList<Long> accHistogram = new ArrayList<Long>();
@@ -420,7 +445,7 @@ public class Imagen {
         denominator = 1;
       }
       m = (float) (points.get(i).getY() - initial.getY()) / denominator;
-      n = points.get(i).getY() - n * points.get(i).getX();
+      n = points.get(i).getY() - m * points.get(i).getX();
 
       for (int j = initial.getX(); j < points.get(i).getX(); j++) {
         lut.set(j, compruebarango(0, 255, Math.round((m * j) + n)));
@@ -525,7 +550,29 @@ public class Imagen {
 
     return newImg;
   }
-
+public BufferedImage Mapa_cambios(Imagen imag, int umbral){
+	BufferedImage Diferencia;
+	Color red = Color.red;
+	Diferencia = this.Diferencia(imag);
+	 BufferedImage newImg = GraphicsEnvironment
+		        .getLocalGraphicsEnvironment()
+		        .getDefaultScreenDevice()
+		        .getDefaultConfiguration()
+		        .createCompatibleImage(imagen.getWidth(), imagen.getHeight(),
+		            Transparency.OPAQUE);
+    for (int i = 0; i < imagen.getWidth(); i++) {
+      for (int j = 0; j < imagen.getHeight(); j++) {
+    	  Color c1 = new Color(Diferencia.getRGB(i, j));
+          int c_value = c1.getBlue();
+          if (c_value > umbral){
+        	  newImg.setRGB(i, j, red.getRGB());
+          }
+          else
+        	  newImg.setRGB(i, j, imagen.getRGB(i,j));
+      }
+    }
+	return newImg;
+}
   public String getRuta() {
     return ruta;
   }

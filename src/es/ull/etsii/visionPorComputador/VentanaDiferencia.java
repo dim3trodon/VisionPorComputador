@@ -62,8 +62,8 @@ public class VentanaDiferencia extends JFrame {
       public void actionPerformed(ActionEvent e) {
         String nombre = getImagen().getNombre() + "_dif_"
             + getImagenSeleccionada().getNombre();
-        Imagen imagenDif = new Imagen(getImagen().Diferencia(
-            getImagenSeleccionada()), nombre);
+        Imagen imagenDif = new Imagen(getImagen().Mapa_cambios(
+            getImagenSeleccionada(),25), nombre);
         getInterfazRef().crearNuevaVentana(imagenDif, nombre);
         dispose();
       }

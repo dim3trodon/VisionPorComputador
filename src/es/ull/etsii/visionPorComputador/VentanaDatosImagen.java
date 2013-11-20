@@ -25,7 +25,7 @@ public class VentanaDatosImagen extends JFrame {
   public static final boolean RESIZABLE = false;
   
   public static final int ANCHO = 200;
-  public static final int ALTO = 120;
+  public static final int ALTO = 160;
 
   private static final long serialVersionUID = -3505650183050371550L;
   
@@ -36,6 +36,8 @@ public class VentanaDatosImagen extends JFrame {
       JLabel contraste;
       JLabel entropia;
       JLabel ruta;
+      JLabel minimo;
+      JLabel maximo;
       setLayout(new GridLayout(FILAS, COLUMNAS));
       dimensiones = new JLabel("Dimensiones: " + imagen.getAncho() + "x" + 
       imagen.getAlto() + " píxeles");
@@ -43,11 +45,15 @@ public class VentanaDatosImagen extends JFrame {
       contraste = new JLabel("Contraste: " + imagen.getContraste());
       entropia = new JLabel("Entropía: " + imagen.getEntropia());
       ruta = new JLabel("Ruta: " + imagen.getRuta());
+      minimo = new JLabel("minimo: " + imagen.min);
+      maximo = new JLabel("Maximo: " + imagen.max);
       add(dimensiones);
       add(brillo);
       add(contraste);
       add(entropia);
       add(ruta);
+      add(minimo);
+      add(maximo);
       setTitle("Propiedades de " + imagen.getNombre());
       setResizable(RESIZABLE);
       setVisible(VISIBLE);
