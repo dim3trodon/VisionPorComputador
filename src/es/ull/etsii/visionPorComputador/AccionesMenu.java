@@ -67,6 +67,31 @@ public class AccionesMenu {
       System.err.println("No hay imágenes");
     }
   }
+  
+  public void EdicionEspejoVertical() {
+    // TODO Hacer espejo vertical de una seleccion (comprobar si hay una 
+    // seleccion en la imagen) o de la imagen entera
+  }
+  
+  public void EdicionEspejoHorizontal() {
+    // TODO
+  }
+  
+  public void EdicionTraspuesta() {
+    // TODO
+  }
+  
+  public void EdicionRotacion(int grado) {
+    // TODO Rotaciones multiplo de 90
+  }
+  
+  public void EdicionEscalado() {
+   getInterfazRef().crearVentanaEscalado(getInterfazRef().getImagenActiva());
+  }
+  
+  public void EdicionEscaladoPorcentaje() {
+   getInterfazRef().crearVentanaEscaladoPorcentual(getInterfazRef().getImagenActiva());
+  }
 
   /**
    * Acción de Ver/Histograma

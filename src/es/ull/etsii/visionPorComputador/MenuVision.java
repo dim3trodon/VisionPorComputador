@@ -118,6 +118,106 @@ public class MenuVision extends JMenuBar {
       }
     });
     getMenuEdicion().add(itemRecortarSeleccion);
+    
+    JMenu menuEspejo = new JMenu("Espejo");
+    getMenuEdicion().add(menuEspejo);
+    
+    JMenuItem itemEspejoVertical = new JMenuItem("Vertical");
+    itemEspejoVertical.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        // TODO Llamar método de espejo vertical
+        
+      }
+    });
+    menuEspejo.add(itemEspejoVertical);
+    
+    JMenuItem itemEspejoHorizontal = new JMenuItem("Horizontal");
+    itemEspejoHorizontal.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        // TODO Auto-generated method stub
+        
+      }
+    });
+    menuEspejo.add(itemEspejoHorizontal);
+    
+    JMenuItem itemTraspuesta = new JMenuItem("Traspuesta");
+    itemTraspuesta.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        // TODO Auto-generated method stub
+        
+      }
+    });
+    getMenuEdicion().add(itemTraspuesta);
+    
+    JMenu menuRotacion = new JMenu("Rotación");
+    menuRotacion.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        // TODO Auto-generated method stub
+        
+      }
+    });
+    getMenuEdicion().add(menuRotacion);
+    
+    JMenuItem itemRotacion90 = new JMenuItem("90º");
+    itemRotacion90.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        // TODO Auto-generated method stub
+        
+      }
+    });
+    menuRotacion.add(itemRotacion90);
+    
+    JMenuItem itemRotacion180 = new JMenuItem("180º");
+    itemRotacion180.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        // TODO Auto-generated method stub
+        
+      }
+    });
+    menuRotacion.add(itemRotacion180);
+    
+    JMenuItem itemRotacion270 = new JMenuItem("270º");
+    itemRotacion270.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        // TODO Auto-generated method stub
+        
+      }
+    });
+    menuRotacion.add(itemRotacion270);
+    
+    JMenuItem itemEscalado = new JMenuItem("Escalado");
+    itemEscalado.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        getAccionesMenu().EdicionEscalado();
+      }
+    });
+    getMenuEdicion().add(itemEscalado);
+    
+    JMenuItem itemEscaladoPorcentual = new JMenuItem("Escalado porcentual");
+    itemEscaladoPorcentual.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        getAccionesMenu().EdicionEscaladoPorcentaje();
+      }
+    });
+    getMenuEdicion().add(itemEscaladoPorcentual);
   }
 
   private void construirMenuVer() {
