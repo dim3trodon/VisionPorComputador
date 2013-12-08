@@ -59,6 +59,8 @@ public class VentanaEscaladoPorcentual extends JFrame {
           int porcentajeAlto = Integer.parseInt(textoAlto);
           // TODO crear nueva imagen escalada (porcentaje negativo es reducir,
           // porcentaje positivo es aumentar)
+          
+          
           dispose();
         } catch (NumberFormatException noNumero) {
           System.err

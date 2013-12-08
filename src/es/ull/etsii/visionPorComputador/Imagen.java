@@ -185,7 +185,183 @@ public class Imagen {
 
     return accHistogram;
   }
-
+  
+  public BufferedImage Escalado(Imagen image, int ancho, int alto) {
+	  float x = ((float)ancho/imagen.getWidth());
+	  float y = ((float)alto/imagen.getHeight());
+	  
+	  return image.Escaladoporcent(image, x, y);
+	  
+  }
+  private int[][] mult_mat(double [][] A, int[][] B){
+	 int [][] pto_n= new int [2][1];
+	 int suma;
+	 	pto_n[0][0]=(int)A[0][0]*B[0][0]+(int)A[0][1]*B[0][0];
+	 			pto_n[1][0]=	(int)A[1][0]*B[1][0]+(int)A[1][1]*B[1][0];	
+            
+    
+	  
+	  return pto_n;
+  }
+  
+  public BufferedImage giro(int mult) {
+	int alto;
+	int x;
+	int y;
+	int ancho;
+	int [][] pto_n;
+	if (mult%2 ==0){
+		  ancho= imagen.getWidth();
+		  alto= imagen.getHeight();
+	  }
+	  else{
+		  alto= imagen.getWidth();
+		  ancho= imagen.getHeight();
+		  
+	  }
+	  //incilaizamos la matriz de rotacion
+	  int [][] pto= new int [2][1];
+	  double [][] rota = new double[2][2];
+	  rota[0][0]= Math.cos(Math.PI/2*mult);
+	  rota[0][1]= -Math.sin(Math.PI/2*mult);
+	  rota[1][0]= Math.sin(Math.PI/2*mult);
+	  rota[1][1]= Math.cos(Math.PI/2*mult);
+	 
+	  //ancho=Math.abs(pto[0][0]);
+	 // alto=Math.abs(pto[0][1]);
+	  //Creamos la imagen que vamos a devolver
+	  BufferedImage newImg = GraphicsEnvironment
+		        .getLocalGraphicsEnvironment()
+		        .getDefaultScreenDevice()
+		        .getDefaultConfiguration()
+		        .createCompatibleImage(ancho+1, alto+1,
+		            Transparency.OPAQUE);
+	  
+	  for (int i = 0; i < imagen.getWidth(); i++) {
+	        for (int j = 0; j < imagen.getHeight(); j++) {
+	        	if (mult%2 ==0){
+	        		pto[0][0]=i;
+	      	  		pto[1][0]=j;
+	        	}
+	        	else{
+	        		pto[0][0]=j;
+	      	  		pto[1][0]=i;
+	        	}
+	      	  pto_n=this.mult_mat(rota, pto);
+	      	if (mult%2 ==0){  
+	      			x=ancho-Math.abs(pto_n[0][0]);
+	      			y = alto-Math.abs(pto_n[1][0]);
+	      	}
+	      	else{
+	      		
+	      		if(mult ==1){
+	      			x=Math.abs(pto_n[0][0]);
+		      		y = alto-Math.abs(pto_n[1][0]);
+	      		}
+	      		else{
+	      			 x=ancho-Math.abs(pto_n[0][0]);
+		      		 y = Math.abs(pto_n[1][0]);
+	      		}
+	      		
+	      	}
+	      		
+	      		
+	        	 newImg.setRGB(x,y , imagen.getRGB(i,j));
+	        	
+	        }
+	  }
+	  
+	  return newImg;
+  }
+  
+  
+  
+  public BufferedImage traspuesta() {
+	  int ancho= imagen.getWidth();
+	  int alto= imagen.getHeight();
+	  
+	  
+	  
+	  //Creamos la imagen que vamos a devolver
+	  BufferedImage newImg = GraphicsEnvironment
+		        .getLocalGraphicsEnvironment()
+		        .getDefaultScreenDevice()
+		        .getDefaultConfiguration()
+		        .createCompatibleImage(alto, ancho,
+		            Transparency.OPAQUE);
+	  
+	  for (int i = 0; i < imagen.getWidth(); i++) {
+	        for (int j = 0; j < imagen.getHeight(); j++) {
+	        	
+	        	 newImg.setRGB(j, i, imagen.getRGB(i,j));
+	        	
+	        }
+	  }
+	  
+	  return newImg;
+  }
+  
+  public BufferedImage Escaladoporcent(Imagen image, float x, float y) {
+	  int ancho= Math.round(imagen.getWidth()*x);
+	  int alto= Math.round(imagen.getHeight()*y);
+	  
+	  
+	  
+	  //Creamos la imagen que vamos a devolver
+	  BufferedImage newImg = GraphicsEnvironment
+		        .getLocalGraphicsEnvironment()
+		        .getDefaultScreenDevice()
+		        .getDefaultConfiguration()
+		        .createCompatibleImage(ancho, alto,
+		            Transparency.OPAQUE);
+	  for (int i = 0; i < ancho; i++) {
+	        for (int j = 0; j < alto; j++) {
+	        	 int l=Math.round(j/y);
+	        	 int k= Math.round(i/x);
+	        	 if (k == imagen.getWidth())
+	        		 k=k-1;
+	        	 if (l == imagen.getHeight())
+	        		 l=l-1;
+	        	 
+	        	 newImg.setRGB(i, j, imagen.getRGB(k,l));
+	        	
+	        }
+	  }
+	  
+	  return newImg;
+  }
+  public BufferedImage Espejo(Imagen image, String type) {
+	  int ancho= imagen.getWidth();
+	  int alto= imagen.getHeight();
+	  //Creamos la imagen que vamos a devolver
+	  BufferedImage newImg = GraphicsEnvironment
+		        .getLocalGraphicsEnvironment()
+		        .getDefaultScreenDevice()
+		        .getDefaultConfiguration()
+		        .createCompatibleImage(ancho, alto,
+		            Transparency.OPAQUE);
+	  if (type=="vertical" ){
+		  for (int i = 0; i < imagen.getWidth(); i++) {
+		        for (int j = 0; j < imagen.getHeight(); j++) {
+		        	
+		        	 newImg.setRGB(ancho-i-1, j, imagen.getRGB(i,j));
+		        	
+		        }
+		  }
+	
+	  }
+	  if (type=="horizontal" ){
+		  for (int i = 0; i < imagen.getWidth(); i++) {
+		        for (int j = 0; j < imagen.getHeight(); j++) {
+		        	
+		        	 newImg.setRGB(i, alto-j-1, imagen.getRGB(i,j));
+		        	
+		        }
+		  }
+	
+	  }
+	  return newImg;
+  }
   // Calcula la diferencia entre dos imágenes
   public BufferedImage Diferencia(Imagen image) {
     Color c1, c2 = new Color(0, 0, 0);

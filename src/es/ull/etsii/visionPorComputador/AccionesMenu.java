@@ -71,6 +71,7 @@ public class AccionesMenu {
   public void EdicionEspejoVertical() {
     // TODO Hacer espejo vertical de una seleccion (comprobar si hay una 
     // seleccion en la imagen) o de la imagen entera
+	  
   }
   
   public void EdicionEspejoHorizontal() {
