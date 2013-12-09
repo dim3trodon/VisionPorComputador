@@ -119,8 +119,8 @@ public class Imagen {
 
   public BufferedImage Histo_especify(Imagen imag) {
     int vout = 0;
-    ArrayList<Long> accHistogramRef = this.histograma_acu_norm();
-    ArrayList<Long> accHistogramImg = imag.histograma_acu_norm();
+    ArrayList<Long> accHistogramRef = imag.histograma_acu_norm();
+    ArrayList<Long> accHistogramImg = this.histograma_acu_norm();
     ArrayList<Integer> lut = new ArrayList<Integer>();
 
     for (int i = 0; i < 256; i++) {
@@ -225,7 +225,7 @@ public class Imagen {
         selectedIndex = index;
         cont = false;
       } else if (histo_acc_nor.get(index) > nivel) {
-        selectedIndex = index - 1;
+        selectedIndex =maximo(0, index - 1);
         cont = false;
       }
       index++;
