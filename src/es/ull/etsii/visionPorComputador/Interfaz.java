@@ -95,6 +95,16 @@ public class Interfaz extends JFrame {
     setValorDatosPixelActivo(x, y, valorPixel);
   }
   
+  public void crearVentanaEscaladoPorcentual(Imagen imagen) {
+    @SuppressWarnings("unused")
+    VentanaEscaladoPorcentual ventanaEscalado = new VentanaEscaladoPorcentual(this, imagen);
+  }
+  
+  public void crearVentanaEscalado(Imagen imagen) {
+    @SuppressWarnings("unused")
+    VentanaEscalado ventanaEscalado = new VentanaEscalado(this, imagen);
+  }
+  
   public void crearVentanaMapaCambios(Imagen imagen) {
     @SuppressWarnings("unused")
     VentanaMapaCambios ventanaMapaCambios = new VentanaMapaCambios(imagen, this);
