@@ -30,7 +30,12 @@ public class VentanaEscaladoPorcentual extends JFrame {
   Imagen imagen;
   int tipoInterpolacion;
 
-  public VentanaEscaladoPorcentual(Interfaz interfazRef, Imagen imagen) {
+  public VentanaEscaladoPorcentual(Interfaz interfazRef, VentanaImagen ventanaImagen) {
+    if(ventanaImagen.hayAreaSeleccionada())
+      setImagen(ventanaImagen.getRegionOfInterest().getRecorte());
+    else {
+      setImagen(ventanaImagen.getImagen());
+    }
     setLayout(new FlowLayout());
     setInterfazRef(interfazRef);
     setImagen(imagen);

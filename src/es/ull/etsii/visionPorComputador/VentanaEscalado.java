@@ -30,13 +30,18 @@ public class VentanaEscalado extends JFrame {
   Imagen imagen;
   int tipoInterpolacion;
 
-  public VentanaEscalado(Interfaz interfazRef, Imagen imagen) {
+  public VentanaEscalado(Interfaz interfazRef, VentanaImagen ventanaImagen) {
+    if(ventanaImagen.hayAreaSeleccionada())
+      setImagen(ventanaImagen.getRegionOfInterest().getRecorte());
+    else {
+      setImagen(ventanaImagen.getImagen());
+    }
     setLayout(new FlowLayout());
     setInterfazRef(interfazRef);
-    setImagen(imagen);
+    
     setBotonOk(new JButton("Aceptar"));
-    JLabel anchoOriginal = new JLabel("        Ancho = " + imagen.getAncho());
-    JLabel altoOriginal = new JLabel("Alto = " + imagen.getAlto()
+    JLabel anchoOriginal = new JLabel("        Ancho = " + getImagen().getAncho());
+    JLabel altoOriginal = new JLabel("Alto = " + getImagen().getAlto()
         + "          ");
     add(anchoOriginal);
     add(altoOriginal);
@@ -56,8 +61,9 @@ public class VentanaEscalado extends JFrame {
           int ancho = Integer.parseInt(textoAncho);
           int alto = Integer.parseInt(textoAlto);
           // TODO Tipo de interpolación
-          Imagen imagenEsc = new Imagen(getImagen().Escalado(getImagen(),
-              ancho, alto), getImagen().getNombre() + "_espejo");
+          Imagen imagenEsc = new Imagen(getImagen()
+              .Escalado(getImagen(), ancho, alto),
+              getImagen().getNombre() + "_espejo");
           getInterfazRef().crearNuevaVentana(imagenEsc, imagenEsc.getNombre());
           dispose();
         } catch (NumberFormatException noNumero) {
@@ -72,6 +78,7 @@ public class VentanaEscalado extends JFrame {
         }
       }
     });
+    
     setTipoInterpolacion(VECINO);
     ButtonGroup agrupBoton = new ButtonGroup();
     JRadioButton radioVecino = new JRadioButton("Vecino");
@@ -133,19 +140,19 @@ public class VentanaEscalado extends JFrame {
     this.interfazRef = interfazRef;
   }
 
-  private Imagen getImagen() {
-    return imagen;
-  }
-
-  private void setImagen(Imagen imagen) {
-    this.imagen = imagen;
-  }
-
   private int getTipoInterpolacion() {
     return tipoInterpolacion;
   }
 
   private void setTipoInterpolacion(int tipoInterpolacion) {
     this.tipoInterpolacion = tipoInterpolacion;
+  }
+
+  private Imagen getImagen() {
+    return imagen;
+  }
+
+  private void setImagen(Imagen imagen) {
+    this.imagen = imagen;
   }
 }

@@ -124,12 +124,12 @@ public class AccionesMenu {
   }
 
   public void EdicionEscalado() {
-    getInterfazRef().crearVentanaEscalado(getInterfazRef().getImagenActiva());
+    getInterfazRef().crearVentanaEscalado(getInterfazRef().getVentanaImagenActiva());
   }
 
   public void EdicionEscaladoPorcentaje() {
     getInterfazRef().crearVentanaEscaladoPorcentual(
-        getInterfazRef().getImagenActiva());
+        getInterfazRef().getVentanaImagenActiva());
   }
 
   /**
