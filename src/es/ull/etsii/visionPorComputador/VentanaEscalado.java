@@ -60,9 +60,8 @@ public class VentanaEscalado extends JFrame {
         try {
           int ancho = Integer.parseInt(textoAncho);
           int alto = Integer.parseInt(textoAlto);
-          // TODO Tipo de interpolación
           Imagen imagenEsc = new Imagen(getImagen()
-              .Escalado(getImagen(), ancho, alto),
+              .Escalado(getImagen(), ancho, alto, getTipoInterpolacion()),
               getImagen().getNombre() + "_espejo");
           getInterfazRef().crearNuevaVentana(imagenEsc, imagenEsc.getNombre());
           dispose();

@@ -30,8 +30,9 @@ public class VentanaEscaladoPorcentual extends JFrame {
   Imagen imagen;
   int tipoInterpolacion;
 
-  public VentanaEscaladoPorcentual(Interfaz interfazRef, VentanaImagen ventanaImagen) {
-    if(ventanaImagen.hayAreaSeleccionada())
+  public VentanaEscaladoPorcentual(Interfaz interfazRef,
+      VentanaImagen ventanaImagen) {
+    if (ventanaImagen.hayAreaSeleccionada())
       setImagen(ventanaImagen.getRegionOfInterest().getRecorte());
     else {
       setImagen(ventanaImagen.getImagen());
@@ -62,9 +63,9 @@ public class VentanaEscaladoPorcentual extends JFrame {
         try {
           float porcentAncho = Float.parseFloat(textoAncho) / 100.0f;
           float porcentAlto = Float.parseFloat(textoAlto) / 100.0f;
-          // TODO Tipo de interpolación
-          Imagen imagenEsc = new Imagen(getImagen().Escaladoporcent(getImagen(),
-              porcentAncho, porcentAlto), getImagen().getNombre() + "_espejo");
+          Imagen imagenEsc = new Imagen(getImagen().Escaladoporcent(
+              getImagen(), porcentAncho, porcentAlto, getTipoInterpolacion()),
+              getImagen().getNombre() + "_espejo");
           getInterfazRef().crearNuevaVentana(imagenEsc, imagenEsc.getNombre());
           dispose();
         } catch (NumberFormatException noNumero) {

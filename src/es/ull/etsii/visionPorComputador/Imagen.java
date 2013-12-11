@@ -21,7 +21,9 @@
 package es.ull.etsii.visionPorComputador;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
+import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -30,7 +32,13 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import org.imgscalr.Scalr;
+
 public class Imagen {
+
+  // Tipo de interpolación
+  private static final int VECINO = 0;
+  private static final int BILINEAL = 1;
 
   // En imagen se guarda la información de la imagen. Se puede acceder a los
   // datos de los píxeles en un BufferedImage y ser modificados
@@ -54,7 +62,7 @@ public class Imagen {
     setRuta("");
     setNombre(titulo);
     // Se crea el histograma pasando como parámetro la imagen actual
-    //this.imagen = this.set_gris(this.getImagen());
+    // this.imagen = this.set_gris(this.getImagen());
     setHistograma(new Histograma(this.getImagen()));
     this.setBrillo();
     this.setContraste();
@@ -62,8 +70,6 @@ public class Imagen {
     this.setEntropia();
     this.set_maxmin();
   }
-  
-  
 
   /**
    * Constructor al que se le pasa la ruta de la imagen
@@ -85,11 +91,10 @@ public class Imagen {
       this.setEntropia();
       this.set_maxmin();
       /*
-       * codigo para llamar a linear trans 
-       ArrayList<Coordenadas> points = new
-       ArrayList<Coordenadas>(); Coordenadas p1 = new Coordenadas(0,255);
-       Coordenadas p2 = new Coordenadas(255,0); points.add(p1);
-       points.add(p2); this.imagen=this.Linear_trans(points);
+       * codigo para llamar a linear trans ArrayList<Coordenadas> points = new
+       * ArrayList<Coordenadas>(); Coordenadas p1 = new Coordenadas(0,255);
+       * Coordenadas p2 = new Coordenadas(255,0); points.add(p1);
+       * points.add(p2); this.imagen=this.Linear_trans(points);
        */
       // this.imagen= this.BrilloYContraste(82, 10);
       // this.imagen = this.Equalize();
@@ -154,27 +159,29 @@ public class Imagen {
 
     return newImg;
   }
-  private void set_maxmin(){
-		int i =0;
-		boolean encontrado = false;
-	  int[] histo = this.histograma.getHistograma();
-		while ((i < 256)&& encontrado==false) {
-			if (histo[i]!=0){
-				encontrado=true;
-				this.min=i;
-			}
-			i++;
-		}
-		i=255;
-		encontrado=false;
-		while ((i > 0)&& encontrado==false) {
-			if (histo[i]!=0){
-				encontrado=true;
-				this.max=i;
-			}
-			i--;
-		}
-	}
+
+  private void set_maxmin() {
+    int i = 0;
+    boolean encontrado = false;
+    int[] histo = this.histograma.getHistograma();
+    while ((i < 256) && encontrado == false) {
+      if (histo[i] != 0) {
+        encontrado = true;
+        this.min = i;
+      }
+      i++;
+    }
+    i = 255;
+    encontrado = false;
+    while ((i > 0) && encontrado == false) {
+      if (histo[i] != 0) {
+        encontrado = true;
+        this.max = i;
+      }
+      i--;
+    }
+  }
+
   private ArrayList<Long> histograma_acu_norm() {
     long acc = 0;
     ArrayList<Long> accHistogram = new ArrayList<Long>();
@@ -187,184 +194,166 @@ public class Imagen {
 
     return accHistogram;
   }
-  
-  public BufferedImage Escalado(Imagen image, int ancho, int alto) {
-	  float x = ((float)ancho/imagen.getWidth());
-	  float y = ((float)alto/imagen.getHeight());
-	  
-	  return image.Escaladoporcent(image, x, y);
-	  
+
+  public BufferedImage Escalado(Imagen image, int ancho, int alto, int tipo) {
+    float x = ((float) ancho / imagen.getWidth());
+    float y = ((float) alto / imagen.getHeight());
+
+    return image.Escaladoporcent(image, x, y, tipo);
+
   }
-  private int[][] mult_mat(double [][] A, int[][] B){
-	 int [][] pto_n= new int [2][1];
-	
-	 	pto_n[0][0]=(int)A[0][0]*B[0][0]+(int)A[0][1]*B[0][0];
-	 			pto_n[1][0]=	(int)A[1][0]*B[1][0]+(int)A[1][1]*B[1][0];	
-            
-    
-	  
-	  return pto_n;
+
+  private int[][] mult_mat(double[][] A, int[][] B) {
+    int[][] pto_n = new int[2][1];
+
+    pto_n[0][0] = (int) A[0][0] * B[0][0] + (int) A[0][1] * B[0][0];
+    pto_n[1][0] = (int) A[1][0] * B[1][0] + (int) A[1][1] * B[1][0];
+
+    return pto_n;
   }
-  
+
   public BufferedImage giro(int mult) {
-	int alto;
-	int x;
-	int y;
-	int ancho;
-	int [][] pto_n;
-	if (mult%2 ==0){
-		  ancho= imagen.getWidth();
-		  alto= imagen.getHeight();
-	  }
-	  else{
-		  alto= imagen.getWidth();
-		  ancho= imagen.getHeight();
-		  
-	  }
-	  //incilaizamos la matriz de rotacion
-	  int [][] pto= new int [2][1];
-	  double [][] rota = new double[2][2];
-	  rota[0][0]= Math.cos(Math.PI/2*mult);
-	  rota[0][1]= -Math.sin(Math.PI/2*mult);
-	  rota[1][0]= Math.sin(Math.PI/2*mult);
-	  rota[1][1]= Math.cos(Math.PI/2*mult);
-	 
-	  //ancho=Math.abs(pto[0][0]);
-	 // alto=Math.abs(pto[0][1]);
-	  //Creamos la imagen que vamos a devolver
-	  BufferedImage newImg = GraphicsEnvironment
-		        .getLocalGraphicsEnvironment()
-		        .getDefaultScreenDevice()
-		        .getDefaultConfiguration()
-		        .createCompatibleImage(ancho+1, alto+1,
-		            Transparency.OPAQUE);
-	  
-	  for (int i = 0; i < imagen.getWidth(); i++) {
-	        for (int j = 0; j < imagen.getHeight(); j++) {
-	        	if (mult%2 ==0){
-	        		pto[0][0]=i;
-	      	  		pto[1][0]=j;
-	        	}
-	        	else{
-	        		pto[0][0]=j;
-	      	  		pto[1][0]=i;
-	        	}
-	      	  pto_n=this.mult_mat(rota, pto);
-	      	if (mult%2 ==0){  
-	      			x=ancho-Math.abs(pto_n[0][0]);
-	      			y = alto-Math.abs(pto_n[1][0]);
-	      	}
-	      	else{
-	      		
-	      		if(mult ==1){
-	      			x=Math.abs(pto_n[0][0]);
-		      		y = alto-Math.abs(pto_n[1][0]);
-	      		}
-	      		else{
-	      			 x=ancho-Math.abs(pto_n[0][0]);
-		      		 y = Math.abs(pto_n[1][0]);
-	      		}
-	      		
-	      	}
-	      		
-	      		
-	        	 newImg.setRGB(x,y , imagen.getRGB(i,j));
-	        	
-	        }
-	  }
-	  
-	  return newImg;
+    int alto;
+    int x;
+    int y;
+    int ancho;
+    int[][] pto_n;
+    if (mult % 2 == 0) {
+      ancho = imagen.getWidth();
+      alto = imagen.getHeight();
+    } else {
+      alto = imagen.getWidth();
+      ancho = imagen.getHeight();
+
+    }
+    // incilaizamos la matriz de rotacion
+    int[][] pto = new int[2][1];
+    double[][] rota = new double[2][2];
+    rota[0][0] = Math.cos(Math.PI / 2 * mult);
+    rota[0][1] = -Math.sin(Math.PI / 2 * mult);
+    rota[1][0] = Math.sin(Math.PI / 2 * mult);
+    rota[1][1] = Math.cos(Math.PI / 2 * mult);
+
+    // ancho=Math.abs(pto[0][0]);
+    // alto=Math.abs(pto[0][1]);
+    // Creamos la imagen que vamos a devolver
+    BufferedImage newImg = GraphicsEnvironment.getLocalGraphicsEnvironment()
+        .getDefaultScreenDevice().getDefaultConfiguration()
+        .createCompatibleImage(ancho + 1, alto + 1, Transparency.OPAQUE);
+
+    for (int i = 0; i < imagen.getWidth(); i++) {
+      for (int j = 0; j < imagen.getHeight(); j++) {
+        if (mult % 2 == 0) {
+          pto[0][0] = i;
+          pto[1][0] = j;
+        } else {
+          pto[0][0] = j;
+          pto[1][0] = i;
+        }
+        pto_n = this.mult_mat(rota, pto);
+        if (mult % 2 == 0) {
+          x = ancho - Math.abs(pto_n[0][0]);
+          y = alto - Math.abs(pto_n[1][0]);
+        } else {
+
+          if (mult == 1) {
+            x = Math.abs(pto_n[0][0]);
+            y = alto - Math.abs(pto_n[1][0]);
+          } else {
+            x = ancho - Math.abs(pto_n[0][0]);
+            y = Math.abs(pto_n[1][0]);
+          }
+
+        }
+
+        newImg.setRGB(x, y, imagen.getRGB(i, j));
+
+      }
+    }
+
+    return newImg;
   }
-  
-  
-  
+
   public BufferedImage traspuesta() {
-	  int ancho= imagen.getWidth();
-	  int alto= imagen.getHeight();
-	  
-	  
-	  
-	  //Creamos la imagen que vamos a devolver
-	  BufferedImage newImg = GraphicsEnvironment
-		        .getLocalGraphicsEnvironment()
-		        .getDefaultScreenDevice()
-		        .getDefaultConfiguration()
-		        .createCompatibleImage(alto, ancho,
-		            Transparency.OPAQUE);
-	  
-	  for (int i = 0; i < imagen.getWidth(); i++) {
-	        for (int j = 0; j < imagen.getHeight(); j++) {
-	        	
-	        	 newImg.setRGB(j, i, imagen.getRGB(i,j));
-	        	
-	        }
-	  }
-	  
-	  return newImg;
+    int ancho = imagen.getWidth();
+    int alto = imagen.getHeight();
+
+    // Creamos la imagen que vamos a devolver
+    BufferedImage newImg = GraphicsEnvironment.getLocalGraphicsEnvironment()
+        .getDefaultScreenDevice().getDefaultConfiguration()
+        .createCompatibleImage(alto, ancho, Transparency.OPAQUE);
+
+    for (int i = 0; i < imagen.getWidth(); i++) {
+      for (int j = 0; j < imagen.getHeight(); j++) {
+
+        newImg.setRGB(j, i, imagen.getRGB(i, j));
+
+      }
+    }
+
+    return newImg;
   }
-  
-  public BufferedImage Escaladoporcent(Imagen image, float x, float y) {
-	  int ancho= Math.round(imagen.getWidth()*x);
-	  int alto= Math.round(imagen.getHeight()*y);
-	  
-	  
-	  
-	  //Creamos la imagen que vamos a devolver
-	  BufferedImage newImg = GraphicsEnvironment
-		        .getLocalGraphicsEnvironment()
-		        .getDefaultScreenDevice()
-		        .getDefaultConfiguration()
-		        .createCompatibleImage(ancho, alto,
-		            Transparency.OPAQUE);
-	  for (int i = 0; i < ancho; i++) {
-	        for (int j = 0; j < alto; j++) {
-	        	 int l=Math.round(j/y);
-	        	 int k= Math.round(i/x);
-	        	 if (k == imagen.getWidth())
-	        		 k=k-1;
-	        	 if (l == imagen.getHeight())
-	        		 l=l-1;
-	        	 
-	        	 newImg.setRGB(i, j, imagen.getRGB(k,l));
-	        	
-	        }
-	  }
-	  
-	  return newImg;
+
+  public BufferedImage Escaladoporcent(Imagen image, float x, float y, int tipo) {
+    int ancho = Math.round(imagen.getWidth() * x);
+    int alto = Math.round(imagen.getHeight() * y);
+
+    // Creamos la imagen que vamos a devolver
+    BufferedImage newImg = GraphicsEnvironment.getLocalGraphicsEnvironment()
+        .getDefaultScreenDevice().getDefaultConfiguration()
+        .createCompatibleImage(ancho, alto, Transparency.OPAQUE);
+    if (tipo == VECINO) {
+      for (int i = 0; i < ancho; i++) {
+        for (int j = 0; j < alto; j++) {
+          int l = Math.round(j / y);
+          int k = Math.round(i / x);
+          if (k == imagen.getWidth())
+            k = k - 1;
+          if (l == imagen.getHeight())
+            l = l - 1;
+
+          newImg.setRGB(i, j, imagen.getRGB(k, l));
+
+        }
+      }
+    } else {
+      Graphics2D g = newImg.createGraphics();
+      g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+          RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+      g.drawImage(getImagen(), 0, 0, ancho, alto, null);
+      g.dispose();
+    }
+    return newImg;
   }
-  
+
   public BufferedImage Espejo(Imagen image, String type) {
-	  int ancho= imagen.getWidth();
-	  int alto= imagen.getHeight();
-	  //Creamos la imagen que vamos a devolver
-	  BufferedImage newImg = GraphicsEnvironment
-		        .getLocalGraphicsEnvironment()
-		        .getDefaultScreenDevice()
-		        .getDefaultConfiguration()
-		        .createCompatibleImage(ancho, alto,
-		            Transparency.OPAQUE);
-	  if (type=="vertical" ) {
-		  for (int i = 0; i < imagen.getWidth(); i++) {
-		        for (int j = 0; j < imagen.getHeight(); j++) {
-		        	
-		        	 newImg.setRGB(ancho-i-1, j, imagen.getRGB(i,j));
-		        	
-		        }
-		  }
-	
-	  }
-	  if (type=="horizontal" ) {
-		  for (int i = 0; i < imagen.getWidth(); i++) {
-		        for (int j = 0; j < imagen.getHeight(); j++) {
-		        	
-		        	 newImg.setRGB(i, alto-j-1, imagen.getRGB(i,j));
-		        	
-		        }
-		  }
-	
-	  }
-	  return newImg;
+    int ancho = imagen.getWidth();
+    int alto = imagen.getHeight();
+    // Creamos la imagen que vamos a devolver
+    BufferedImage newImg = GraphicsEnvironment.getLocalGraphicsEnvironment()
+        .getDefaultScreenDevice().getDefaultConfiguration()
+        .createCompatibleImage(ancho, alto, Transparency.OPAQUE);
+    if (type == "vertical") {
+      for (int i = 0; i < imagen.getWidth(); i++) {
+        for (int j = 0; j < imagen.getHeight(); j++) {
+
+          newImg.setRGB(ancho - i - 1, j, imagen.getRGB(i, j));
+
+        }
+      }
+
+    }
+    if (type == "horizontal") {
+      for (int i = 0; i < imagen.getWidth(); i++) {
+        for (int j = 0; j < imagen.getHeight(); j++) {
+          newImg.setRGB(i, alto - j - 1, imagen.getRGB(i, j));
+        }
+      }
+
+    }
+    return newImg;
   }
+
   // Calcula la diferencia entre dos imágenes
   public BufferedImage Diferencia(Imagen image) {
     Color c1, c2 = new Color(0, 0, 0);
@@ -404,7 +393,7 @@ public class Imagen {
         selectedIndex = index;
         cont = false;
       } else if (histo_acc_nor.get(index) > nivel) {
-        selectedIndex =maximo(0, index - 1);
+        selectedIndex = maximo(0, index - 1);
         cont = false;
       }
       index++;
@@ -439,7 +428,7 @@ public class Imagen {
 
     int[] histo = this.histograma.getHistograma();
     for (int i = 0; i < 256; i++) {
-      temp += (float)(histo[i] * i);
+      temp += (float) (histo[i] * i);
     }
     this.brillo = (float) (temp / size);
 
@@ -450,7 +439,7 @@ public class Imagen {
   }
 
   public void setContraste() {
-	 
+
     float temp = 0;
     float size = imagen.getHeight() * imagen.getWidth();
     float u = getBrillo();
@@ -468,14 +457,14 @@ public class Imagen {
 
   public void setEntropia() {
     float temp = 0;
-    float size = this.imagen.getHeight()*this.imagen.getWidth();
+    float size = this.imagen.getHeight() * this.imagen.getWidth();
     int[] histo = this.histograma.getHistograma();
     for (int i = 0; i < 256; i++) {
       float p = (float) (histo[i]) / (size);
       if (p != 0) {
-      temp += p * (Math.log(p)/Math.log(2));
+        temp += p * (Math.log(p) / Math.log(2));
       }
-      }
+    }
     this.entropia = -temp;
 
   }
@@ -492,7 +481,6 @@ public class Imagen {
    * @return
    */
   public int getPixel(int i, int j) {
-    // TODO Comprobar que i y j está dentro del rango
     Color color = new Color(getImagen().getRGB(i, j));
     return color.getRed();
   }
@@ -729,29 +717,30 @@ public class Imagen {
 
     return newImg;
   }
-public BufferedImage Mapa_cambios(Imagen imag, int umbral){
-	BufferedImage Diferencia;
-	Color red = Color.red;
-	Diferencia = this.Diferencia(imag);
-	 BufferedImage newImg = GraphicsEnvironment
-		        .getLocalGraphicsEnvironment()
-		        .getDefaultScreenDevice()
-		        .getDefaultConfiguration()
-		        .createCompatibleImage(imagen.getWidth(), imagen.getHeight(),
-		            Transparency.OPAQUE);
+
+  public BufferedImage Mapa_cambios(Imagen imag, int umbral) {
+    BufferedImage Diferencia;
+    Color red = Color.red;
+    Diferencia = this.Diferencia(imag);
+    BufferedImage newImg = GraphicsEnvironment
+        .getLocalGraphicsEnvironment()
+        .getDefaultScreenDevice()
+        .getDefaultConfiguration()
+        .createCompatibleImage(imagen.getWidth(), imagen.getHeight(),
+            Transparency.OPAQUE);
     for (int i = 0; i < imagen.getWidth(); i++) {
       for (int j = 0; j < imagen.getHeight(); j++) {
-    	  Color c1 = new Color(Diferencia.getRGB(i, j));
-          int c_value = c1.getBlue();
-          if (c_value > umbral){
-        	  newImg.setRGB(i, j, red.getRGB());
-          }
-          else
-        	  newImg.setRGB(i, j, imagen.getRGB(i,j));
+        Color c1 = new Color(Diferencia.getRGB(i, j));
+        int c_value = c1.getBlue();
+        if (c_value > umbral) {
+          newImg.setRGB(i, j, red.getRGB());
+        } else
+          newImg.setRGB(i, j, imagen.getRGB(i, j));
       }
     }
-	return newImg;
-}
+    return newImg;
+  }
+
   public String getRuta() {
     return ruta;
   }
@@ -766,6 +755,10 @@ public BufferedImage Mapa_cambios(Imagen imag, int umbral){
 
   private void setNombre(String nombre) {
     this.nombre = nombre;
+  }
+
+  public BufferedImage getBufferedImage() {
+    return imagen;
   }
 
 }
