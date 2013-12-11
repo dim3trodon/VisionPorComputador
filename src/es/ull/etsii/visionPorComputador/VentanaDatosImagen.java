@@ -22,7 +22,7 @@ public class VentanaDatosImagen extends JFrame {
   public static final int FILAS = 5;
   public static final int COLUMNAS = 1;
   public static final boolean VISIBLE = true;
-  public static final boolean RESIZABLE = false;
+  public static final boolean RESIZABLE = true;
   
   public static final int ANCHO = 200;
   public static final int ALTO = 160;

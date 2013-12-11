@@ -147,21 +147,12 @@ public class MenuVision extends JMenuBar {
       
       @Override
       public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
-        
+        getAccionesMenu().EdicionTraspuesta();
       }
     });
     getMenuEdicion().add(itemTraspuesta);
     
     JMenu menuRotacion = new JMenu("Rotación");
-    menuRotacion.addActionListener(new ActionListener() {
-      
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
-        
-      }
-    });
     getMenuEdicion().add(menuRotacion);
     
     JMenuItem itemRotacion90 = new JMenuItem("90º");
@@ -169,8 +160,7 @@ public class MenuVision extends JMenuBar {
       
       @Override
       public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
-        
+        getAccionesMenu().EdicionRotacion(90);
       }
     });
     menuRotacion.add(itemRotacion90);
@@ -180,8 +170,7 @@ public class MenuVision extends JMenuBar {
       
       @Override
       public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
-        
+        getAccionesMenu().EdicionRotacion(180);
       }
     });
     menuRotacion.add(itemRotacion180);
@@ -191,11 +180,21 @@ public class MenuVision extends JMenuBar {
       
       @Override
       public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
-        
+        getAccionesMenu().EdicionRotacion(270);
       }
     });
     menuRotacion.add(itemRotacion270);
+    
+    JMenuItem itemRotacionLibre = new JMenuItem("Libre");
+    itemRotacionLibre.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        // TODO Rotación libre
+        
+      }
+    });
+    menuRotacion.add(itemRotacionLibre);
     
     JMenuItem itemEscalado = new JMenuItem("Escalado");
     itemEscalado.addActionListener(new ActionListener() {

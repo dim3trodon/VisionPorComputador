@@ -83,7 +83,7 @@ public class AccionesMenu {
         Imagen imagenRecorte = ventanaActiva.getRegionOfInterest().getRecorte();
         imagenEspejo = new Imagen(imagenRecorte.Espejo(imagenRecorte,
             "vertical"), imagenRecorte.getNombre() + "_espejo");
-        
+
       }
       getInterfazRef()
           .crearNuevaVentana(imagenEspejo, imagenEspejo.getNombre());
@@ -106,7 +106,7 @@ public class AccionesMenu {
         Imagen imagenRecorte = ventanaActiva.getRegionOfInterest().getRecorte();
         imagenEspejo = new Imagen(imagenRecorte.Espejo(imagenRecorte,
             "horizontal"), imagenRecorte.getNombre() + "_espejo");
-        
+
       }
       getInterfazRef()
           .crearNuevaVentana(imagenEspejo, imagenEspejo.getNombre());
@@ -116,15 +116,26 @@ public class AccionesMenu {
   }
 
   public void EdicionTraspuesta() {
-    // TODO
+    try {
+      Imagen imagenTraspuesta = new Imagen(getInterfazRef().getImagenActiva()
+          .traspuesta(), getInterfazRef().getImagenActiva().getNombre());
+      getInterfazRef().crearNuevaVentana(imagenTraspuesta,
+          imagenTraspuesta.getNombre());
+    } catch (NullPointerException noHayImagen) {
+      System.err.println("No hay imágenes");
+    }
   }
 
   public void EdicionRotacion(int grado) {
-    // TODO Rotaciones multiplo de 90
+    Imagen imagenRotada = new Imagen(getInterfazRef().getImagenActiva().giro(
+        grado), getInterfazRef().getImagenActiva().getNombre() + "_" + grado
+        + "_giro");
+    getInterfazRef().crearNuevaVentana(imagenRotada, imagenRotada.getNombre());
   }
 
   public void EdicionEscalado() {
-    getInterfazRef().crearVentanaEscalado(getInterfazRef().getVentanaImagenActiva());
+    getInterfazRef().crearVentanaEscalado(
+        getInterfazRef().getVentanaImagenActiva());
   }
 
   public void EdicionEscaladoPorcentaje() {
