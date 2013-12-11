@@ -55,12 +55,12 @@ public class VentanaEscaladoPorcentual extends JFrame {
         String textoAncho = getTextFieldAncho().getText();
         String textoAlto = getTextFieldAlto().getText();
         try {
-          int porcentajeAncho = Integer.parseInt(textoAncho);
-          int porcentajeAlto = Integer.parseInt(textoAlto);
-          // TODO crear nueva imagen escalada (porcentaje negativo es reducir,
-          // porcentaje positivo es aumentar)
-          
-          
+          float porcentAncho = Float.parseFloat(textoAncho) / 100.0f;
+          float porcentAlto = Float.parseFloat(textoAlto) / 100.0f;
+          // TODO Tipo de interpolación
+          Imagen imagenEsc = new Imagen(getImagen().Escaladoporcent(getImagen(),
+              porcentAncho, porcentAlto), getImagen().getNombre() + "_espejo");
+          getInterfazRef().crearNuevaVentana(imagenEsc, imagenEsc.getNombre());
           dispose();
         } catch (NumberFormatException noNumero) {
           System.err

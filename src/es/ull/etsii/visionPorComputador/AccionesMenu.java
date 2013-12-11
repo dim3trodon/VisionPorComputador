@@ -35,9 +35,10 @@ public class AccionesMenu {
    * @param linkImagen
    */
   public void ArchivoAbrir(String linkImagen) {
-    getInterfazRef().crearNuevaVentana(linkImagen, TratamientoCadenas.getNombreImagen(linkImagen));
+    getInterfazRef().crearNuevaVentana(linkImagen,
+        TratamientoCadenas.getNombreImagen(linkImagen));
   }
-  
+
   public void ArchivoGuardar(Imagen imagen) {
     // new File(arg0)
     // ;
@@ -67,31 +68,68 @@ public class AccionesMenu {
       System.err.println("No hay imágenes");
     }
   }
-  
+
   public void EdicionEspejoVertical() {
-    // TODO Hacer espejo vertical de una seleccion (comprobar si hay una 
-    // seleccion en la imagen) o de la imagen entera
-	  
+    try {
+      VentanaImagen ventanaActiva = getInterfazRef().getVentanaImagenActiva();
+      Imagen imagenEspejo = null;
+      // Si no hay área seleccionada de la region of interest
+      if (!ventanaActiva.hayAreaSeleccionada()) {
+        imagenEspejo = new Imagen(getInterfazRef().getImagenActiva().Espejo(
+            getInterfazRef().getImagenActiva(), "vertical"), getInterfazRef()
+            .getImagenActiva().getNombre() + "_espejo");
+
+      } else {
+        Imagen imagenRecorte = ventanaActiva.getRegionOfInterest().getRecorte();
+        imagenEspejo = new Imagen(imagenRecorte.Espejo(imagenRecorte,
+            "vertical"), imagenRecorte.getNombre() + "_espejo");
+        
+      }
+      getInterfazRef()
+          .crearNuevaVentana(imagenEspejo, imagenEspejo.getNombre());
+    } catch (NullPointerException noHayImagen) {
+      System.err.println("No hay imágenes");
+    }
   }
-  
+
   public void EdicionEspejoHorizontal() {
-    // TODO
+    try {
+      VentanaImagen ventanaActiva = getInterfazRef().getVentanaImagenActiva();
+      Imagen imagenEspejo = null;
+      // Si no hay área seleccionada de la region of interest
+      if (!ventanaActiva.hayAreaSeleccionada()) {
+        imagenEspejo = new Imagen(getInterfazRef().getImagenActiva().Espejo(
+            getInterfazRef().getImagenActiva(), "horizontal"), getInterfazRef()
+            .getImagenActiva().getNombre() + "_espejo");
+
+      } else {
+        Imagen imagenRecorte = ventanaActiva.getRegionOfInterest().getRecorte();
+        imagenEspejo = new Imagen(imagenRecorte.Espejo(imagenRecorte,
+            "horizontal"), imagenRecorte.getNombre() + "_espejo");
+        
+      }
+      getInterfazRef()
+          .crearNuevaVentana(imagenEspejo, imagenEspejo.getNombre());
+    } catch (NullPointerException noHayImagen) {
+      System.err.println("No hay imágenes");
+    }
   }
-  
+
   public void EdicionTraspuesta() {
     // TODO
   }
-  
+
   public void EdicionRotacion(int grado) {
     // TODO Rotaciones multiplo de 90
   }
-  
+
   public void EdicionEscalado() {
-   getInterfazRef().crearVentanaEscalado(getInterfazRef().getImagenActiva());
+    getInterfazRef().crearVentanaEscalado(getInterfazRef().getImagenActiva());
   }
-  
+
   public void EdicionEscaladoPorcentaje() {
-   getInterfazRef().crearVentanaEscaladoPorcentual(getInterfazRef().getImagenActiva());
+    getInterfazRef().crearVentanaEscaladoPorcentual(
+        getInterfazRef().getImagenActiva());
   }
 
   /**
@@ -134,6 +172,7 @@ public class AccionesMenu {
 
   /**
    * Acción del menú Imagen/Ecualizar
+   * 
    * @param imagen
    */
   public void ImagenEcualizar(Imagen imagen) {
@@ -141,19 +180,20 @@ public class AccionesMenu {
         + "equalized");
     getInterfazRef().crearNuevaVentana(imagenEq, imagenEq.getNombre());
   }
-  
+
   /**
    * Acción del menú Imagen/Diferencia
+   * 
    * @param imagen
    */
   public void ImagenDiferencia(Imagen imagen) {
     getInterfazRef().crearVentanaDiferencia(imagen);
   }
-  
+
   public void ImagenMapaCambios(Imagen imagen) {
     getInterfazRef().crearVentanaMapaCambios(imagen);
   }
-  
+
   public void ImagenBrilloContraste(Imagen imagen) {
     getInterfazRef().crearVentanaBrilloContraste(imagen);
   }
@@ -165,7 +205,7 @@ public class AccionesMenu {
   public void ImagenEspecificarHistograma(Imagen imagen) {
     getInterfazRef().crearVentanaEspecificarHistograma(imagen);
   }
-  
+
   private Interfaz getInterfazRef() {
     return interfazRef;
   }

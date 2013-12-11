@@ -187,6 +187,10 @@ public class VentanaImagen extends JInternalFrame {
     }
 
   }
+  
+  public boolean hayAreaSeleccionada() {
+    return getRegionOfInterest().estaInicializado();
+  }
 
   /**
    * Devuelve la Imagen

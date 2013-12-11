@@ -62,6 +62,8 @@ public class Imagen {
     this.setEntropia();
     this.set_maxmin();
   }
+  
+  
 
   /**
    * Constructor al que se le pasa la ruta de la imagen
@@ -330,6 +332,7 @@ public class Imagen {
 	  
 	  return newImg;
   }
+  
   public BufferedImage Espejo(Imagen image, String type) {
 	  int ancho= imagen.getWidth();
 	  int alto= imagen.getHeight();
@@ -340,7 +343,7 @@ public class Imagen {
 		        .getDefaultConfiguration()
 		        .createCompatibleImage(ancho, alto,
 		            Transparency.OPAQUE);
-	  if (type=="vertical" ){
+	  if (type=="vertical" ) {
 		  for (int i = 0; i < imagen.getWidth(); i++) {
 		        for (int j = 0; j < imagen.getHeight(); j++) {
 		        	
@@ -350,7 +353,7 @@ public class Imagen {
 		  }
 	
 	  }
-	  if (type=="horizontal" ){
+	  if (type=="horizontal" ) {
 		  for (int i = 0; i < imagen.getWidth(); i++) {
 		        for (int j = 0; j < imagen.getHeight(); j++) {
 		        	

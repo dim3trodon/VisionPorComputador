@@ -127,8 +127,7 @@ public class MenuVision extends JMenuBar {
       
       @Override
       public void actionPerformed(ActionEvent arg0) {
-        // TODO Llamar método de espejo vertical
-        
+        getAccionesMenu().EdicionEspejoVertical();
       }
     });
     menuEspejo.add(itemEspejoVertical);
@@ -138,8 +137,7 @@ public class MenuVision extends JMenuBar {
       
       @Override
       public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
-        
+        getAccionesMenu().EdicionEspejoHorizontal();
       }
     });
     menuEspejo.add(itemEspejoHorizontal);
