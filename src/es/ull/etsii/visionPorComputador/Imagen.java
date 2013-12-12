@@ -32,7 +32,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import org.imgscalr.Scalr;
+
 
 public class Imagen {
 

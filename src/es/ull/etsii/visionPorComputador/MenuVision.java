@@ -160,7 +160,7 @@ public class MenuVision extends JMenuBar {
       
       @Override
       public void actionPerformed(ActionEvent arg0) {
-        getAccionesMenu().EdicionRotacion(90);
+        getAccionesMenu().EdicionRotacion(1);
       }
     });
     menuRotacion.add(itemRotacion90);
@@ -170,7 +170,7 @@ public class MenuVision extends JMenuBar {
       
       @Override
       public void actionPerformed(ActionEvent arg0) {
-        getAccionesMenu().EdicionRotacion(180);
+        getAccionesMenu().EdicionRotacion(2);
       }
     });
     menuRotacion.add(itemRotacion180);
@@ -180,7 +180,7 @@ public class MenuVision extends JMenuBar {
       
       @Override
       public void actionPerformed(ActionEvent arg0) {
-        getAccionesMenu().EdicionRotacion(270);
+        getAccionesMenu().EdicionRotacion(3);
       }
     });
     menuRotacion.add(itemRotacion270);
