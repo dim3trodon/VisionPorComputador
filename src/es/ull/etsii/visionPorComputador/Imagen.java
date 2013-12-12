@@ -32,8 +32,6 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-
-
 public class Imagen {
 
   // Tipo de interpolación
@@ -203,278 +201,257 @@ public class Imagen {
 
   }
 
-  private int[][] mult_mat(double [][] A, int[][] B){
-	 int [][] pto_n= new int [2][1];
-	 int suma;
-	 for (int i = 0; i <A.length; i++) {
-		 suma=0;
-	        for (int j = 0; j < B.length; j++) {
-	        	suma+=(int)(A[i][j]*B[j][0]);
-		        }
-	        	pto_n[i][0]=suma;
-	        
-	        }
-	
-	 	//pto_n[0][0]=(int)(A[0][0]*B[0][0])+(int)(A[0][1]*B[1][0]);
-	 		//	pto_n[1][0]=	(int)(A[1][0]*B[0][0])+(int)(A[1][1]*B[1][0]);	
-            
-    
-	  
-	  return pto_n;
-  }
-  private int module(int[][] A){
-	 double result; 
-	  result =Math.pow(A[0][0], 2)+Math.pow(A[1][0], 2);
-	  return (int)Math.sqrt(result);
-  }
-  private int distance(int[][] A, int[][] B){
+  private int[][] mult_mat(double[][] A, int[][] B) {
+    int[][] pto_n = new int[2][1];
+    int suma;
+    for (int i = 0; i < A.length; i++) {
+      suma = 0;
+      for (int j = 0; j < B.length; j++) {
+        suma += (int) (A[i][j] * B[j][0]);
+      }
+      pto_n[i][0] = suma;
 
-      double res1,res2;
-      int respuest;
-      res1=A[0][0]-B[0][0];  
-      res2=A[1][0]-B[1][0];
-      res1=Math.pow(res1, 2)+Math.pow(res2, 2);
-      respuest=(int)Math.sqrt(res1);
-       return respuest; }
-  private int[][] mapeo_directo(int [][] pto,int  grados){
-	  double [][] rota = new double[2][2];
-	  double grado=Math.toRadians(grados);
-	  rota[0][0]= Math.cos(grado);
-	  rota[0][1]= -Math.sin(grado);
-	  rota[1][0]= Math.sin(grado);
-	  rota[1][1]= Math.cos(grado);
-	  
-	 return pto=mult_mat(rota,pto);
-  }     
-   private int[][] mapeo_indirecto(int [][] pto,int  grados){
-	  double grado=Math.toRadians(grados);
-	  double [][] rota = new double[2][2];
-	  rota[0][0]= Math.cos(grado);
-	  rota[0][1]= Math.sin(grado);
-	  rota[1][0]= -Math.sin(grado);
-	  rota[1][1]= Math.cos(grado);
-	  
-	 return pto=mult_mat(rota,pto);
+    }
+
+    // pto_n[0][0]=(int)(A[0][0]*B[0][0])+(int)(A[0][1]*B[1][0]);
+    // pto_n[1][0]= (int)(A[1][0]*B[0][0])+(int)(A[1][1]*B[1][0]);
+
+    return pto_n;
   }
 
- public BufferedImage turn(int grados) {
-	  Color red = Color.red;
-	  
-	  int [][] A,B,C,D;
-	  int x,y;
-	  int  [][] pto= new int [2][1];
-	  int  [][] ori= new int [2][1];
-	  int  [][] diag1 = new int [2][1];
-	  int  [][] diag2 = new int [2][1];
-	  diag1[0][0]=imagen.getWidth() ;
-	  diag1[1][0]=(imagen.getHeight());
-	  diag2[0][0]=imagen.getWidth();
-	  diag2[1][0]=-(imagen.getHeight());
-	  int firstModulus = module(diag1);
-      int secondModulus = module(diag2) ;	 
-      int biggest = (firstModulus > secondModulus) ? firstModulus : secondModulus;	
-	  BufferedImage newImg = GraphicsEnvironment
-		        .getLocalGraphicsEnvironment()
-		        .getDefaultScreenDevice()
-		        .getDefaultConfiguration()
-		        .createCompatibleImage(biggest, biggest,
-		            Transparency.OPAQUE);
-	 
-	  //calculamos los puntos de las esquinas de nuestra imagen para generar el paralelogramo que la cirscuncribe
-	  pto[0][0]=0;
-  	  pto[1][0]=0;	
-  	  A=this.mapeo_directo( pto, grados);
-  	  
-  	  pto[0][0]=imagen.getWidth()-1;
-	  pto[1][0]=0;
-	  B=this.mapeo_directo( pto, grados);
-  	  
-	  pto[0][0]=0;
-	  pto[1][0]=imagen.getHeight()-1;
-	  C=this.mapeo_directo( pto, grados);
-  	  
-	  pto[0][0]=imagen.getHeight()-1;
-	  pto[1][0]=imagen.getWidth()-1;
-	  D=this.mapeo_directo( pto, grados);
-	  
-      
-	  ori[0][0]=minimo(minimo(B[0][0],C[0][0]),D[0][0]);
-	  ori[1][0]=minimo(minimo(B[1][0],C[1][0]),D[1][0]);
-	  ori[0][0]= (ori[0][0]<0)? (-ori[0][0]) : 0;
-	  ori[1][0]= (ori[1][0]<0)? (-ori[1][0]) : 0;
-	    
-	  
-	  for (int i = 0; i < newImg.getWidth(); i++) {
-	        for (int j = 0; j < newImg.getHeight(); j++) {
-	        	pto[0][0]=i-ori[0][0];
-      	  		pto[1][0]=j-ori[1][0];
-      	  		pto=this.mapeo_indirecto( pto, grados);
-      	  		x = pto[0][0];
-      			y = pto[1][0];
-      			 try {	
-      	  		if (x<imagen.getWidth()&y<imagen.getHeight()&x>0&y>0){
-      	  			newImg.setRGB(i,j , imagen.getRGB(x,y));	
-      	  		
-      	  		}
-      	  		else{
-      	  			newImg.setRGB(i,j ,red.getRGB() );
-      	  		}
-      			 }
-      			catch(ArrayIndexOutOfBoundsException petada){
-    	      		System.err.println("peto en x: "+x+" y: "+y+ " i: "+i +" j: "+j );
-    	            
-    	      	
-    	      	}
-      	  	}
-	  }
-	  
-	  return newImg;
-	  
-	  
+  private int module(int[][] A) {
+    double result;
+    result = Math.pow(A[0][0], 2) + Math.pow(A[1][0], 2);
+    return (int) Math.sqrt(result);
   }
 
- public BufferedImage turn_direct(int grados) {
-	  Color red = Color.red;
-	  
-	  int [][] A,B,C,D;
-	  int x,y;
-	  int  [][] pto= new int [2][1];
-	  int  [][] ori= new int [2][1];
-	  int  [][] diag1 = new int [2][1];
-	  int  [][] diag2 = new int [2][1];
-	  diag1[0][0]=imagen.getWidth() - 1;
-	  diag1[1][0]=(imagen.getHeight() - 1);
-	  diag2[0][0]=imagen.getWidth() - 1;
-	  diag2[1][0]=-(imagen.getHeight()-1);
-	  int firstModulus = module(diag1);
-      int secondModulus = module(diag2) ;	 
-      int biggest = (firstModulus > secondModulus) ? firstModulus : secondModulus;	
-	  BufferedImage newImg = GraphicsEnvironment
-		        .getLocalGraphicsEnvironment()
-		        .getDefaultScreenDevice()
-		        .getDefaultConfiguration()
-		        .createCompatibleImage(biggest, biggest,
-		            Transparency.OPAQUE);
-	 
-	  //calculamos los puntos de las esquinas de nuestra imagen para generar el paralelogramo que la cirscuncribe
-	  pto[0][0]=0;
-  	  pto[1][0]=0;	
-  	  A=this.mapeo_directo( pto, grados);
-  	  
-  	  pto[0][0]=imagen.getWidth()-1;
-	  pto[1][0]=0;
-	  B=this.mapeo_directo( pto, grados);
-  	  
-	  pto[0][0]=0;
-	  pto[1][0]=imagen.getHeight()-1;
-	  C=this.mapeo_directo( pto, grados);
-  	  
-	  pto[0][0]=imagen.getHeight()-1;
-	  pto[1][0]=imagen.getWidth()-1;
-	  D=this.mapeo_directo( pto, grados);
-	  
-      
-	  ori[0][0]=minimo(minimo(B[0][0],C[0][0]),D[0][0]);
-	  ori[1][0]=minimo(minimo(B[1][0],C[1][0]),D[1][0]);
-	  ori[0][0]= (ori[0][0]<0)? (-ori[0][0]) : 0;
-	  ori[1][0]= (ori[1][0]<0)? (-ori[1][0]) : 0;
-	    
-	    
-	  
-	  for (int i = 0; i < imagen.getWidth(); i++) {
-	        for (int j = 0; j < imagen.getHeight(); j++) {
-	        	pto[0][0]=i;
-      	  		pto[1][0]=j;
-      	  		pto=this.mapeo_directo( pto, grados);
-      	  		x = pto[0][0]+ori[0][0];
-      			y = pto[1][0]+ori[1][0];
+  private int distance(int[][] A, int[][] B) {
 
-   	      	 try {	
-      	  		if (x<biggest&y<biggest&x>0&y>0){
-      	  			newImg.setRGB(x,y , imagen.getRGB(i,j));	
-      	  		
-      	  		}
-      	  		
-   	      	 }
-   	      catch(ArrayIndexOutOfBoundsException petada){
-	      		System.err.println("peto en x: "+x+" y: "+y+ " i: "+i +" j: "+j );
-	            
-	      	
-	      	}
-      	  	}
-	  }
-	  
-	  return newImg;
-	  
-	  
+    double res1, res2;
+    int respuest;
+    res1 = A[0][0] - B[0][0];
+    res2 = A[1][0] - B[1][0];
+    res1 = Math.pow(res1, 2) + Math.pow(res2, 2);
+    respuest = (int) Math.sqrt(res1);
+    return respuest;
   }
-  
+
+  private int[][] mapeo_directo(int[][] pto, int grados) {
+    double[][] rota = new double[2][2];
+    double grado = Math.toRadians(grados);
+    rota[0][0] = Math.cos(grado);
+    rota[0][1] = -Math.sin(grado);
+    rota[1][0] = Math.sin(grado);
+    rota[1][1] = Math.cos(grado);
+
+    return pto = mult_mat(rota, pto);
+  }
+
+  private int[][] mapeo_indirecto(int[][] pto, int grados) {
+    double grado = Math.toRadians(grados);
+    double[][] rota = new double[2][2];
+    rota[0][0] = Math.cos(grado);
+    rota[0][1] = Math.sin(grado);
+    rota[1][0] = -Math.sin(grado);
+    rota[1][1] = Math.cos(grado);
+
+    return pto = mult_mat(rota, pto);
+  }
+
+  public BufferedImage turn(int grados) {
+    Color red = Color.red;
+
+    int[][] A, B, C, D;
+    int x, y;
+    int[][] pto = new int[2][1];
+    int[][] ori = new int[2][1];
+    int[][] diag1 = new int[2][1];
+    int[][] diag2 = new int[2][1];
+    diag1[0][0] = imagen.getWidth();
+    diag1[1][0] = (imagen.getHeight());
+    diag2[0][0] = imagen.getWidth();
+    diag2[1][0] = -(imagen.getHeight());
+    int firstModulus = module(diag1);
+    int secondModulus = module(diag2);
+    int biggest = (firstModulus > secondModulus) ? firstModulus : secondModulus;
+    BufferedImage newImg = GraphicsEnvironment.getLocalGraphicsEnvironment()
+        .getDefaultScreenDevice().getDefaultConfiguration()
+        .createCompatibleImage(biggest, biggest, Transparency.OPAQUE);
+
+    // calculamos los puntos de las esquinas de nuestra imagen para generar el
+    // paralelogramo que la cirscuncribe
+    pto[0][0] = 0;
+    pto[1][0] = 0;
+    A = this.mapeo_directo(pto, grados);
+
+    pto[0][0] = imagen.getWidth() - 1;
+    pto[1][0] = 0;
+    B = this.mapeo_directo(pto, grados);
+
+    pto[0][0] = 0;
+    pto[1][0] = imagen.getHeight() - 1;
+    C = this.mapeo_directo(pto, grados);
+
+    pto[0][0] = imagen.getHeight() - 1;
+    pto[1][0] = imagen.getWidth() - 1;
+    D = this.mapeo_directo(pto, grados);
+
+    ori[0][0] = minimo(minimo(B[0][0], C[0][0]), D[0][0]);
+    ori[1][0] = minimo(minimo(B[1][0], C[1][0]), D[1][0]);
+    ori[0][0] = (ori[0][0] < 0) ? (-ori[0][0]) : 0;
+    ori[1][0] = (ori[1][0] < 0) ? (-ori[1][0]) : 0;
+
+    for (int i = 0; i < newImg.getWidth(); i++) {
+      for (int j = 0; j < newImg.getHeight(); j++) {
+        pto[0][0] = i - ori[0][0];
+        pto[1][0] = j - ori[1][0];
+        pto = this.mapeo_indirecto(pto, grados);
+        x = pto[0][0];
+        y = pto[1][0];
+        try {
+          if (x < imagen.getWidth() & y < imagen.getHeight() & x > 0 & y > 0) {
+            newImg.setRGB(i, j, imagen.getRGB(x, y));
+
+          } else {
+            newImg.setRGB(i, j, red.getRGB());
+          }
+        } catch (ArrayIndexOutOfBoundsException petada) {
+          System.err.println("peto en x: " + x + " y: " + y + " i: " + i
+              + " j: " + j);
+
+        }
+      }
+    }
+
+    return newImg;
+
+  }
+
+  public BufferedImage turn_direct(int grados) {
+    Color red = Color.red;
+
+    int[][] A, B, C, D;
+    int x, y;
+    int[][] pto = new int[2][1];
+    int[][] ori = new int[2][1];
+    int[][] diag1 = new int[2][1];
+    int[][] diag2 = new int[2][1];
+    diag1[0][0] = imagen.getWidth() - 1;
+    diag1[1][0] = (imagen.getHeight() - 1);
+    diag2[0][0] = imagen.getWidth() - 1;
+    diag2[1][0] = -(imagen.getHeight() - 1);
+    int firstModulus = module(diag1);
+    int secondModulus = module(diag2);
+    int biggest = (firstModulus > secondModulus) ? firstModulus : secondModulus;
+    BufferedImage newImg = GraphicsEnvironment.getLocalGraphicsEnvironment()
+        .getDefaultScreenDevice().getDefaultConfiguration()
+        .createCompatibleImage(biggest, biggest, Transparency.OPAQUE);
+
+    // calculamos los puntos de las esquinas de nuestra imagen para generar el
+    // paralelogramo que la cirscuncribe
+    pto[0][0] = 0;
+    pto[1][0] = 0;
+    A = this.mapeo_directo(pto, grados);
+
+    pto[0][0] = imagen.getWidth() - 1;
+    pto[1][0] = 0;
+    B = this.mapeo_directo(pto, grados);
+
+    pto[0][0] = 0;
+    pto[1][0] = imagen.getHeight() - 1;
+    C = this.mapeo_directo(pto, grados);
+
+    pto[0][0] = imagen.getHeight() - 1;
+    pto[1][0] = imagen.getWidth() - 1;
+    D = this.mapeo_directo(pto, grados);
+
+    ori[0][0] = minimo(minimo(B[0][0], C[0][0]), D[0][0]);
+    ori[1][0] = minimo(minimo(B[1][0], C[1][0]), D[1][0]);
+    ori[0][0] = (ori[0][0] < 0) ? (-ori[0][0]) : 0;
+    ori[1][0] = (ori[1][0] < 0) ? (-ori[1][0]) : 0;
+
+    for (int i = 0; i < imagen.getWidth(); i++) {
+      for (int j = 0; j < imagen.getHeight(); j++) {
+        pto[0][0] = i;
+        pto[1][0] = j;
+        pto = this.mapeo_directo(pto, grados);
+        x = pto[0][0] + ori[0][0];
+        y = pto[1][0] + ori[1][0];
+
+        try {
+          if (x < biggest & y < biggest & x > 0 & y > 0) {
+            newImg.setRGB(x, y, imagen.getRGB(i, j));
+
+          }
+
+        } catch (ArrayIndexOutOfBoundsException petada) {
+          System.err.println("peto en x: " + x + " y: " + y + " i: " + i
+              + " j: " + j);
+
+        }
+      }
+    }
+
+    return newImg;
+
+  }
+
   public BufferedImage giro(int mult) {
-	int alto;
-	int x;
-	int y;
-	int ancho;
-	
-	if (mult%2 ==0){
-		  ancho= imagen.getWidth();
-		  alto= imagen.getHeight();
-	  }
-	  else{
-		  alto= imagen.getWidth();
-		  ancho= imagen.getHeight();
-		  
-	  }
-	 
-	  //ancho=Math.abs(pto[0][0]);
-	 // alto=Math.abs(pto[0][1]);
-	  //Creamos la imagen que vamos a devolver
-	  BufferedImage newImg = GraphicsEnvironment
-		        .getLocalGraphicsEnvironment()
-		        .getDefaultScreenDevice()
-		        .getDefaultConfiguration()
-		        .createCompatibleImage(ancho, alto,
-		            Transparency.OPAQUE);
-	  
-	  for (int i = 0; i < imagen.getWidth(); i++) {
-	        for (int j = 0; j < imagen.getHeight(); j++) {        	
-	        	
-	        	
-	      	 
-	      	if (mult%2 ==0){  
-	      			x=ancho-1-i;
-	      			y = alto-1-j;
-	      	}
-	      	else{
-	      		
-	      		if(mult ==1){
-	      			x= j;
-		      		y =alto-i-1;
-	      		}
-	      		else{
-	      			 x= ancho-j-1;
-		      		 y = i;
-	      		}
-	      		
-	      	}
-	      		
-	      	 try {	
-	        	 newImg.setRGB(x,y , imagen.getRGB(i,j));
-	        	 
-	      	 }
-	      	 
-	      	catch(ArrayIndexOutOfBoundsException petada){
-	      		System.err.println("peto en x: "+x+" y: "+y+ " i: "+i +" j: "+j );
-	            
-	      	
-	      	}
-	      		
-	        }
-	  }
-	  
-	  return newImg;
+    int alto;
+    int x;
+    int y;
+    int ancho;
+
+    if (mult % 2 == 0) {
+      ancho = imagen.getWidth();
+      alto = imagen.getHeight();
+    } else {
+      alto = imagen.getWidth();
+      ancho = imagen.getHeight();
+
+    }
+
+    // ancho=Math.abs(pto[0][0]);
+    // alto=Math.abs(pto[0][1]);
+    // Creamos la imagen que vamos a devolver
+    BufferedImage newImg = GraphicsEnvironment.getLocalGraphicsEnvironment()
+        .getDefaultScreenDevice().getDefaultConfiguration()
+        .createCompatibleImage(ancho, alto, Transparency.OPAQUE);
+
+    for (int i = 0; i < imagen.getWidth(); i++) {
+      for (int j = 0; j < imagen.getHeight(); j++) {
+
+        if (mult % 2 == 0) {
+          x = ancho - 1 - i;
+          y = alto - 1 - j;
+        } else {
+
+          if (mult == 1) {
+            x = j;
+            y = alto - i - 1;
+          } else {
+            x = ancho - j - 1;
+            y = i;
+          }
+
+        }
+
+        try {
+          newImg.setRGB(x, y, imagen.getRGB(i, j));
+
+        }
+
+        catch (ArrayIndexOutOfBoundsException petada) {
+          System.err.println("peto en x: " + x + " y: " + y + " i: " + i
+              + " j: " + j);
+
+        }
+
+      }
+    }
+
+    return newImg;
   }
-  
-  
 
   public BufferedImage traspuesta() {
     int ancho = imagen.getWidth();
@@ -519,13 +496,60 @@ public class Imagen {
         }
       }
     } else {
-      Graphics2D g = newImg.createGraphics();
-      g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-          RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-      g.drawImage(getImagen(), 0, 0, ancho, alto, null);
-      g.dispose();
+      // TODO bilinear
+      float xScale = x;
+      float yScale = y;
+      for (int i = 0; i < ancho; i++) {
+        for (int j = 0; j < alto; j++) {
+          float transX = (float) (i) / xScale;
+          float transY = (float) (j) / yScale;
+          int gris = getBilinearGreyLevel(transX, transY);
+          int grisCorregido = correctRange(0, 255, gris);
+          newImg.setRGB(i, j, new Color(grisCorregido, grisCorregido,
+              grisCorregido).getRGB());
+        }
+      }
+      /*
+       * Graphics2D g = newImg.createGraphics();
+       * g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+       * RenderingHints.VALUE_INTERPOLATION_BILINEAR); g.drawImage(getImagen(),
+       * 0, 0, ancho, alto, null); g.dispose();
+       */
+
     }
     return newImg;
+  }
+
+  public int correctRange(int minimo, int maximo, int valor) {
+    int valorAbs = Math.abs(valor);
+    if (valorAbs < minimo)
+      return minimo;
+    else if (valorAbs > maximo)
+      return maximo;
+    else
+      return valorAbs;
+  }
+
+  public int getBilinearGreyLevel(float x, float y) {
+    int firstX = (int) Math.floor(x);
+    int firstY = (int) Math.floor(y);
+    int secondX = (firstX + 1) < getImagen().getWidth() ? (firstX + 1) : firstX;
+    int secondY = (firstY + 1) < getImagen().getHeight() ? (firstY + 1)
+        : firstY;
+
+    float greyLevelA = getPixel(firstX, firstY);
+    float greyLevelB = getPixel(secondX, firstY);
+    float greyLevelC = getPixel(firstX, secondY);
+    float greyLevelD = getPixel(secondX, secondY);
+
+    float xDiff = x - (float) firstX;
+    float yDiff = y - (float) firstY;
+
+    float interpolatedGreyLevel = greyLevelA * (1 - xDiff) * (1 - yDiff)
+        + greyLevelB * xDiff * (1 - yDiff) + greyLevelC * yDiff * (1 - xDiff)
+        + greyLevelD * xDiff * yDiff;
+
+    return Math.round(interpolatedGreyLevel);
   }
 
   public BufferedImage Espejo(Imagen image, String type) {
@@ -652,9 +676,11 @@ public class Imagen {
     this.contraste = (float) Math.sqrt(temp / size);
 
   }
-private int minimo(int a, int b) {
-	    return (a < b) ? a : b;
-	  }
+
+  private int minimo(int a, int b) {
+    return (a < b) ? a : b;
+  }
+
   public double getContraste() {
     return this.contraste;
   }
