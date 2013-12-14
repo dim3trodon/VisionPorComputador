@@ -185,16 +185,25 @@ public class MenuVision extends JMenuBar {
     });
     menuRotacion.add(itemRotacion270);
     
-    JMenuItem itemRotacionLibre = new JMenuItem("Libre");
+    JMenuItem itemRotacionLibre = new JMenuItem("Libre Directo");
     itemRotacionLibre.addActionListener(new ActionListener() {
       
       @Override
       public void actionPerformed(ActionEvent e) {
-        // TODO Rotación libre
-        
+        getInterfazRef().CrearVentanaRotacionLibreDirecto(getInterfazRef().getImagenActiva());
       }
     });
     menuRotacion.add(itemRotacionLibre);
+    
+    JMenuItem itemRotacionInverso = new JMenuItem("Libre inverso");
+    itemRotacionInverso.addActionListener(new ActionListener() {
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        getInterfazRef().CrearVentanaRotacionLibreInverso(getInterfazRef().getImagenActiva());
+      }
+    });
+    menuRotacion.add(itemRotacionInverso);
     
     JMenuItem itemEscalado = new JMenuItem("Escalado");
     itemEscalado.addActionListener(new ActionListener() {

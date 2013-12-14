@@ -24,6 +24,7 @@ public class Histograma {
    * @param imagen
    */
   public Histograma(BufferedImage imagen) {
+    Color red = Color.red;
     Color color;
     int[] histogra = new int[NUMERO_PIXELES];
 
@@ -31,8 +32,8 @@ public class Histograma {
       for (int j = 0; j < imagen.getHeight(); j++) {
 
         color = new Color(imagen.getRGB(i, j));
-
-        histogra[color.getGreen()] += 1;
+        if(color != red)
+          histogra[color.getGreen()] += 1;
 
       }
 

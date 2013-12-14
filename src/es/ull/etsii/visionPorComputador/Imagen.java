@@ -1,4 +1,4 @@
-/** @author Daniel Afonso González
+/** @auhor Daniel Afonso González
  *  @author Rodrigo Valladares Santana
  *  @version 1.2, 11/11/13
  *  
@@ -369,6 +369,12 @@ public class Imagen {
     ori[1][0] = minimo(minimo(B[1][0], C[1][0]), D[1][0]);
     ori[0][0] = (ori[0][0] < 0) ? (-ori[0][0]) : 0;
     ori[1][0] = (ori[1][0] < 0) ? (-ori[1][0]) : 0;
+    
+    for (int i = 0; i < newImg.getWidth(); i++) {
+      for (int j = 0; j < newImg.getHeight(); j++) {
+        newImg.setRGB(i, j, red.getRGB());
+      }
+    }
 
     for (int i = 0; i < imagen.getWidth(); i++) {
       for (int j = 0; j < imagen.getHeight(); j++) {

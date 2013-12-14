@@ -95,6 +95,14 @@ public class Interfaz extends JFrame {
     setValorDatosPixelActivo(x, y, valorPixel);
   }
   
+  public void CrearVentanaRotacionLibreInverso(Imagen imagen) {
+    VentanaRotacionLibreIndirecto ventana = new VentanaRotacionLibreIndirecto(imagen, this);
+  }
+  
+  public void CrearVentanaRotacionLibreDirecto(Imagen imagen) {
+    VentanaRotacionLibreDirecto ventana = new VentanaRotacionLibreDirecto(imagen, this);
+  }
+  
   public void crearVentanaEscaladoPorcentual(VentanaImagen ventanaImagen) {
     @SuppressWarnings("unused")
     VentanaEscaladoPorcentual ventanaEscalado = new VentanaEscaladoPorcentual(this, ventanaImagen);
