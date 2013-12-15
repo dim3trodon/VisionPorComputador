@@ -4,18 +4,25 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 public class VentanaRotacionLibreIndirecto extends JFrame {
-  
+
+  private static final long serialVersionUID = 1L;
   JTextField field;
   JButton botonOk;
   Interfaz interfazRef;
   Imagen imagen;
+  int tipoInterpolacion;
   
-  public static final int ANCHO = 200;
+  private static final int VECINO = 0;
+  private static final int BILINEAL = 1;
+  
+  public static final int ANCHO = 250;
   public static final int ALTO = 120;
   
   public VentanaRotacionLibreIndirecto(Imagen imagen, Interfaz interfazRef)  {
@@ -25,6 +32,30 @@ public class VentanaRotacionLibreIndirecto extends JFrame {
     setImagen(imagen);
     setField(new JTextField(4));
     add(getField());
+    
+    setTipoInterpolacion(VECINO);
+    ButtonGroup agrupBoton = new ButtonGroup();
+    JRadioButton radioVecino = new JRadioButton("Vecino");
+    radioVecino.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        setTipoInterpolacion(VECINO);
+      }
+    });
+    agrupBoton.add(radioVecino);
+    JRadioButton radioBilineal = new JRadioButton("Bilineal");
+    radioBilineal.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        setTipoInterpolacion(BILINEAL);
+      }
+    });
+    agrupBoton.add(radioBilineal);
+    add(radioVecino);
+    add(radioBilineal);
+    
     add(getBotonOk());
     
     getBotonOk().addActionListener(new ActionListener() {
@@ -32,8 +63,9 @@ public class VentanaRotacionLibreIndirecto extends JFrame {
       @Override
       public void actionPerformed(ActionEvent arg0) {
         String textoField = getField().getText();
+        // TODO tipo interpolacion
         Imagen imagenGrados = new Imagen(getImagen().turn(
-            Integer.parseInt(textoField)), getImagen().getNombre() + "_grados");
+            Integer.parseInt(textoField), getTipoInterpolacion()), getImagen().getNombre() + "_grados");
         getInterfazRef().crearNuevaVentana(
             imagenGrados, imagenGrados.getNombre());
         dispose();
@@ -74,6 +106,14 @@ public class VentanaRotacionLibreIndirecto extends JFrame {
 
   private void setField(JTextField field) {
     this.field = field;
+  }
+  
+  private int getTipoInterpolacion() {
+    return tipoInterpolacion;
+  }
+
+  private void setTipoInterpolacion(int tipoInterpolacion) {
+    this.tipoInterpolacion = tipoInterpolacion;
   }
   
 }

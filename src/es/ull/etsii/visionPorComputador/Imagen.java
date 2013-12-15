@@ -258,7 +258,7 @@ public class Imagen {
     return pto = mult_mat(rota, pto);
   }
 
-  public BufferedImage turn(int grados) {
+  public BufferedImage turn(int grados, int tipo) {
     Color red = Color.red;
 
     int[][] A, B, C, D;
@@ -286,7 +286,7 @@ public class Imagen {
     max[1][0] = maximo(maximo(maximo(B[1][0], C[1][0]),D[1][0]),A[1][0]);
     int ancho = Math.abs(max[1][0] - minimo(ori[1][0],A[1][0]));
     int alto = Math.abs(max[0][0] - minimo(ori[0][0],A[0][0])); 
-  
+    
     ori[0][0] = (ori[0][0] < 0) ? (-ori[0][0]) : 0;
     ori[1][0] = (ori[1][0] < 0) ? (-ori[1][0]) : 0;
     
@@ -297,12 +297,6 @@ public class Imagen {
 
     // calculamos los puntos de las esquinas de nuestra imagen para generar el
     // paralelogramo que la cirscuncribe
- 
-
-   
-
-   
-
     for (int i = 0; i < newImg.getWidth(); i++) {
       for (int j = 0; j < newImg.getHeight(); j++) {
         pto[0][0] = i - ori[0][0];
@@ -312,11 +306,15 @@ public class Imagen {
         y = pto[1][0];
         try {
           if (x < imagen.getWidth() & y < imagen.getHeight() & x > 0 & y > 0) {
+            if(tipo == BILINEAL) {
         	  int gris = getBilinearGreyLevel(x, y);
               int grisCorregido = correctRange(0, 255, gris);
               newImg.setRGB(i, j, new Color(grisCorregido, grisCorregido,
-                  grisCorregido).getRGB());  
-            //newImg.setRGB(i, j, imagen.getRGB(x, y));
+                  grisCorregido).getRGB());
+            }
+            else {
+              newImg.setRGB(i, j, imagen.getRGB(x, y));
+            }
 
           } else {
             newImg.setRGB(i, j, red.getRGB());
@@ -328,9 +326,7 @@ public class Imagen {
         }
       }
     }
-
     return newImg;
-
   }
 
   public BufferedImage turn_direct(int grados) {
@@ -371,14 +367,23 @@ public class Imagen {
 
     // calculamos los puntos de las esquinas de nuestra imagen para generar el
     // paralelogramo que la cirscuncribe
-   
-
-    
     for (int i = 0; i < newImg.getWidth(); i++) {
       for (int j = 0; j < newImg.getHeight(); j++) {
         newImg.setRGB(i, j, red.getRGB());
       }
     }
+    
+    /*float xScale = x;
+    float yScale = y;
+    for (int i = 0; i < ancho; i++) {
+      for (int j = 0; j < alto; j++) {
+        float transX = (float) (i) / xScale;
+        float transY = (float) (j) / yScale;
+        int gris = getBilinearGreyLevel(transX, transY);
+        int grisCorregido = correctRange(0, 255, gris);
+        newImg.setRGB(i, j, new Color(grisCorregido, grisCorregido,
+            grisCorregido).getRGB());
+      }*/
 
     for (int i = 0; i < imagen.getWidth(); i++) {
       for (int j = 0; j < imagen.getHeight(); j++) {
@@ -506,7 +511,6 @@ public class Imagen {
         }
       }
     } else {
-      // TODO bilinear
       float xScale = x;
       float yScale = y;
       for (int i = 0; i < ancho; i++) {
