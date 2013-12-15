@@ -266,40 +266,42 @@ public class Imagen {
     int[][] pto = new int[2][1];
     int[][] ori = new int[2][1];
     int[][] diag1 = new int[2][1];
-    int[][] diag2 = new int[2][1];
-    diag1[0][0] = imagen.getWidth();
-    diag1[1][0] = (imagen.getHeight());
-    diag2[0][0] = imagen.getWidth();
-    diag2[1][0] = -(imagen.getHeight());
-    int firstModulus = module(diag1);
-    int secondModulus = module(diag2);
-    int biggest = (firstModulus > secondModulus) ? firstModulus : secondModulus;
-    BufferedImage newImg = GraphicsEnvironment.getLocalGraphicsEnvironment()
-        .getDefaultScreenDevice().getDefaultConfiguration()
-        .createCompatibleImage(biggest, biggest, Transparency.OPAQUE);
-
-    // calculamos los puntos de las esquinas de nuestra imagen para generar el
-    // paralelogramo que la cirscuncribe
-    pto[0][0] = 0;
-    pto[1][0] = 0;
-    A = this.mapeo_directo(pto, grados);
-
+    int[][] max = new int[2][1];
     pto[0][0] = imagen.getWidth() - 1;
     pto[1][0] = 0;
     B = this.mapeo_directo(pto, grados);
-
+    pto[0][0] = 0;
+    pto[1][0] = 0;
+    A = this.mapeo_directo(pto, grados);
     pto[0][0] = 0;
     pto[1][0] = imagen.getHeight() - 1;
     C = this.mapeo_directo(pto, grados);
 
-    pto[0][0] = imagen.getHeight() - 1;
-    pto[1][0] = imagen.getWidth() - 1;
+    pto[0][0] = imagen.getWidth() - 1;
+    pto[1][0] = imagen.getHeight() - 1;
     D = this.mapeo_directo(pto, grados);
-
     ori[0][0] = minimo(minimo(B[0][0], C[0][0]), D[0][0]);
     ori[1][0] = minimo(minimo(B[1][0], C[1][0]), D[1][0]);
+    max[0][0] = maximo(maximo(maximo(B[0][0], C[0][0]),D[0][0]),A[0][0]);
+    max[1][0] = maximo(maximo(maximo(B[1][0], C[1][0]),D[1][0]),A[1][0]);
+    int ancho = Math.abs(max[1][0] - minimo(ori[1][0],A[1][0]));
+    int alto = Math.abs(max[0][0] - minimo(ori[0][0],A[0][0])); 
+  
     ori[0][0] = (ori[0][0] < 0) ? (-ori[0][0]) : 0;
     ori[1][0] = (ori[1][0] < 0) ? (-ori[1][0]) : 0;
+    
+    
+    BufferedImage newImg = GraphicsEnvironment.getLocalGraphicsEnvironment()
+        .getDefaultScreenDevice().getDefaultConfiguration()
+        .createCompatibleImage(alto, ancho, Transparency.OPAQUE);
+
+    // calculamos los puntos de las esquinas de nuestra imagen para generar el
+    // paralelogramo que la cirscuncribe
+ 
+
+   
+
+   
 
     for (int i = 0; i < newImg.getWidth(); i++) {
       for (int j = 0; j < newImg.getHeight(); j++) {
@@ -310,7 +312,11 @@ public class Imagen {
         y = pto[1][0];
         try {
           if (x < imagen.getWidth() & y < imagen.getHeight() & x > 0 & y > 0) {
-            newImg.setRGB(i, j, imagen.getRGB(x, y));
+        	  int gris = getBilinearGreyLevel(x, y);
+              int grisCorregido = correctRange(0, 255, gris);
+              newImg.setRGB(i, j, new Color(grisCorregido, grisCorregido,
+                  grisCorregido).getRGB());  
+            //newImg.setRGB(i, j, imagen.getRGB(x, y));
 
           } else {
             newImg.setRGB(i, j, red.getRGB());
@@ -335,40 +341,38 @@ public class Imagen {
     int[][] pto = new int[2][1];
     int[][] ori = new int[2][1];
     int[][] diag1 = new int[2][1];
-    int[][] diag2 = new int[2][1];
-    diag1[0][0] = imagen.getWidth() - 1;
-    diag1[1][0] = (imagen.getHeight() - 1);
-    diag2[0][0] = imagen.getWidth() - 1;
-    diag2[1][0] = -(imagen.getHeight() - 1);
-    int firstModulus = module(diag1);
-    int secondModulus = module(diag2);
-    int biggest = (firstModulus > secondModulus) ? firstModulus : secondModulus;
-    BufferedImage newImg = GraphicsEnvironment.getLocalGraphicsEnvironment()
-        .getDefaultScreenDevice().getDefaultConfiguration()
-        .createCompatibleImage(biggest, biggest, Transparency.OPAQUE);
-
-    // calculamos los puntos de las esquinas de nuestra imagen para generar el
-    // paralelogramo que la cirscuncribe
-    pto[0][0] = 0;
-    pto[1][0] = 0;
-    A = this.mapeo_directo(pto, grados);
-
+    int[][] max = new int[2][1];
+   
     pto[0][0] = imagen.getWidth() - 1;
     pto[1][0] = 0;
     B = this.mapeo_directo(pto, grados);
-
+    pto[0][0] = 0;
+    pto[1][0] = 0;
+    A = this.mapeo_directo(pto, grados);
     pto[0][0] = 0;
     pto[1][0] = imagen.getHeight() - 1;
     C = this.mapeo_directo(pto, grados);
 
-    pto[0][0] = imagen.getHeight() - 1;
-    pto[1][0] = imagen.getWidth() - 1;
+    pto[0][0] = imagen.getWidth() - 1;
+    pto[1][0] = imagen.getHeight() - 1;
     D = this.mapeo_directo(pto, grados);
-
     ori[0][0] = minimo(minimo(B[0][0], C[0][0]), D[0][0]);
     ori[1][0] = minimo(minimo(B[1][0], C[1][0]), D[1][0]);
+    max[0][0] = maximo(maximo(maximo(B[0][0], C[0][0]),D[0][0]),A[0][0]);
+    max[1][0] = maximo(maximo(maximo(B[1][0], C[1][0]),D[1][0]),A[1][0]);
+    int ancho = Math.abs(max[1][0] - minimo(ori[1][0],A[1][0]));
+    int alto = Math.abs(max[0][0] - minimo(ori[0][0],A[0][0])); 
+    
     ori[0][0] = (ori[0][0] < 0) ? (-ori[0][0]) : 0;
     ori[1][0] = (ori[1][0] < 0) ? (-ori[1][0]) : 0;
+    BufferedImage newImg = GraphicsEnvironment.getLocalGraphicsEnvironment()
+        .getDefaultScreenDevice().getDefaultConfiguration()
+        .createCompatibleImage(alto, ancho, Transparency.OPAQUE);
+
+    // calculamos los puntos de las esquinas de nuestra imagen para generar el
+    // paralelogramo que la cirscuncribe
+   
+
     
     for (int i = 0; i < newImg.getWidth(); i++) {
       for (int j = 0; j < newImg.getHeight(); j++) {
@@ -385,7 +389,7 @@ public class Imagen {
         y = pto[1][0] + ori[1][0];
 
         try {
-          if (x < biggest & y < biggest & x > 0 & y > 0) {
+          if (x < ancho & y < alto & x > 0 & y > 0) {
             newImg.setRGB(x, y, imagen.getRGB(i, j));
 
           }

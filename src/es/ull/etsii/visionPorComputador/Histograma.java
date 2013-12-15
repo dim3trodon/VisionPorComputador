@@ -32,7 +32,7 @@ public class Histograma {
       for (int j = 0; j < imagen.getHeight(); j++) {
 
         color = new Color(imagen.getRGB(i, j));
-        if(color != red)
+        if(color.getRGB() != red.getRGB())
           histogra[color.getGreen()] += 1;
 
       }
