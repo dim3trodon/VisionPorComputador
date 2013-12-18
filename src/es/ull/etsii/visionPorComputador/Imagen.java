@@ -339,25 +339,25 @@ public class Imagen {
     int[][] diag1 = new int[2][1];
     int[][] max = new int[2][1];
    
-    pto[0][0] = imagen.getWidth() - 1;
+    pto[0][0] = imagen.getWidth();
     pto[1][0] = 0;
     B = this.mapeo_directo(pto, grados);
     pto[0][0] = 0;
     pto[1][0] = 0;
     A = this.mapeo_directo(pto, grados);
     pto[0][0] = 0;
-    pto[1][0] = imagen.getHeight() - 1;
+    pto[1][0] = imagen.getHeight();
     C = this.mapeo_directo(pto, grados);
 
-    pto[0][0] = imagen.getWidth() - 1;
-    pto[1][0] = imagen.getHeight() - 1;
+    pto[0][0] = imagen.getWidth() ;
+    pto[1][0] = imagen.getHeight();
     D = this.mapeo_directo(pto, grados);
     ori[0][0] = minimo(minimo(B[0][0], C[0][0]), D[0][0]);
     ori[1][0] = minimo(minimo(B[1][0], C[1][0]), D[1][0]);
     max[0][0] = maximo(maximo(maximo(B[0][0], C[0][0]),D[0][0]),A[0][0]);
     max[1][0] = maximo(maximo(maximo(B[1][0], C[1][0]),D[1][0]),A[1][0]);
-    int ancho = Math.abs(max[1][0] - minimo(ori[1][0],A[1][0]));
-    int alto = Math.abs(max[0][0] - minimo(ori[0][0],A[0][0])); 
+    int ancho = Math.abs(max[1][0] - minimo(ori[1][0],A[1][0]))+2;
+    int alto = Math.abs(max[0][0] - minimo(ori[0][0],A[0][0]))+2; 
     
     ori[0][0] = (ori[0][0] < 0) ? (-ori[0][0]) : 0;
     ori[1][0] = (ori[1][0] < 0) ? (-ori[1][0]) : 0;
